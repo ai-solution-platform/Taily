@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Taily - Pet-Friendly Thailand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<!-- Splash Screen -->
+<div id="splash" class="splash-screen">
+  <div class="splash-content">
+    <div class="splash-logo">
+      <svg width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
+    </div>
+    <h1 class="splash-title">Taily</h1>
+    <p class="splash-sub">The Pet Lovers' Community</p>
+    <div class="splash-loader"><div class="loader-bar"></div></div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app" class="app-container" style="display:none">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <svg width="32" height="32" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
+      <span class="header-brand">Taily</span>
+    </div>
+    <div class="header-right">
+      <button class="header-btn" onclick="showNotifications()"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      <button class="header-btn" onclick="showProfile()"><i class="fas fa-user-circle"></i></button>
+    </div>
+  </header>
+
+  <!-- Pages -->
+  <!-- PAGE: MAP -->
+  <section id="page-map" class="page active">
+    <div class="map-search-bar">
+      <div class="search-input-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="mapSearch" placeholder="ค้นหาสถานที่ Pet-Friendly..." oninput="filterMerchants()">
+        <button class="search-clear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
+      </div>
+      <button class="filter-toggle-btn" onclick="toggleFilters()"><i class="fas fa-sliders-h"></i></button>
+    </div>
+
+    <!-- Filter Panel -->
+    <div id="filterPanel" class="filter-panel">
+      <div class="filter-section">
+        <h4><i class="fas fa-layer-group"></i> ประเภท</h4>
+        <div class="filter-chips" id="categoryFilters">
+          <button class="chip active" data-val="all" onclick="setFilter('category',this)">ทั้งหมด</button>
+          <button class="chip" data-val="ร้านอาหาร" onclick="setFilter('category',this)"><i class="fas fa-utensils"></i> ร้านอาหาร</button>
+          <button class="chip" data-val="คาเฟ่" onclick="setFilter('category',this)"><i class="fas fa-coffee"></i> คาเฟ่</button>
+          <button class="chip" data-val="โรงแรม" onclick="setFilter('category',this)"><i class="fas fa-hotel"></i> โรงแรม</button>
+          <button class="chip" data-val="สถานที่ท่องเที่ยว" onclick="setFilter('category',this)"><i class="fas fa-mountain"></i> ท่องเที่ยว</button>
+        </div>
+      </div>
+      <div class="filter-section">
+        <h4><i class="fas fa-map-marker-alt"></i> ภาค</h4>
+        <div class="filter-chips" id="regionFilters">
+          <button class="chip active" data-val="all" onclick="setFilter('region',this)">ทั้งหมด</button>
+          <button class="chip" data-val="ภาคกลาง" onclick="setFilter('region',this)">กลาง</button>
+          <button class="chip" data-val="ภาคเหนือ" onclick="setFilter('region',this)">เหนือ</button>
+          <button class="chip" data-val="ภาคตะวันออกเฉียงเหนือ" onclick="setFilter('region',this)">อีสาน</button>
+          <button class="chip" data-val="ภาคตะวันออก" onclick="setFilter('region',this)">ตะวันออก</button>
+          <button class="chip" data-val="ภาคตะวันตก" onclick="setFilter('region',this)">ตะวันตก</button>
+          <button class="chip" data-val="ภาคใต้ฝั่งอ่าวไทย" onclick="setFilter('region',this)">ใต้อ่าวไทย</button>
+          <button class="chip" data-val="ภาคใต้ฝั่งอันดามัน" onclick="setFilter('region',this)">ใต้อันดามัน</button>
+          <button class="chip" data-val="ภาคกลางตอนบน" onclick="setFilter('region',this)">กลางตอนบน</button>
+        </div>
+      </div>
+      <div class="filter-section">
+        <h4><i class="fas fa-map-pin"></i> จังหวัด</h4>
+        <select id="provinceFilter" onchange="filterMerchants()" class="province-select">
+          <option value="all">ทุกจังหวัด</option>
+        </select>
+      </div>
+      <div class="filter-section">
+        <h4><i class="fas fa-dollar-sign"></i> ระดับราคา</h4>
+        <div class="filter-chips" id="priceFilters">
+          <button class="chip active" data-val="all" onclick="setFilter('price',this)">ทั้งหมด</button>
+          <button class="chip" data-val="$" onclick="setFilter('price',this)">$</button>
+          <button class="chip" data-val="$$" onclick="setFilter('price',this)">$$</button>
+          <button class="chip" data-val="$$$" onclick="setFilter('price',this)">$$$</button>
+          <button class="chip" data-val="ฟรี" onclick="setFilter('price',this)">ฟรี</button>
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn-outline" onclick="resetFilters()">ล้างตัวกรอง</button>
+        <button class="btn-primary" onclick="toggleFilters()">แสดงผลลัพธ์ <span id="filterCount">2,000</span> แห่ง</button>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div id="map" class="map-container"></div>
+
+    <!-- Nearby Toggle -->
+    <button id="nearbyBtn" class="nearby-btn" onclick="findNearby()">
+      <i class="fas fa-location-crosshairs"></i>
+      <span>ใกล้ฉัน</span>
+    </button>
+
+    <!-- Map Stats -->
+    <div class="map-stats">
+      <span id="mapCount">2,000 สถานที่</span>
+    </div>
+
+    <!-- Bottom Sheet: Merchant List -->
+    <div id="bottomSheet" class="bottom-sheet">
+      <div class="sheet-handle" onclick="toggleSheet()"><div class="handle-bar"></div></div>
+      <div class="sheet-header">
+        <h3>สถานที่ Pet-Friendly</h3>
+        <div class="view-toggle">
+          <button class="active" onclick="setListView('list',this)"><i class="fas fa-list"></i></button>
+          <button onclick="setListView('grid',this)"><i class="fas fa-th"></i></button>
+        </div>
+      </div>
+      <div id="merchantList" class="merchant-list"></div>
+    </div>
+  </section>
+
+  <!-- PAGE: MERCHANT DETAIL -->
+  <section id="page-merchant" class="page">
+    <div id="merchantDetail"></div>
+  </section>
+
+  <!-- PAGE: EVENTS -->
+  <section id="page-events" class="page">
+    <div class="events-header">
+      <h2><i class="fas fa-calendar-star"></i> กิจกรรม & อีเวนท์</h2>
+      <p>ค้นหากิจกรรมสำหรับคุณและน้องๆ</p>
+    </div>
+    <div class="events-search">
+      <div class="search-input-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="eventSearch" placeholder="ค้นหากิจกรรม..." oninput="filterEvents()">
+      </div>
+    </div>
+    <div class="events-filters">
+      <div class="filter-chips">
+        <button class="chip active" data-val="all" onclick="setEventFilter(this)">ทั้งหมด</button>
+        <button class="chip" data-val="งานรวมพล" onclick="setEventFilter(this)">งานรวมพล</button>
+        <button class="chip" data-val="เวิร์กชอป" onclick="setEventFilter(this)">เวิร์กชอป</button>
+        <button class="chip" data-val="เทศกาล" onclick="setEventFilter(this)">เทศกาล</button>
+        <button class="chip" data-val="นิทรรศการ" onclick="setEventFilter(this)">นิทรรศการ</button>
+        <button class="chip" data-val="กีฬา" onclick="setEventFilter(this)">กีฬา</button>
+        <button class="chip" data-val="ท่องเที่ยว" onclick="setEventFilter(this)">ท่องเที่ยว</button>
+        <button class="chip" data-val="ประกวด" onclick="setEventFilter(this)">ประกวด</button>
+        <button class="chip" data-val="สุขภาพ" onclick="setEventFilter(this)">สุขภาพ</button>
+      </div>
+    </div>
+    <div class="events-view-tabs">
+      <button class="view-tab active" onclick="setEventView('list',this)"><i class="fas fa-list"></i> รายการ</button>
+      <button class="view-tab" onclick="setEventView('gallery',this)"><i class="fas fa-th-large"></i> แกลเลอรี</button>
+      <button class="view-tab" onclick="setEventView('calendar',this)"><i class="fas fa-calendar-alt"></i> ปฏิทิน</button>
+    </div>
+    <div id="eventsContent" class="events-content"></div>
+  </section>
+
+  <!-- PAGE: EVENT DETAIL -->
+  <section id="page-event-detail" class="page">
+    <div id="eventDetail"></div>
+  </section>
+
+  <!-- PAGE: COUPONS -->
+  <section id="page-coupons" class="page">
+    <div class="coupons-header">
+      <h2><i class="fas fa-ticket-alt"></i> คูปองของฉัน</h2>
+      <p>คูปองส่วนลดที่เก็บไว้</p>
+    </div>
+    <div id="couponsList" class="coupons-list"></div>
+  </section>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="navigate('map')">
+      <i class="fas fa-map-marked-alt"></i>
+      <span>แผนที่</span>
+    </button>
+    <button class="nav-item" onclick="navigate('events')">
+      <i class="fas fa-calendar-alt"></i>
+      <span>กิจกรรม</span>
+    </button>
+    <button class="nav-item" onclick="navigate('coupons')">
+      <i class="fas fa-ticket-alt"></i>
+      <span>คูปอง</span>
+    </button>
+    <button class="nav-item" onclick="showProfile()">
+      <i class="fas fa-user"></i>
+      <span>โปรไฟล์</span>
+    </button>
+  </nav>
+</div>
+
+<!-- Popup/Modal Overlay -->
+<div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
+<div id="modalContent" class="modal-content"></div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taily Admin - Back Office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<!-- Login Screen -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="60" height="60" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
+      <h1>Taily Admin</h1>
+      <p>Back Office Management System</p>
+    </div>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>อีเมล</label>
+        <div class="input-icon"><i class="fas fa-envelope"></i><input type="email" value="admin@taily.co" required></div>
+      </div>
+      <div class="form-group">
+        <label>รหัสผ่าน</label>
+        <div class="input-icon"><i class="fas fa-lock"></i><input type="password" value="admin123" required></div>
+      </div>
+      <div class="form-row" style="justify-content:space-between;align-items:center;margin-bottom:16px">
+        <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" checked> จดจำฉัน</label>
+        <a href="#" style="font-size:13px;color:var(--primary)">ลืมรหัสผ่าน?</a>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%">เข้าสู่ระบบ</button>
+    </form>
+    <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--text-light)">
+      <i class="fas fa-shield-halved"></i> ระบบรักษาความปลอดภัย SSL Encrypted
+    </div>
+  </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminApp" class="admin-app" style="display:none">
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <svg width="32" height="32" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
+      <span>Taily Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">MAIN</div>
+      <a class="nav-link active" onclick="showSection('dashboard')"><i class="fas fa-chart-pie"></i>Dashboard</a>
+      <div class="nav-section">MANAGEMENT</div>
+      <a class="nav-link" onclick="showSection('merchants')"><i class="fas fa-store"></i>ร้านค้า / สถานที่</a>
+      <a class="nav-link" onclick="showSection('events')"><i class="fas fa-calendar-alt"></i>กิจกรรม & อีเวนท์</a>
+      <a class="nav-link" onclick="showSection('registrations')"><i class="fas fa-clipboard-list"></i>การลงทะเบียน</a>
+      <a class="nav-link" onclick="showSection('coupons')"><i class="fas fa-ticket-alt"></i>คูปอง & โปรโมชั่น</a>
+      <div class="nav-section">MEMBERS</div>
+      <a class="nav-link" onclick="showSection('members')"><i class="fas fa-users"></i>สมาชิก</a>
+      <a class="nav-link" onclick="showSection('tiers')"><i class="fas fa-crown"></i>Member Tiers</a>
+      <a class="nav-link" onclick="showSection('points')"><i class="fas fa-coins"></i>Points System</a>
+      <a class="nav-link" onclick="showSection('segments')"><i class="fas fa-layer-group"></i>Segmentation</a>
+      <div class="nav-section">SYSTEM</div>
+      <a class="nav-link" onclick="showSection('permissions')"><i class="fas fa-shield-halved"></i>สิทธิ์ & การเข้าถึง</a>
+      <a class="nav-link" onclick="showSection('settings')"><i class="fas fa-cog"></i>ตั้งค่าระบบ</a>
+      <a class="nav-link" onclick="showSection('reports')"><i class="fas fa-chart-bar"></i>รายงาน</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-user">
+        <div class="admin-avatar"><i class="fas fa-user-shield"></i></div>
+        <div>
+          <div class="admin-name">Admin Taily</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <div class="top-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="ค้นหา...">
+      </div>
+      <div class="top-actions">
+        <button class="top-btn"><i class="fas fa-bell"></i><span class="badge">5</span></button>
+        <button class="top-btn"><i class="fas fa-envelope"></i><span class="badge">2</span></button>
+        <div class="top-user">
+          <span>Admin</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- DASHBOARD -->
+      <section id="sec-dashboard" class="section active">
+        <div class="section-header">
+          <h1>Dashboard</h1>
+          <p>ภาพรวมระบบ Taily Platform</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,197,1,0.15);color:var(--primary)"><i class="fas fa-store"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">2,000</div>
+              <div class="stat-label">ร้านค้า / สถานที่</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> 12%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(33,150,243,0.1);color:#2196F3"><i class="fas fa-users"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">15,832</div>
+              <div class="stat-label">สมาชิกทั้งหมด</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> 8.3%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(76,175,80,0.1);color:#4CAF50"><i class="fas fa-calendar-check"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">31</div>
+              <div class="stat-label">กิจกรรมทั้งปี 2569</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> 24%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,152,0,0.1);color:#FF9800"><i class="fas fa-ticket-alt"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">4,567</div>
+              <div class="stat-label">คูปองที่ถูกเก็บ</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> 15%</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header"><h3>สถานที่ตามประเภท</h3></div>
+            <div class="card-body">
+              <div class="chart-bar-h">
+                <div class="bar-item"><span class="bar-label">ร้านอาหาร</span><div class="bar-track"><div class="bar-fill" style="width:25.2%;background:#E53935"></div></div><span class="bar-val">504</span></div>
+                <div class="bar-item"><span class="bar-label">คาเฟ่</span><div class="bar-track"><div class="bar-fill" style="width:25.5%;background:#8D6E63"></div></div><span class="bar-val">510</span></div>
+                <div class="bar-item"><span class="bar-label">โรงแรม</span><div class="bar-track"><div class="bar-fill" style="width:24.65%;background:#1E88E5"></div></div><span class="bar-val">493</span></div>
+                <div class="bar-item"><span class="bar-label">ท่องเที่ยว</span><div class="bar-track"><div class="bar-fill" style="width:24.65%;background:#43A047"></div></div><span class="bar-val">493</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>สถานที่ตามภาค</h3></div>
+            <div class="card-body">
+              <div class="chart-bar-h">
+                <div class="bar-item"><span class="bar-label">อีสาน</span><div class="bar-track"><div class="bar-fill" style="width:23.4%;background:var(--primary)"></div></div><span class="bar-val">468</span></div>
+                <div class="bar-item"><span class="bar-label">กลาง</span><div class="bar-track"><div class="bar-fill" style="width:18.35%;background:#FF8F5E"></div></div><span class="bar-val">367</span></div>
+                <div class="bar-item"><span class="bar-label">เหนือ</span><div class="bar-track"><div class="bar-fill" style="width:11.55%;background:#FFB347"></div></div><span class="bar-val">231</span></div>
+                <div class="bar-item"><span class="bar-label">กลางบน</span><div class="bar-track"><div class="bar-fill" style="width:10.8%;background:#FFC107"></div></div><span class="bar-val">216</span></div>
+                <div class="bar-item"><span class="bar-label">ใต้อ่าวไทย</span><div class="bar-track"><div class="bar-fill" style="width:10.4%;background:#26A69A"></div></div><span class="bar-val">208</span></div>
+                <div class="bar-item"><span class="bar-label">ตะวันออก</span><div class="bar-track"><div class="bar-fill" style="width:9.45%;background:#42A5F5"></div></div><span class="bar-val">189</span></div>
+                <div class="bar-item"><span class="bar-label">ใต้อันดามัน</span><div class="bar-track"><div class="bar-fill" style="width:8.4%;background:#7E57C2"></div></div><span class="bar-val">168</span></div>
+                <div class="bar-item"><span class="bar-label">ตะวันตก</span><div class="bar-track"><div class="bar-fill" style="width:7.65%;background:#EC407A"></div></div><span class="bar-val">153</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>กิจกรรมที่กำลังจะมาถึง</h3></div>
+            <div class="card-body" id="dashUpcomingEvents"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Member Tier Distribution</h3></div>
+            <div class="card-body">
+              <div class="tier-dist">
+                <div class="tier-row"><span class="tier-badge platinum"><i class="fas fa-gem"></i> Platinum</span><span>520 คน</span><div class="bar-track"><div class="bar-fill" style="width:3.3%;background:#B0BEC5"></div></div></div>
+                <div class="tier-row"><span class="tier-badge gold"><i class="fas fa-crown"></i> Gold</span><span>2,180 คน</span><div class="bar-track"><div class="bar-fill" style="width:13.8%;background:#FFD700"></div></div></div>
+                <div class="tier-row"><span class="tier-badge silver"><i class="fas fa-medal"></i> Silver</span><span>4,650 คน</span><div class="bar-track"><div class="bar-fill" style="width:29.4%;background:#90A4AE"></div></div></div>
+                <div class="tier-row"><span class="tier-badge bronze"><i class="fas fa-star"></i> Bronze</span><span>8,482 คน</span><div class="bar-track"><div class="bar-fill" style="width:53.6%;background:#A1887F"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MERCHANTS MANAGEMENT -->
+      <section id="sec-merchants" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-store"></i> การจัดการร้านค้า / สถานที่</h1>
+          <div class="section-actions">
+            <button class="btn-outline" onclick="exportMerchants()"><i class="fas fa-download"></i> Export</button>
+            <button class="btn-primary" onclick="showAddMerchant()"><i class="fas fa-plus"></i> เพิ่มร้านค้าใหม่</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="toolbar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="adminMerchantSearch" placeholder="ค้นหาร้านค้า..." oninput="filterAdminMerchants()">
+          </div>
+          <select id="adminCatFilter" onchange="filterAdminMerchants()">
+            <option value="all">ทุกประเภท</option>
+            <option value="ร้านอาหาร">ร้านอาหาร</option>
+            <option value="คาเฟ่">คาเฟ่</option>
+            <option value="โรงแรม">โรงแรม</option>
+            <option value="สถานที่ท่องเที่ยว">สถานที่ท่องเที่ยว</option>
+          </select>
+          <select id="adminRegionFilter" onchange="filterAdminMerchants()">
+            <option value="all">ทุกภาค</option>
+            <option value="ภาคกลาง">ภาคกลาง</option>
+            <option value="ภาคเหนือ">ภาคเหนือ</option>
+            <option value="ภาคตะวันออกเฉียงเหนือ">ภาคอีสาน</option>
+            <option value="ภาคตะวันออก">ภาคตะวันออก</option>
+            <option value="ภาคตะวันตก">ภาคตะวันตก</option>
+            <option value="ภาคใต้ฝั่งอ่าวไทย">ภาคใต้อ่าวไทย</option>
+            <option value="ภาคใต้ฝั่งอันดามัน">ภาคใต้อันดามัน</option>
+            <option value="ภาคกลางตอนบน">ภาคกลางตอนบน</option>
+          </select>
+          <select id="adminStatusFilter" onchange="filterAdminMerchants()">
+            <option value="all">ทุกสถานะ</option>
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+        <div class="table-info">
+          <span id="merchantTableCount">แสดง 50 จาก 2,000 รายการ</span>
+          <div class="pagination" id="merchantPagination"></div>
+        </div>
+        <div class="table-container">
+          <table class="data-table" id="merchantTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox"></th>
+                <th>ID</th>
+                <th>ชื่อสถานที่</th>
+                <th>ประเภท</th>
+                <th>จังหวัด</th>
+                <th>Rating</th>
+                <th>ราคา</th>
+                <th>สถานะ</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="merchantTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EVENTS MANAGEMENT -->
+      <section id="sec-events" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-calendar-alt"></i> การจัดการกิจกรรม</h1>
+          <div class="section-actions">
+            <button class="btn-primary" onclick="showAddEvent()"><i class="fas fa-plus"></i> สร้างกิจกรรมใหม่</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>ID</th><th>กิจกรรม</th><th>วันที่</th><th>สถานที่</th><th>ลงทะเบียน</th><th>ราคา</th><th>สถานะ</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody id="eventTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- REGISTRATIONS -->
+      <section id="sec-registrations" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-clipboard-list"></i> การลงทะเบียน</h1>
+          <div class="section-actions">
+            <button class="btn-outline"><i class="fas fa-download"></i> Export CSV</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <select>
+            <option>ทุกกิจกรรม</option>
+            <option>Paws in the Park 2026</option>
+            <option>Pet First Aid Workshop</option>
+            <option>Songkran Pet Festival</option>
+          </select>
+          <select>
+            <option>ทุกสถานะ</option>
+            <option value="confirmed">ยืนยันแล้ว</option>
+            <option value="pending">รอการยืนยัน</option>
+            <option value="cancelled">ยกเลิก</option>
+          </select>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead><tr><th>Reg ID</th><th>ชื่อผู้ลงทะเบียน</th><th>กิจกรรม</th><th>วันที่ลงทะเบียน</th><th>สถานะ</th><th>ช่องทางชำระ</th><th>จัดการ</th></tr></thead>
+            <tbody id="regTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- COUPONS MANAGEMENT -->
+      <section id="sec-coupons" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-ticket-alt"></i> คูปอง & โปรโมชั่น</h1>
+          <div class="section-actions">
+            <button class="btn-primary" onclick="showAddCoupon()"><i class="fas fa-plus"></i> สร้างคูปองใหม่</button>
+          </div>
+        </div>
+        <div class="stats-grid small">
+          <div class="stat-card mini"><div class="stat-number" style="color:var(--primary)">4,567</div><div class="stat-label">คูปองที่ถูกเก็บ</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#4CAF50">1,234</div><div class="stat-label">คูปองที่ถูกใช้</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#FF9800">27%</div><div class="stat-label">อัตราการใช้งาน</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#2196F3">15</div><div class="stat-label">คูปองที่ใช้งานอยู่</div></div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead><tr><th>รหัส</th><th>ร้านค้า</th><th>รายละเอียด</th><th>เก็บแล้ว</th><th>ใช้แล้ว</th><th>หมดอายุ</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="couponTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MEMBERS -->
+      <section id="sec-members" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-users"></i> สมาชิก</h1>
+          <div class="section-actions">
+            <button class="btn-outline"><i class="fas fa-download"></i> Export</button>
+            <button class="btn-primary"><i class="fas fa-plus"></i> เพิ่มสมาชิก</button>
+          </div>
+        </div>
+        <div class="stats-grid small">
+          <div class="stat-card mini"><div class="stat-number" style="color:var(--primary)">15,832</div><div class="stat-label">สมาชิกทั้งหมด</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#4CAF50">1,247</div><div class="stat-label">สมาชิกใหม่เดือนนี้</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#FF9800">89%</div><div class="stat-label">Active Rate</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#2196F3">4.2</div><div class="stat-label">Avg Visits/Month</div></div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead><tr><th><input type="checkbox"></th><th>ID</th><th>ชื่อ</th><th>อีเมล</th><th>Tier</th><th>Points</th><th>สมัครเมื่อ</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="memberTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MEMBER TIERS -->
+      <section id="sec-tiers" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-crown"></i> Member Tier Management</h1>
+          <div class="section-actions"><button class="btn-primary"><i class="fas fa-plus"></i> เพิ่ม Tier</button></div>
+        </div>
+        <div class="tier-cards">
+          <div class="tier-config-card bronze">
+            <div class="tier-icon"><i class="fas fa-star"></i></div>
+            <h3>Bronze</h3>
+            <div class="tier-range">0 - 999 Points</div>
+            <ul><li>เก็บคูปองพื้นฐาน</li><li>รีวิวร้านค้า</li><li>เข้าร่วมกิจกรรม</li></ul>
+            <div class="tier-count">8,482 สมาชิก</div>
+            <button class="btn-outline" style="width:100%;margin-top:8px">แก้ไข</button>
+          </div>
+          <div class="tier-config-card silver">
+            <div class="tier-icon"><i class="fas fa-medal"></i></div>
+            <h3>Silver</h3>
+            <div class="tier-range">1,000 - 4,999 Points</div>
+            <ul><li>Bronze ทั้งหมด +</li><li>คูปองส่วนลดพิเศษ 5%</li><li>Priority Registration</li></ul>
+            <div class="tier-count">4,650 สมาชิก</div>
+            <button class="btn-outline" style="width:100%;margin-top:8px">แก้ไข</button>
+          </div>
+          <div class="tier-config-card gold">
+            <div class="tier-icon"><i class="fas fa-crown"></i></div>
+            <h3>Gold</h3>
+            <div class="tier-range">5,000 - 19,999 Points</div>
+            <ul><li>Silver ทั้งหมด +</li><li>ส่วนลด 10% ร้านพาร์ทเนอร์</li><li>Early Access กิจกรรม</li><li>Birthday Bonus 2x Points</li></ul>
+            <div class="tier-count">2,180 สมาชิก</div>
+            <button class="btn-outline" style="width:100%;margin-top:8px">แก้ไข</button>
+          </div>
+          <div class="tier-config-card platinum">
+            <div class="tier-icon"><i class="fas fa-gem"></i></div>
+            <h3>Platinum</h3>
+            <div class="tier-range">20,000+ Points</div>
+            <ul><li>Gold ทั้งหมด +</li><li>ส่วนลด 15%</li><li>VIP Event Access</li><li>Free Grooming 1 ครั้ง/เดือน</li><li>Dedicated Support</li></ul>
+            <div class="tier-count">520 สมาชิก</div>
+            <button class="btn-outline" style="width:100%;margin-top:8px">แก้ไข</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- POINTS SYSTEM -->
+      <section id="sec-points" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-coins"></i> Points Earn & Burn</h1>
+        </div>
+        <div class="points-grid">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-plus-circle" style="color:#4CAF50"></i> Earn Rules</h3></div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead><tr><th>กิจกรรม</th><th>Points</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+                <tbody>
+                  <tr><td>สมัครสมาชิก</td><td><strong>100</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>เช็คอินร้านค้า</td><td><strong>10</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>เขียนรีวิว</td><td><strong>50</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>แชร์ Social Media</td><td><strong>20</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>ลงทะเบียนกิจกรรม</td><td><strong>30</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>ซื้อสินค้า (ทุก 100 บาท)</td><td><strong>5</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>Birthday Bonus</td><td><strong>200</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>Refer a Friend</td><td><strong>150</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-minus-circle" style="color:#F44336"></i> Burn Rules</h3></div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead><tr><th>รางวัล</th><th>Points ที่ใช้</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+                <tbody>
+                  <tr><td>คูปองส่วนลด 50 บาท</td><td><strong>500</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>คูปองส่วนลด 100 บาท</td><td><strong>900</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>Free Grooming</td><td><strong>2,000</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>กิจกรรมฟรี</td><td><strong>1,500</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>Pet Toy Set</td><td><strong>3,000</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                  <tr><td>Hotel Stay 1 คืน</td><td><strong>10,000</strong></td><td><span class="status-badge active">Active</span></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEGMENTATION -->
+      <section id="sec-segments" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-layer-group"></i> Segmentation</h1>
+          <div class="section-actions"><button class="btn-primary"><i class="fas fa-plus"></i> สร้าง Segment</button></div>
+        </div>
+        <div class="segment-cards">
+          <div class="segment-card">
+            <div class="segment-header"><i class="fas fa-dog" style="color:var(--primary)"></i><h4>Dog Lovers</h4><span class="status-badge active">Active</span></div>
+            <p>สมาชิกที่มีสุนัข / เช็คอินร้านค้า Dog-Friendly</p>
+            <div class="segment-stats"><span>8,234 สมาชิก</span><span>52% ของทั้งหมด</span></div>
+          </div>
+          <div class="segment-card">
+            <div class="segment-header"><i class="fas fa-cat" style="color:#9C27B0"></i><h4>Cat Lovers</h4><span class="status-badge active">Active</span></div>
+            <p>สมาชิกที่มีแมว / สนใจกิจกรรมแมว</p>
+            <div class="segment-stats"><span>5,120 สมาชิก</span><span>32% ของทั้งหมด</span></div>
+          </div>
+          <div class="segment-card">
+            <div class="segment-header"><i class="fas fa-fire" style="color:#F44336"></i><h4>Active Explorers</h4><span class="status-badge active">Active</span></div>
+            <p>เช็คอิน 5+ ครั้ง/เดือน ลงทะเบียนกิจกรรมบ่อย</p>
+            <div class="segment-stats"><span>3,456 สมาชิก</span><span>22% ของทั้งหมด</span></div>
+          </div>
+          <div class="segment-card">
+            <div class="segment-header"><i class="fas fa-map-marked-alt" style="color:#2196F3"></i><h4>Bangkok Pet Parents</h4><span class="status-badge active">Active</span></div>
+            <p>สมาชิกที่อยู่ในกรุงเทพฯ และปริมณฑล</p>
+            <div class="segment-stats"><span>6,890 สมาชิก</span><span>44% ของทั้งหมด</span></div>
+          </div>
+          <div class="segment-card">
+            <div class="segment-header"><i class="fas fa-crown" style="color:#FFD700"></i><h4>VIP Spenders</h4><span class="status-badge active">Active</span></div>
+            <p>ใช้จ่ายเฉลี่ย 2,000+ บาท/เดือน Gold/Platinum tier</p>
+            <div class="segment-stats"><span>2,700 สมาชิก</span><span>17% ของทั้งหมด</span></div>
+          </div>
+          <div class="segment-card">
+            <div class="segment-header"><i class="fas fa-bed" style="color:#26A69A"></i><h4>Pet Travelers</h4><span class="status-badge active">Active</span></div>
+            <p>จองโรงแรม Pet-Friendly / เข้าร่วม Travel Events</p>
+            <div class="segment-stats"><span>1,890 สมาชิก</span><span>12% ของทั้งหมด</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERMISSIONS -->
+      <section id="sec-permissions" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-shield-halved"></i> สิทธิ์ & การเข้าถึง</h1>
+          <div class="section-actions"><button class="btn-primary"><i class="fas fa-plus"></i> เพิ่ม Role</button></div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>Role</th><th>Description</th><th>Users</th><th>Dashboard</th><th>ร้านค้า</th><th>กิจกรรม</th><th>สมาชิก</th><th>Points</th><th>ตั้งค่า</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Super Admin</strong></td><td>สิทธิ์เต็มรูปแบบ</td><td>2</td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+              <tr><td><strong>Admin</strong></td><td>จัดการทุกอย่างยกเว้นตั้งค่าระบบ</td><td>5</td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+              <tr><td><strong>Merchant Manager</strong></td><td>จัดการร้านค้าและโปรโมชั่น</td><td>12</td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+              <tr><td><strong>Event Manager</strong></td><td>จัดการกิจกรรมและการลงทะเบียน</td><td>8</td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-check-circle" style="color:#4CAF50"></i></td><td><i class="fas fa-eye" style="color:#FF9800" title="View Only"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+              <tr><td><strong>Merchant (Owner)</strong></td><td>จัดการร้านค้าของตัวเอง</td><td>1,850</td><td><i class="fas fa-eye" style="color:#FF9800"></i></td><td><i class="fas fa-edit" style="color:#2196F3" title="Own Only"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+              <tr><td><strong>Viewer</strong></td><td>ดูข้อมูลเท่านั้น</td><td>3</td><td><i class="fas fa-eye" style="color:#FF9800"></i></td><td><i class="fas fa-eye" style="color:#FF9800"></i></td><td><i class="fas fa-eye" style="color:#FF9800"></i></td><td><i class="fas fa-eye" style="color:#FF9800"></i></td><td><i class="fas fa-eye" style="color:#FF9800"></i></td><td><i class="fas fa-times-circle" style="color:#ccc"></i></td><td><button class="btn-sm">แก้ไข</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--text-light)">
+          <i class="fas fa-check-circle" style="color:#4CAF50"></i> Full Access &nbsp;
+          <i class="fas fa-edit" style="color:#2196F3"></i> Edit (Own) &nbsp;
+          <i class="fas fa-eye" style="color:#FF9800"></i> View Only &nbsp;
+          <i class="fas fa-times-circle" style="color:#ccc"></i> No Access
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="sec-settings" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-cog"></i> ตั้งค่าระบบ</h1>
+        </div>
+        <div class="settings-grid">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-globe"></i> ทั่วไป</h3></div>
+            <div class="card-body">
+              <div class="setting-row"><label>ชื่อแพลตฟอร์ม</label><input type="text" value="Taily - Pet-Friendly Thailand"></div>
+              <div class="setting-row"><label>อีเมลติดต่อ</label><input type="email" value="hello@taily.co"></div>
+              <div class="setting-row"><label>เบอร์โทรศัพท์</label><input type="tel" value="02-123-4567"></div>
+              <div class="setting-row"><label>ภาษาเริ่มต้น</label><select><option>ไทย</option><option>English</option></select></div>
+              <div class="setting-row"><label>Timezone</label><select><option>Asia/Bangkok (UTC+7)</option></select></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-bell"></i> การแจ้งเตือน</h3></div>
+            <div class="card-body">
+              <div class="setting-row toggle"><label>Email Notifications</label><input type="checkbox" checked class="toggle-input"></div>
+              <div class="setting-row toggle"><label>Push Notifications</label><input type="checkbox" checked class="toggle-input"></div>
+              <div class="setting-row toggle"><label>SMS Notifications</label><input type="checkbox" class="toggle-input"></div>
+              <div class="setting-row toggle"><label>แจ้งเตือนสมาชิกใหม่</label><input type="checkbox" checked class="toggle-input"></div>
+              <div class="setting-row toggle"><label>แจ้งเตือนกิจกรรมใกล้ถึง</label><input type="checkbox" checked class="toggle-input"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-palette"></i> แบรนด์</h3></div>
+            <div class="card-body">
+              <div class="setting-row"><label>Primary Color</label><input type="color" value="#FFC501"></div>
+              <div class="setting-row"><label>Secondary Color</label><input type="color" value="#3D2B1F"></div>
+              <div class="setting-row"><label>Accent Color</label><input type="color" value="#FF8C42"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-database"></i> ข้อมูล & สำรอง</h3></div>
+            <div class="card-body">
+              <div class="setting-row"><label>สำรองข้อมูลล่าสุด</label><span>8 มี.ค. 2569, 02:00</span></div>
+              <div class="setting-row"><label>สำรองข้อมูลอัตโนมัติ</label><select><option>ทุกวัน</option><option>ทุกสัปดาห์</option></select></div>
+              <button class="btn-primary" style="margin-top:12px"><i class="fas fa-download"></i> สำรองข้อมูลตอนนี้</button>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:16px"><button class="btn-primary"><i class="fas fa-save"></i> บันทึกการตั้งค่า</button></div>
+      </section>
+
+      <!-- REPORTS -->
+      <section id="sec-reports" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-chart-bar"></i> รายงาน</h1>
+        </div>
+        <div class="stats-grid small">
+          <div class="stat-card mini"><div class="stat-number" style="color:var(--primary)">2.5M</div><div class="stat-label">Pageviews เดือนนี้</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#4CAF50">45,200</div><div class="stat-label">Unique Visitors</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#FF9800">6m 32s</div><div class="stat-label">Avg Session</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:#2196F3">78%</div><div class="stat-label">Mobile Users</div></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card"><div class="card-header"><h3>Popular Merchants (Top 10)</h3></div><div class="card-body" id="topMerchants"></div></div>
+          <div class="card"><div class="card-header"><h3>Event Registration Trend</h3></div><div class="card-body" id="eventTrend"></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Admin Modal -->
+<div id="adminModal" class="admin-modal" onclick="if(event.target===this)closeAdminModal()">
+  <div class="admin-modal-content" id="adminModalContent"></div>
+</div>
+
+<script src="../app/js/merchants.json" type="application/json" id="merchantData"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
