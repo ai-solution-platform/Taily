@@ -51,44 +51,46 @@
 
     <!-- Filter Panel -->
     <div id="filterPanel" class="filter-panel">
-      <div class="filter-section">
-        <h4><i class="fas fa-layer-group"></i> ประเภท</h4>
-        <div class="filter-chips" id="categoryFilters">
-          <button class="chip active" data-val="all" onclick="setFilter('category',this)">ทั้งหมด</button>
-          <button class="chip" data-val="ร้านอาหาร" onclick="setFilter('category',this)"><i class="fas fa-utensils"></i> ร้านอาหาร</button>
-          <button class="chip" data-val="คาเฟ่" onclick="setFilter('category',this)"><i class="fas fa-coffee"></i> คาเฟ่</button>
-          <button class="chip" data-val="โรงแรม" onclick="setFilter('category',this)"><i class="fas fa-hotel"></i> โรงแรม</button>
-          <button class="chip" data-val="สถานที่ท่องเที่ยว" onclick="setFilter('category',this)"><i class="fas fa-mountain"></i> ท่องเที่ยว</button>
+      <div class="filter-scroll">
+        <div class="filter-section">
+          <h4><i class="fas fa-layer-group"></i> ประเภท</h4>
+          <div class="filter-chips" id="categoryFilters">
+            <button class="chip active" data-val="all" onclick="setFilter('category',this)">ทั้งหมด</button>
+            <button class="chip" data-val="ร้านอาหาร" onclick="setFilter('category',this)"><i class="fas fa-utensils"></i> ร้านอาหาร</button>
+            <button class="chip" data-val="คาเฟ่" onclick="setFilter('category',this)"><i class="fas fa-coffee"></i> คาเฟ่</button>
+            <button class="chip" data-val="โรงแรม" onclick="setFilter('category',this)"><i class="fas fa-hotel"></i> โรงแรม</button>
+            <button class="chip" data-val="สถานที่ท่องเที่ยว" onclick="setFilter('category',this)"><i class="fas fa-mountain"></i> ท่องเที่ยว</button>
+          </div>
         </div>
-      </div>
-      <div class="filter-section">
-        <h4><i class="fas fa-map-marker-alt"></i> ภาค</h4>
-        <div class="filter-chips" id="regionFilters">
-          <button class="chip active" data-val="all" onclick="setFilter('region',this)">ทั้งหมด</button>
-          <button class="chip" data-val="ภาคกลาง" onclick="setFilter('region',this)">กลาง</button>
-          <button class="chip" data-val="ภาคเหนือ" onclick="setFilter('region',this)">เหนือ</button>
-          <button class="chip" data-val="ภาคตะวันออกเฉียงเหนือ" onclick="setFilter('region',this)">อีสาน</button>
-          <button class="chip" data-val="ภาคตะวันออก" onclick="setFilter('region',this)">ตะวันออก</button>
-          <button class="chip" data-val="ภาคตะวันตก" onclick="setFilter('region',this)">ตะวันตก</button>
-          <button class="chip" data-val="ภาคใต้ฝั่งอ่าวไทย" onclick="setFilter('region',this)">ใต้อ่าวไทย</button>
-          <button class="chip" data-val="ภาคใต้ฝั่งอันดามัน" onclick="setFilter('region',this)">ใต้อันดามัน</button>
-          <button class="chip" data-val="ภาคกลางตอนบน" onclick="setFilter('region',this)">กลางตอนบน</button>
+        <div class="filter-section">
+          <h4><i class="fas fa-map-marker-alt"></i> ภาค</h4>
+          <div class="filter-chips" id="regionFilters">
+            <button class="chip active" data-val="all" onclick="setFilter('region',this)">ทั้งหมด</button>
+            <button class="chip" data-val="ภาคกลาง" onclick="setFilter('region',this)">กลาง</button>
+            <button class="chip" data-val="ภาคเหนือ" onclick="setFilter('region',this)">เหนือ</button>
+            <button class="chip" data-val="ภาคตะวันออกเฉียงเหนือ" onclick="setFilter('region',this)">อีสาน</button>
+            <button class="chip" data-val="ภาคตะวันออก" onclick="setFilter('region',this)">ตะวันออก</button>
+            <button class="chip" data-val="ภาคตะวันตก" onclick="setFilter('region',this)">ตะวันตก</button>
+            <button class="chip" data-val="ภาคใต้ฝั่งอ่าวไทย" onclick="setFilter('region',this)">ใต้อ่าวไทย</button>
+            <button class="chip" data-val="ภาคใต้ฝั่งอันดามัน" onclick="setFilter('region',this)">ใต้อันดามัน</button>
+            <button class="chip" data-val="ภาคกลางตอนบน" onclick="setFilter('region',this)">กลางตอนบน</button>
+          </div>
         </div>
-      </div>
-      <div class="filter-section">
-        <h4><i class="fas fa-map-pin"></i> จังหวัด</h4>
-        <select id="provinceFilter" onchange="filterMerchants()" class="province-select">
-          <option value="all">ทุกจังหวัด</option>
-        </select>
-      </div>
-      <div class="filter-section">
-        <h4><i class="fas fa-dollar-sign"></i> ระดับราคา</h4>
-        <div class="filter-chips" id="priceFilters">
-          <button class="chip active" data-val="all" onclick="setFilter('price',this)">ทั้งหมด</button>
-          <button class="chip" data-val="$" onclick="setFilter('price',this)">$</button>
-          <button class="chip" data-val="$$" onclick="setFilter('price',this)">$$</button>
-          <button class="chip" data-val="$$$" onclick="setFilter('price',this)">$$$</button>
-          <button class="chip" data-val="ฟรี" onclick="setFilter('price',this)">ฟรี</button>
+        <div class="filter-section">
+          <h4><i class="fas fa-map-pin"></i> จังหวัด</h4>
+          <select id="provinceFilter" onchange="filterMerchants()" class="province-select">
+            <option value="all">ทุกจังหวัด</option>
+          </select>
+        </div>
+        <div class="filter-section">
+          <h4><i class="fas fa-dollar-sign"></i> ระดับราคา</h4>
+          <div class="filter-chips" id="priceFilters">
+            <button class="chip active" data-val="all" onclick="setFilter('price',this)">ทั้งหมด</button>
+            <button class="chip" data-val="$" onclick="setFilter('price',this)">$</button>
+            <button class="chip" data-val="$$" onclick="setFilter('price',this)">$$</button>
+            <button class="chip" data-val="$$$" onclick="setFilter('price',this)">$$$</button>
+            <button class="chip" data-val="ฟรี" onclick="setFilter('price',this)">ฟรี</button>
+          </div>
         </div>
       </div>
       <div class="filter-actions">
@@ -113,12 +115,18 @@
 
     <!-- Bottom Sheet: Merchant List -->
     <div id="bottomSheet" class="bottom-sheet">
-      <div class="sheet-handle" onclick="toggleSheet()"><div class="handle-bar"></div></div>
+      <div class="sheet-handle" id="sheetHandle">
+        <div class="handle-bar"></div>
+        <span class="handle-hint"><i class="fas fa-chevron-up"></i> ดึงขึ้นเพื่อดูรายการสถานที่</span>
+      </div>
       <div class="sheet-header">
         <h3>สถานที่ Pet-Friendly</h3>
-        <div class="view-toggle">
-          <button class="active" onclick="setListView('list',this)"><i class="fas fa-list"></i></button>
-          <button onclick="setListView('grid',this)"><i class="fas fa-th"></i></button>
+        <div class="sheet-header-right">
+          <div class="view-toggle">
+            <button class="active" onclick="setListView('list',this)"><i class="fas fa-list"></i></button>
+            <button onclick="setListView('grid',this)"><i class="fas fa-th"></i></button>
+          </div>
+          <button class="sheet-close-btn" onclick="setSheetState('peek')" title="ซ่อนรายการ"><i class="fas fa-chevron-down"></i></button>
         </div>
       </div>
       <div id="merchantList" class="merchant-list"></div>
@@ -171,10 +179,21 @@
   <!-- PAGE: COUPONS -->
   <section id="page-coupons" class="page">
     <div class="coupons-header">
-      <h2><i class="fas fa-ticket-alt"></i> คูปองของฉัน</h2>
-      <p>คูปองส่วนลดที่เก็บไว้</p>
+      <h2><i class="fas fa-ticket-alt"></i> คูปอง</h2>
+      <p>สิทธิพิเศษสำหรับคนรักสัตว์เลี้ยง</p>
+    </div>
+    <div class="coupon-tabs">
+      <button class="coupon-tab active" onclick="setCouponTab('all',this)">ทั้งหมด</button>
+      <button class="coupon-tab" onclick="setCouponTab('discount',this)">ส่วนลด</button>
+      <button class="coupon-tab" onclick="setCouponTab('free',this)">ของแถม</button>
+      <button class="coupon-tab" onclick="setCouponTab('special',this)">พิเศษ</button>
     </div>
     <div id="couponsList" class="coupons-list"></div>
+  </section>
+
+  <!-- PAGE: PROFILE SUB-PAGES -->
+  <section id="page-profile-sub" class="page">
+    <div id="profileSubContent"></div>
   </section>
 
   <!-- Bottom Navigation -->
