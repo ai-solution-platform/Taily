@@ -161,7 +161,7 @@ html,body {
 
 /* Nearby Button */
 .nearby-btn {
-  position:absolute; bottom:calc(var(--nav-height) + 72px); right:12px; z-index:500;
+  position:absolute; bottom:calc(var(--nav-height) + 64px); right:12px; z-index:450;
   background:white; border:none; border-radius:28px; padding:10px 16px;
   box-shadow:var(--shadow-lg); display:flex; align-items:center; gap:6px;
   font-family:inherit; font-size:13px; font-weight:600; color:var(--primary);
@@ -172,7 +172,7 @@ html,body {
 
 /* Map Stats */
 .map-stats {
-  position:absolute; bottom:calc(var(--nav-height) + 72px); left:12px; z-index:500;
+  position:absolute; bottom:calc(var(--nav-height) + 64px); left:12px; z-index:450;
   background:white; border-radius:20px; padding:6px 14px;
   box-shadow:var(--shadow); font-size:12px; font-weight:600; color:var(--text-secondary);
   transition:bottom 0.3s;
@@ -186,8 +186,8 @@ html,body {
   max-height:56px; overflow:hidden;
   transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1);
 }
-.bottom-sheet.half { max-height:42vh; }
-.bottom-sheet.full { max-height:80vh; }
+.bottom-sheet.half { max-height:36vh; }
+.bottom-sheet.full { max-height:55vh; }
 .sheet-handle {
   padding:10px 0 4px; display:flex; flex-direction:column; align-items:center;
   cursor:pointer; user-select:none; -webkit-user-select:none; flex-shrink:0;
@@ -255,9 +255,17 @@ html,body {
 .merchant-list.grid-view { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
 .merchant-list.grid-view .merchant-card {
   flex-direction:column; padding:0; overflow:hidden;
+  min-height:180px;
 }
-.merchant-list.grid-view .card-img { width:100%; height:100px; border-radius:0; }
+.merchant-list.grid-view .card-img {
+  width:100%; height:90px; border-radius:0;
+  font-size:32px;
+}
 .merchant-list.grid-view .card-body { padding:8px; }
+.merchant-list.grid-view .card-name { font-size:13px; white-space:normal; -webkit-line-clamp:2; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; }
+.merchant-list.grid-view .card-desc { display:none; }
+.merchant-list.grid-view .card-meta { flex-wrap:wrap; }
+.merchant-list.grid-view .card-category { font-size:10px; padding:1px 6px; }
 
 /* ===== MERCHANT DETAIL ===== */
 .merchant-detail-page {

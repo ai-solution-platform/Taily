@@ -275,6 +275,7 @@ function findNearby() {
       }).sort((a, b) => a._dist - b._dist).slice(0, 50);
       addMarkers(sorted);
       renderMerchantList(sorted);
+      setSheetState('half');
       btn.innerHTML = '<i class="fas fa-location-crosshairs"></i><span>ใกล้ฉัน</span>';
       showToast('แสดง 50 สถานที่ใกล้คุณ');
     }, () => {
