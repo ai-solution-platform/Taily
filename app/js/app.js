@@ -25,8 +25,19 @@ let myCoupons = [
   { id: 10, merchantName: 'PetVille Resort Kanchanaburi', promotion: 'ลดพิเศษ 1,000 บาท แพ็คเกจ 2 วัน 1 คืน พร้อมอาหารเช้า', category: 'โรงแรม', type: 'special', discountText: '1,000฿', discountLabel: 'Resort Package', expiry: '31 ก.ค. 2569', badge: 'new', emoji: '🏖️' }
 ];
 
+// ===== VIEWPORT HEIGHT FIX (A1) =====
+function setAppHeight() {
+  const vh = window.innerHeight;
+  document.documentElement.style.setProperty('--app-height', vh + 'px');
+}
+setAppHeight();
+window.addEventListener('resize', setAppHeight);
+window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 100));
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', async () => {
+  setAppHeight(); // re-apply after DOM ready
+
   const [mRes, eRes] = await Promise.all([
     fetch('js/merchants.json').then(r => r.json()),
     fetch('js/events.json').then(r => r.json())
@@ -146,11 +157,11 @@ function initMap() {
 
 function getCategoryIcon(cat) {
   switch(cat) {
-    case 'ร้านอาหาร': return { icon: 'fa-utensils', cls: 'marker-restaurant', emoji: '🍽️' };
-    case 'คาเฟ่': return { icon: 'fa-mug-hot', cls: 'marker-cafe', emoji: '☕' };
-    case 'โรงแรม': return { icon: 'fa-bed', cls: 'marker-hotel', emoji: '🏨' };
-    case 'สถานที่ท่องเที่ยว': return { icon: 'fa-mountain-sun', cls: 'marker-tourist', emoji: '🌿' };
-    default: return { icon: 'fa-paw', cls: 'marker-restaurant', emoji: '🐾' };
+    case 'ร้านอาหาร': return { icon: 'fa-utensils', cls: 'marker-restaurant', cardCls: 'cat-restaurant', emoji: '🍽️' };
+    case 'คาเฟ่': return { icon: 'fa-mug-hot', cls: 'marker-cafe', cardCls: 'cat-cafe', emoji: '☕' };
+    case 'โรงแรม': return { icon: 'fa-bed', cls: 'marker-hotel', cardCls: 'cat-hotel', emoji: '🏨' };
+    case 'สถานที่ท่องเที่ยว': return { icon: 'fa-mountain-sun', cls: 'marker-tourist', cardCls: 'cat-tourist', emoji: '🌿' };
+    default: return { icon: 'fa-paw', cls: 'marker-restaurant', cardCls: '', emoji: '🐾' };
   }
 }
 
@@ -169,7 +180,7 @@ function addMarkers(data) {
       ? `<div class="popup-promo"><i class="fas fa-gift"></i>${m.promotion}</div>` : '';
     marker.bindPopup(`
       <div class="map-popup">
-        <div class="popup-header">${cat.emoji}</div>
+        <div class="popup-header ${cat.cardCls}">${cat.emoji}</div>
         <div class="popup-body">
           <span class="popup-category">${m.category}</span>
           <div class="popup-name">${m.name}</div>
@@ -304,7 +315,7 @@ function renderMerchantList(data) {
     const dist = m._dist ? `<span class="card-province">${m._dist.toFixed(1)} km</span>` : `<span class="card-province">${m.province}</span>`;
     return `
       <div class="merchant-card" onclick="openMerchant(${m.id})">
-        <div class="card-img">${cat.emoji}</div>
+        <div class="card-img ${cat.cardCls}">${cat.emoji}</div>
         <div class="card-body">
           <span class="card-category">${m.category}</span>
           <div class="card-name">${m.name}</div>
@@ -342,7 +353,7 @@ function openMerchant(id) {
 
   document.getElementById('merchantDetail').innerHTML = `
     <div class="merchant-detail-page">
-      <div class="merchant-hero">
+      <div class="merchant-hero ${cat.cardCls}">
         <span class="hero-icon">${cat.emoji}</span>
         <button class="back-btn" onclick="goBack('map')"><i class="fas fa-chevron-left"></i></button>
         <button class="share-btn" onclick="shareMerchant(${m.id})"><i class="fas fa-share-alt"></i></button>
