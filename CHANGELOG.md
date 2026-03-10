@@ -5,7 +5,17 @@ Format follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [v1.3.0] - 2026-03-10 (CURRENT)
+## [v1.3.1] - 2026-03-10 (CURRENT)
+
+### Fixed — Floating Elements Positioning (B3 follow-up)
+- **Root cause**: `.bottom-sheet`, `.map-stats`, `.nearby-btn` used `bottom: calc(var(--nav-height) + var(--safe-bottom))` but they're inside `.page` which already ends at the nav bar top — causing ~94px unwanted gap
+- **Bottom sheet**: Changed from `bottom: calc(nav + safe)` → `bottom: 0` (flush with nav bar)
+- **Map stats & Nearby btn**: Changed from `bottom: calc(nav + safe + 54px)` → `bottom: 62px` (just above sheet peek)
+- **Leaflet zoom controls**: Added `.leaflet-bottom.leaflet-right { bottom: 100px }` to push above floating elements
+
+---
+
+## [v1.3.0] - 2026-03-10
 
 ### Fixed — Responsive / Cross-Browser (Group A)
 - **A1**: Fixed `100vh` mobile viewport bug → uses `100dvh` + JS `--app-height` fallback + `-webkit-fill-available`

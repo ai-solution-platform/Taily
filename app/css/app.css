@@ -1,4 +1,4 @@
-/* ========== TAILY APP - CSS v1.3.0 ========== */
+/* ========== TAILY APP - CSS v1.3.1 ========== */
 :root {
   --primary: #FFC501;
   --primary-light: #FFD740;
@@ -169,9 +169,9 @@ html,body {
   z-index:1;
 }
 
-/* Nearby Button — B3: closer to bottom nav */
+/* Nearby Button — B3: flush above bottom sheet peek */
 .nearby-btn {
-  position:absolute; bottom:calc(var(--nav-height) + var(--safe-bottom) + 54px); right:12px; z-index:450;
+  position:absolute; bottom:62px; right:12px; z-index:450;
   background:white; border:none; border-radius:24px; padding:8px 14px;
   box-shadow:var(--shadow-lg); display:flex; align-items:center; gap:5px;
   font-family:inherit; font-size:12px; font-weight:600; color:var(--primary);
@@ -181,17 +181,17 @@ html,body {
 .nearby-btn:hover { background:var(--primary); color:var(--primary-on); }
 .nearby-btn i { font-size:15px; }
 
-/* Map Stats — B3: closer to bottom nav */
+/* Map Stats — B3: flush above bottom sheet peek */
 .map-stats {
-  position:absolute; bottom:calc(var(--nav-height) + var(--safe-bottom) + 54px); left:12px; z-index:450;
+  position:absolute; bottom:62px; left:12px; z-index:450;
   background:white; border-radius:16px; padding:5px 12px;
   box-shadow:var(--shadow); font-size:11px; font-weight:600; color:var(--text-secondary);
   transition:bottom 0.3s;
 }
 
-/* Bottom Sheet */
+/* Bottom Sheet — positioned at bottom of .page (which ends at nav bar top) */
 .bottom-sheet {
-  position:absolute; bottom:calc(var(--nav-height) + var(--safe-bottom)); left:0; right:0; z-index:400;
+  position:absolute; bottom:0; left:0; right:0; z-index:400;
   background:white; border-radius:20px 20px 0 0; box-shadow:0 -4px 20px rgba(0,0,0,0.15);
   display:flex; flex-direction:column;
   max-height:56px; overflow:hidden;
@@ -784,6 +784,8 @@ html,body {
 /* Leaflet overrides */
 .leaflet-control-zoom { border-radius:12px !important; overflow:hidden; box-shadow:var(--shadow) !important; }
 .leaflet-control-zoom a { width:36px !important; height:36px !important; line-height:36px !important; font-size:18px !important; }
+/* Push Leaflet bottom-right controls above bottom sheet + floating elements */
+.leaflet-bottom.leaflet-right { bottom:100px !important; }
 .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
   background:rgba(255,197,1,0.35) !important;
 }
