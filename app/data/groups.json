@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "name": "Golden Retriever Thailand",
+    "nameTh": "ชมรมโกลเด้น ประเทศไทย",
+    "emoji": "🦮",
+    "coverImage": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=400&fit=crop",
+    "icon": "fa-dog",
+    "memberCount": 12500,
+    "postCount": 3400,
+    "description": "ชุมชนคนรักโกลเด้นรีทรีฟเวอร์ แชร์ภาพ เทคนิคการเลี้ยง สุขภาพ อาหาร และกิจกรรมสำหรับโกลเด้น",
+    "category": "breed",
+    "isJoined": true,
+    "recentMembers": ["สมชาย", "มินนี่", "วิชัย", "น้ำหวาน"],
+    "recentPosts": [
+      {"title": "วิธีดูแลขนโกลเด้นให้สวยเงางาม", "author": "สมชาย", "likes": 145},
+      {"title": "อาหาร Grain-Free ดีจริงมั้ย?", "author": "ปาริชาต", "likes": 89},
+      {"title": "พาน้องไปว่ายน้ำครั้งแรก!", "author": "กานต์", "likes": 234}
+    ],
+    "rules": ["เคารพสมาชิกทุกคน", "ห้ามโพสต์ขายของ (ใช้ Taily Shop)", "ห้ามสแปม", "แชร์ข้อมูลสุขภาพต้องมีแหล่งอ้างอิง", "ห้ามโพสต์เนื้อหาที่ไม่เกี่ยวกับโกลเด้น"],
+    "admins": [
+      {"name": "สมชาย รักน้องหมา", "avatar": "https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=50"}
+    ],
+    "createdDate": "2025-01-15"
+  },
+  {
+    "id": 2,
+    "name": "Cat Lovers BKK",
+    "nameTh": "คนรักแมว กรุงเทพฯ",
+    "emoji": "🐱",
+    "coverImage": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&h=400&fit=crop",
+    "icon": "fa-cat",
+    "memberCount": 18900,
+    "postCount": 5600,
+    "description": "ชุมชนทาสแมวกรุงเทพฯ แชร์ภาพน้องเหมียว เทคนิคการเลี้ยง รีวิวอาหารแมว คลินิกแนะนำ และกิจกรรมคนรักแมว",
+    "category": "species",
+    "isJoined": true,
+    "recentMembers": ["มินนี่", "เจน", "มายด์", "น้ำหวาน"],
+    "recentPosts": [
+      {"title": "รีวิว อาหารแมว Orijen vs Acana", "author": "มินนี่", "likes": 267},
+      {"title": "DIY Catio สำหรับคอนโด!", "author": "มายด์", "likes": 478},
+      {"title": "แมวชอบนอนกล่อง ทำไม?", "author": "เจน", "likes": 156}
+    ],
+    "rules": ["เคารพสมาชิกทุกคน", "ห้ามขายแมว (รับเลี้ยงผ่าน Adoption เท่านั้น)", "ห้ามสแปม", "ห้ามแนะนำยาเอง ให้ปรึกษาสัตวแพทย์", "ห้ามโพสต์เนื้อหารุนแรง"],
+    "admins": [
+      {"name": "มินนี่ แคทเลิฟเวอร์", "avatar": "https://ui-avatars.com/api/?name=MN&background=FFD740&color=3D2B1F&size=50"}
+    ],
+    "createdDate": "2025-02-20"
+  },
+  {
+    "id": 3,
+    "name": "Pet Adoption Network",
+    "nameTh": "เครือข่ายรับเลี้ยงสัตว์",
+    "emoji": "🏠",
+    "coverImage": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=400&fit=crop",
+    "icon": "fa-home",
+    "memberCount": 8700,
+    "postCount": 2100,
+    "description": "เครือข่ายช่วยเหลือสัตว์ไม่มีบ้าน ลงประกาศหาบ้าน แชร์เรื่องราวการรับเลี้ยง ข้อมูลมูลนิธิ และกิจกรรมช่วยเหลือสัตว์",
+    "category": "cause",
+    "isJoined": false,
+    "recentMembers": ["สุภา", "ธนา", "ฟ้า", "อาร์ม"],
+    "recentPosts": [
+      {"title": "น้องหมา 5 ตัว หาบ้านด่วน! (ลาดพร้าว)", "author": "สุภา", "likes": 345},
+      {"title": "เรื่องเล่า 1 ปีหลังรับเลี้ยงน้องมะลิ", "author": "สุภา", "likes": 501},
+      {"title": "อาสาสมัครช่วยอาบน้ำน้องหมาวัด", "author": "ธนา", "likes": 189}
+    ],
+    "rules": ["ห้ามขายสัตว์เลี้ยง", "ต้องตรวจสอบผู้รับเลี้ยงก่อนส่งมอบ", "ลงข้อมูลสุขภาพน้องให้ครบ", "ห้ามสแปม", "เคารพสมาชิกทุกคน"],
+    "admins": [
+      {"name": "สุภา แม่มะลิ", "avatar": "https://ui-avatars.com/api/?name=SP&background=E91E63&color=fff&size=50"}
+    ],
+    "createdDate": "2025-03-10"
+  },
+  {
+    "id": 4,
+    "name": "Dog Training Tips",
+    "nameTh": "เทคนิคฝึกสุนัข",
+    "emoji": "🎓",
+    "coverImage": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=800&h=400&fit=crop",
+    "icon": "fa-graduation-cap",
+    "memberCount": 6300,
+    "postCount": 1800,
+    "description": "แลกเปลี่ยนเทคนิคฝึกสุนัข Positive Reinforcement, Basic Obedience, Trick Training, แก้ปัญหาพฤติกรรม",
+    "category": "topic",
+    "isJoined": true,
+    "recentMembers": ["แพร", "กานต์", "ปาริชาต", "โอ๊ค"],
+    "recentPosts": [
+      {"title": "นมจิ้งจอกผ่าน Basic Obedience!", "author": "แพร", "likes": 203},
+      {"title": "วิธีแก้ปัญหาสุนัขเห่า", "author": "กานต์", "likes": 178},
+      {"title": "Duo ผ่าน CGC Test!", "author": "ปาริชาต", "likes": 334}
+    ],
+    "rules": ["ใช้วิธี Positive Reinforcement เท่านั้น", "ห้ามแนะนำการลงโทษทางกาย", "ห้ามขายของ", "แชร์ประสบการณ์จริง", "เคารพสมาชิกทุกคน"],
+    "admins": [
+      {"name": "แพร Corgi Lover", "avatar": "https://ui-avatars.com/api/?name=PR&background=F48FB1&color=3D2B1F&size=50"}
+    ],
+    "createdDate": "2025-04-05"
+  },
+  {
+    "id": 5,
+    "name": "Pet Photography Club",
+    "nameTh": "ชมรมถ่ายภาพสัตว์เลี้ยง",
+    "emoji": "📸",
+    "coverImage": "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=800&h=400&fit=crop",
+    "icon": "fa-camera",
+    "memberCount": 4200,
+    "postCount": 2800,
+    "description": "ชมรมถ่ายภาพสัตว์เลี้ยง แชร์เทคนิคถ่ายรูป แต่งรูป อุปกรณ์แนะนำ และประกวดภาพถ่ายประจำเดือน",
+    "category": "hobby",
+    "isJoined": false,
+    "recentMembers": ["เจน", "โอ๊ค", "มายด์", "วิชัย"],
+    "recentPosts": [
+      {"title": "ลูน่าถ่ายรูป Taily Contest!", "author": "เจน", "likes": 367},
+      {"title": "เทคนิคถ่ายรูปหมาด้วยมือถือ", "author": "โอ๊ค", "likes": 234},
+      {"title": "ปอมปอมเท็ดดี้ Pet Expo 2026", "author": "วิชัย", "likes": 423}
+    ],
+    "rules": ["โพสต์ภาพต้นฉบับเท่านั้น (ห้ามขโมยภาพ)", "ให้เครดิตช่างภาพ", "ห้ามสแปม", "แนะนำอุปกรณ์ให้ตรงกับหัวข้อ", "เคารพสมาชิกทุกคน"],
+    "admins": [
+      {"name": "เจน Cat Mom", "avatar": "https://ui-avatars.com/api/?name=JN&background=FF5722&color=fff&size=50"}
+    ],
+    "createdDate": "2025-05-12"
+  },
+  {
+    "id": 6,
+    "name": "Exotic Pet Thailand",
+    "nameTh": "สัตว์เลี้ยงแปลก ประเทศไทย",
+    "emoji": "🐰",
+    "coverImage": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=800&h=400&fit=crop",
+    "icon": "fa-paw",
+    "memberCount": 3100,
+    "postCount": 980,
+    "description": "ชุมชนคนเลี้ยงสัตว์เลี้ยงแปลก กระต่าย แฮมเตอร์ นก สัตว์เลื้อยคลาน แชร์ความรู้ อาหาร การดูแล",
+    "category": "species",
+    "isJoined": false,
+    "recentMembers": ["ฟ้า", "บิ๊ก", "มายด์", "ธนา"],
+    "recentPosts": [
+      {"title": "ปุยฝ้ายกระต่ายตัดเล็บ 🐰", "author": "ฟ้า", "likes": 298},
+      {"title": "แฮมเตอร์น้อย ถั่ว มาใหม่!", "author": "บิ๊ก", "likes": 145},
+      {"title": "วิธีเลือกกรงแฮมเตอร์", "author": "ฟ้า", "likes": 112}
+    ],
+    "rules": ["ต้องเป็นสัตว์ที่เลี้ยงได้ถูกกฎหมาย", "แชร์ข้อมูลสุขภาพต้องมีแหล่งอ้างอิง", "ห้ามขายสัตว์ป่า", "ห้ามสแปม", "เคารพสมาชิกทุกคน"],
+    "admins": [
+      {"name": "ฟ้า Bunny Mom", "avatar": "https://ui-avatars.com/api/?name=FA&background=81D4FA&color=3D2B1F&size=50"}
+    ],
+    "createdDate": "2025-07-01"
+  }
+]

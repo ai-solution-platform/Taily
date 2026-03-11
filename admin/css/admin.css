@@ -182,6 +182,20 @@ html,body { height:100%; font-family:'IBM Plex Sans Thai','Inter',-apple-system,
 .status-badge.cancelled { background:rgba(244,67,54,0.1); color:#F44336; }
 .status-badge.upcoming { background:rgba(33,150,243,0.1); color:#2196F3; }
 .status-badge.completed { background:rgba(158,158,158,0.1); color:#9E9E9E; }
+.status-badge.badge-warning { background:rgba(255,152,0,0.1); color:#FF9800; }
+.status-badge.badge-info { background:rgba(33,150,243,0.1); color:#2196F3; }
+.status-badge.badge-danger { background:rgba(244,67,54,0.1); color:#F44336; }
+.status-badge.badge-purple { background:rgba(156,39,176,0.1); color:#9C27B0; }
+
+/* FILTER TABS */
+.filter-tabs { display:flex; gap:4px; flex-wrap:wrap; }
+.filter-tab {
+  padding:8px 16px; border:1.5px solid var(--border); border-radius:8px;
+  background:white; font-size:13px; font-family:inherit; cursor:pointer;
+  transition:all 0.2s; color:var(--text-secondary);
+}
+.filter-tab:hover { border-color:var(--primary); color:var(--primary); }
+.filter-tab.active { background:var(--primary); color:var(--primary-on); border-color:var(--primary); font-weight:600; }
 
 /* PAGINATION */
 .pagination { display:flex; gap:4px; }

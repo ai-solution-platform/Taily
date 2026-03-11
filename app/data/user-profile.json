@@ -1,0 +1,286 @@
+{
+  "user": {
+    "id": "U001",
+    "name": "สมชาย รักน้องหมา",
+    "email": "somchai@email.com",
+    "phone": "081-234-5678",
+    "avatar": "https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=200",
+    "bio": "คนรักสัตว์ พ่อของบราวนี่ & มีมี่ | Pet Lover Community",
+    "tier": "Gold",
+    "tierIcon": "fa-crown",
+    "points": 12500,
+    "totalPointsEarned": 26000,
+    "memberSince": "2025-06-15",
+    "stats": {
+      "posts": 45,
+      "followers": 328,
+      "following": 156
+    },
+    "badges": [
+      {
+        "id": "early-adopter",
+        "name": "Early Adopter",
+        "nameTh": "ผู้ใช้รุ่นแรก",
+        "icon": "fa-rocket",
+        "color": "#FF8C42",
+        "description": "ลงทะเบียน Taily ภายใน 3 เดือนแรก",
+        "earnedDate": "2025-06-15"
+      },
+      {
+        "id": "reviewer",
+        "name": "Top Reviewer",
+        "nameTh": "นักรีวิวตัวยง",
+        "icon": "fa-star",
+        "color": "#FFC501",
+        "description": "รีวิวร้านค้าครบ 10 ร้าน",
+        "earnedDate": "2025-09-20"
+      },
+      {
+        "id": "event-goer",
+        "name": "Event Goer",
+        "nameTh": "สายอีเวนต์",
+        "icon": "fa-calendar-check",
+        "color": "#4CAF50",
+        "description": "เข้าร่วมกิจกรรม Taily ครบ 5 ครั้ง",
+        "earnedDate": "2025-11-05"
+      },
+      {
+        "id": "social-butterfly",
+        "name": "Social Butterfly",
+        "nameTh": "ผีเสื้อสังคม",
+        "icon": "fa-users",
+        "color": "#2196F3",
+        "description": "มีผู้ติดตามครบ 300 คน",
+        "earnedDate": "2026-01-15"
+      },
+      {
+        "id": "pet-parent",
+        "name": "Pet Parent",
+        "nameTh": "คุณพ่อ/คุณแม่สัตว์เลี้ยง",
+        "icon": "fa-heart",
+        "color": "#E91E63",
+        "description": "ลงทะเบียนสัตว์เลี้ยง 2 ตัวขึ้นไป",
+        "earnedDate": "2025-08-10"
+      }
+    ],
+    "favorites": [1, 5, 12, 23, 45, 67, 89, 100, 150, 200, 500, 1000]
+  },
+  "pets": [
+    {
+      "id": "P001",
+      "name": "บราวนี่",
+      "species": "dog",
+      "breed": "โกลเด้น รีทรีฟเวอร์",
+      "gender": "male",
+      "birthDate": "2023-06-15",
+      "age": "2 ปี 9 เดือน",
+      "weight": 28,
+      "color": "ทอง",
+      "microchipId": "TH-2023-DOG-001234",
+      "avatar": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop",
+      "coverImage": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=300&fit=crop",
+      "vaccinations": [
+        {
+          "id": "V001",
+          "name": "พิษสุนัขบ้า",
+          "date": "2025-12-01",
+          "nextDue": "2026-12-01",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "status": "current"
+        },
+        {
+          "id": "V002",
+          "name": "รวม 5 โรค (DHLPP)",
+          "date": "2025-11-15",
+          "nextDue": "2026-11-15",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "status": "current"
+        },
+        {
+          "id": "V003",
+          "name": "ป้องกันเห็บหมัด",
+          "date": "2026-02-01",
+          "nextDue": "2026-03-01",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "status": "overdue"
+        },
+        {
+          "id": "V004",
+          "name": "ถ่ายพยาธิ",
+          "date": "2026-01-15",
+          "nextDue": "2026-04-15",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "status": "upcoming"
+        }
+      ],
+      "medicalHistory": [
+        {
+          "date": "2026-03-05",
+          "type": "checkup",
+          "desc": "ตรวจสุขภาพประจำปี — ปกติทุกอย่าง น้ำหนักเกินไป 2 กก. ต้องควบคุมอาหาร",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "cost": 1500
+        },
+        {
+          "date": "2025-08-20",
+          "type": "checkup",
+          "desc": "ตรวจสุขภาพกลางปี — ผลเลือดปกติ",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "cost": 1200
+        },
+        {
+          "date": "2025-03-10",
+          "type": "treatment",
+          "desc": "รักษาอาการท้องเสีย — สาเหตุจากกินอาหารที่ไม่คุ้นเคย",
+          "vet": "คลินิกหมอพัฒน์",
+          "cost": 800
+        },
+        {
+          "date": "2024-12-15",
+          "type": "surgery",
+          "desc": "ทำหมัน — ผ่าตัดเรียบร้อย ไม่มีภาวะแทรกซ้อน",
+          "vet": "โรงพยาบาลสัตว์ทองหล่อ",
+          "cost": 5000
+        }
+      ],
+      "conditions": ["ฉีดวัคซีนครบ", "ทำหมันแล้ว", "มีไมโครชิป"],
+      "allergies": ["ไก่"],
+      "dietNotes": "อาหาร grain-free เท่านั้น สูตรแซลมอน ให้วันละ 2 มื้อ เช้า-เย็น"
+    },
+    {
+      "id": "P002",
+      "name": "มีมี่",
+      "species": "cat",
+      "breed": "สก็อตติช โฟลด์",
+      "gender": "female",
+      "birthDate": "2024-03-20",
+      "age": "1 ปี 11 เดือน",
+      "weight": 4.2,
+      "color": "เทา-ขาว",
+      "microchipId": "TH-2024-CAT-005678",
+      "avatar": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200&h=200&fit=crop",
+      "coverImage": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=300&fit=crop",
+      "vaccinations": [
+        {
+          "id": "V005",
+          "name": "วัคซีนรวมแมว (FVRCP)",
+          "date": "2025-09-20",
+          "nextDue": "2026-09-20",
+          "vet": "คลินิกแมว สุขุมวิท",
+          "status": "current"
+        },
+        {
+          "id": "V006",
+          "name": "พิษสุนัขบ้า",
+          "date": "2025-09-20",
+          "nextDue": "2026-09-20",
+          "vet": "คลินิกแมว สุขุมวิท",
+          "status": "current"
+        },
+        {
+          "id": "V007",
+          "name": "FeLV (ลิวคีเมีย)",
+          "date": "2025-09-20",
+          "nextDue": "2026-09-20",
+          "vet": "คลินิกแมว สุขุมวิท",
+          "status": "current"
+        }
+      ],
+      "medicalHistory": [
+        {
+          "date": "2025-09-20",
+          "type": "checkup",
+          "desc": "ตรวจสุขภาพ + ฉีดวัคซีนครบชุด — สุขภาพดี",
+          "vet": "คลินิกแมว สุขุมวิท",
+          "cost": 2500
+        },
+        {
+          "date": "2025-06-10",
+          "type": "surgery",
+          "desc": "ทำหมัน — ผ่าตัดเรียบร้อย หายดีใน 1 สัปดาห์",
+          "vet": "คลินิกแมว สุขุมวิท",
+          "cost": 3500
+        }
+      ],
+      "conditions": ["ฉีดวัคซีนครบ", "ทำหมันแล้ว", "มีไมโครชิป"],
+      "allergies": [],
+      "dietNotes": "อาหารแมว Indoor สูตร Royal Canin วันละ 2 มื้อ"
+    }
+  ],
+  "wallet": {
+    "balance": 12500,
+    "pendingPoints": 150,
+    "lifetimeEarned": 26000,
+    "lifetimeSpent": 13500,
+    "tierProgress": {
+      "current": "Gold",
+      "next": "Platinum",
+      "currentMin": 5000,
+      "nextMin": 20000,
+      "progress": 62.5
+    },
+    "tiers": [
+      {"name": "Bronze", "min": 0, "icon": "fa-medal", "color": "#CD7F32", "benefits": ["ส่วนลด 5%", "สะสมแต้มพื้นฐาน"]},
+      {"name": "Silver", "min": 2000, "icon": "fa-medal", "color": "#C0C0C0", "benefits": ["ส่วนลด 8%", "สะสมแต้ม 1.5x", "จัดส่งฟรี 1 ครั้ง/เดือน"]},
+      {"name": "Gold", "min": 5000, "icon": "fa-crown", "color": "#FFC501", "benefits": ["ส่วนลด 12%", "สะสมแต้ม 2x", "จัดส่งฟรี 3 ครั้ง/เดือน", "เข้าถึงดีลพิเศษ"]},
+      {"name": "Platinum", "min": 20000, "icon": "fa-gem", "color": "#E5E4E2", "benefits": ["ส่วนลด 15%", "สะสมแต้ม 3x", "จัดส่งฟรีทุกครั้ง", "Priority Support", "สิทธิ์เข้างานพิเศษ"]}
+    ],
+    "transactions": [
+      {"id": "TXN001", "type": "earn", "amount": 50, "desc": "เขียนรีวิว Jungle de Woof", "date": "2026-03-10", "icon": "fa-star"},
+      {"id": "TXN002", "type": "earn", "amount": 10, "desc": "เช็คอินร้าน CatCafe Ari", "date": "2026-03-10", "icon": "fa-map-pin"},
+      {"id": "TXN003", "type": "earn", "amount": 30, "desc": "ลงทะเบียนกิจกรรม Pet Walk", "date": "2026-03-09", "icon": "fa-calendar"},
+      {"id": "TXN004", "type": "spend", "amount": -500, "desc": "แลกคูปองส่วนลด 50 บาท", "date": "2026-03-08", "icon": "fa-ticket"},
+      {"id": "TXN005", "type": "earn", "amount": 200, "desc": "Birthday Bonus!", "date": "2026-03-01", "icon": "fa-gift"},
+      {"id": "TXN006", "type": "spend", "amount": -2000, "desc": "แลก Free Grooming", "date": "2026-02-25", "icon": "fa-scissors"},
+      {"id": "TXN007", "type": "earn", "amount": 150, "desc": "Refer a Friend — ธนา", "date": "2026-02-20", "icon": "fa-user-plus"},
+      {"id": "TXN008", "type": "earn", "amount": 20, "desc": "แชร์โพสต์ลง Facebook", "date": "2026-02-18", "icon": "fa-share"},
+      {"id": "TXN009", "type": "earn", "amount": 100, "desc": "ซื้อสินค้าครบ 1,000 บาท", "date": "2026-02-15", "icon": "fa-shopping-bag"},
+      {"id": "TXN010", "type": "spend", "amount": -1000, "desc": "แลกคูปองอาหารสัตว์ 100 บาท", "date": "2026-02-10", "icon": "fa-ticket"},
+      {"id": "TXN011", "type": "earn", "amount": 50, "desc": "เขียนรีวิว Lala Mukha Resort", "date": "2026-02-08", "icon": "fa-star"},
+      {"id": "TXN012", "type": "earn", "amount": 500, "desc": "เลื่อนระดับ Gold Tier!", "date": "2026-01-01", "icon": "fa-crown"}
+    ]
+  },
+  "addresses": [
+    {
+      "id": "ADDR-001",
+      "label": "บ้าน",
+      "icon": "fa-house",
+      "name": "สมชาย รักน้องหมา",
+      "phone": "081-234-5678",
+      "address": "123/45 ซ.สุขุมวิท 22",
+      "district": "คลองเตย",
+      "city": "กรุงเทพฯ",
+      "zip": "10110",
+      "isDefault": true
+    },
+    {
+      "id": "ADDR-002",
+      "label": "ที่ทำงาน",
+      "icon": "fa-building",
+      "name": "สมชาย รักน้องหมา",
+      "phone": "081-234-5678",
+      "address": "999 อาคาร Taily Tower ชั้น 15",
+      "district": "วัฒนา",
+      "city": "กรุงเทพฯ",
+      "zip": "10110",
+      "isDefault": false
+    }
+  ],
+  "settings": {
+    "language": "th",
+    "notifications": {
+      "social": true,
+      "promo": true,
+      "orders": true,
+      "events": true,
+      "health": true,
+      "system": true
+    },
+    "privacy": {
+      "profilePublic": true,
+      "showLocation": true,
+      "showOnlineStatus": true
+    },
+    "theme": "light"
+  }
+}

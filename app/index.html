@@ -3,15 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Taily - Pet-Friendly Thailand</title>
+<title>Taily - The Pet Lovers' Community</title>
+<meta name="description" content="Taily — Super App สำหรับคนรักสัตว์เลี้ยง แผนที่ Pet-Friendly, Marketplace, Social Community">
+<meta name="theme-color" content="#FFC501">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/explore.css">
+<link rel="stylesheet" href="css/market.css">
+<link rel="stylesheet" href="css/social.css">
+<link rel="stylesheet" href="css/me.css">
 </head>
 <body>
-<!-- Splash Screen -->
+
+<!-- ========== SPLASH SCREEN ========== -->
 <div id="splash" class="splash-screen">
   <div class="splash-content">
     <div class="splash-logo">
@@ -19,216 +29,505 @@
     </div>
     <h1 class="splash-title">Taily</h1>
     <p class="splash-sub">The Pet Lovers' Community</p>
+    <p class="splash-ver">v2.0 Super App</p>
     <div class="splash-loader"><div class="loader-bar"></div></div>
   </div>
 </div>
 
-<!-- Main App -->
+<!-- ========== MAIN APP ========== -->
 <div id="app" class="app-container" style="display:none">
-  <!-- Header -->
-  <header class="app-header">
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header" id="appHeader">
     <div class="header-left">
-      <svg width="32" height="32" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
+      <svg width="30" height="30" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
       <span class="header-brand">Taily</span>
     </div>
+    <div class="header-center">
+      <div class="header-search" onclick="openGlobalSearch()">
+        <i class="fas fa-search"></i>
+        <span>ค้นหา...</span>
+      </div>
+    </div>
     <div class="header-right">
-      <button class="header-btn" onclick="showNotifications()"><i class="fas fa-bell"></i><span class="badge">3</span></button>
-      <button class="header-btn" onclick="showProfile()"><i class="fas fa-user-circle"></i></button>
+      <button class="header-btn" onclick="openMessages()" id="btnMessages"><i class="fas fa-comment-dots"></i><span class="badge" id="msgBadge" style="display:none">0</span></button>
+      <button class="header-btn" onclick="openNotifications()" id="btnNotif"><i class="fas fa-bell"></i><span class="badge" id="notifBadge">5</span></button>
+      <button class="header-btn header-avatar" onclick="navigate('me')"><img id="headerAvatar" src="https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=60" alt=""></button>
     </div>
   </header>
 
-  <!-- Pages -->
-  <!-- PAGE: MAP -->
-  <section id="page-map" class="page active">
-    <div class="map-search-bar">
-      <div class="search-input-wrap">
-        <i class="fas fa-search"></i>
-        <input type="text" id="mapSearch" placeholder="ค้นหาสถานที่ Pet-Friendly..." oninput="filterMerchants()">
-        <button class="search-clear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
-      </div>
-      <button class="filter-toggle-btn" onclick="toggleFilters()"><i class="fas fa-sliders-h"></i></button>
-    </div>
-
-    <!-- Filter Panel -->
-    <div id="filterPanel" class="filter-panel">
-      <div class="filter-scroll">
-        <div class="filter-section">
-          <h4><i class="fas fa-layer-group"></i> ประเภท</h4>
-          <div class="filter-chips" id="categoryFilters">
-            <button class="chip active" data-val="all" onclick="setFilter('category',this)">ทั้งหมด</button>
-            <button class="chip" data-val="ร้านอาหาร" onclick="setFilter('category',this)"><i class="fas fa-utensils"></i> ร้านอาหาร</button>
-            <button class="chip" data-val="คาเฟ่" onclick="setFilter('category',this)"><i class="fas fa-coffee"></i> คาเฟ่</button>
-            <button class="chip" data-val="โรงแรม" onclick="setFilter('category',this)"><i class="fas fa-hotel"></i> โรงแรม</button>
-            <button class="chip" data-val="สถานที่ท่องเที่ยว" onclick="setFilter('category',this)"><i class="fas fa-mountain"></i> ท่องเที่ยว</button>
-          </div>
+  <!-- ============================================================ -->
+  <!-- TAB 1: HOME -->
+  <!-- ============================================================ -->
+  <section id="page-home" class="page active">
+    <!-- Stories Bar -->
+    <div class="stories-bar" id="storiesBar">
+      <div class="stories-scroll">
+        <div class="story-item my-story" onclick="createStory()">
+          <div class="story-avatar-wrap add-story"><img id="myStoryAvatar" src="https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=100" alt=""><div class="story-add-icon"><i class="fas fa-plus"></i></div></div>
+          <span class="story-name">เรื่องของคุณ</span>
         </div>
-        <div class="filter-section">
-          <h4><i class="fas fa-map-marker-alt"></i> ภาค</h4>
-          <div class="filter-chips" id="regionFilters">
-            <button class="chip active" data-val="all" onclick="setFilter('region',this)">ทั้งหมด</button>
-            <button class="chip" data-val="ภาคกลาง" onclick="setFilter('region',this)">กลาง</button>
-            <button class="chip" data-val="ภาคเหนือ" onclick="setFilter('region',this)">เหนือ</button>
-            <button class="chip" data-val="ภาคตะวันออกเฉียงเหนือ" onclick="setFilter('region',this)">อีสาน</button>
-            <button class="chip" data-val="ภาคตะวันออก" onclick="setFilter('region',this)">ตะวันออก</button>
-            <button class="chip" data-val="ภาคตะวันตก" onclick="setFilter('region',this)">ตะวันตก</button>
-            <button class="chip" data-val="ภาคใต้ฝั่งอ่าวไทย" onclick="setFilter('region',this)">ใต้อ่าวไทย</button>
-            <button class="chip" data-val="ภาคใต้ฝั่งอันดามัน" onclick="setFilter('region',this)">ใต้อันดามัน</button>
-            <button class="chip" data-val="ภาคกลางตอนบน" onclick="setFilter('region',this)">กลางตอนบน</button>
-          </div>
-        </div>
-        <div class="filter-section">
-          <h4><i class="fas fa-map-pin"></i> จังหวัด</h4>
-          <select id="provinceFilter" onchange="filterMerchants()" class="province-select">
-            <option value="all">ทุกจังหวัด</option>
-          </select>
-        </div>
-        <div class="filter-section">
-          <h4><i class="fas fa-dollar-sign"></i> ระดับราคา</h4>
-          <div class="filter-chips" id="priceFilters">
-            <button class="chip active" data-val="all" onclick="setFilter('price',this)">ทั้งหมด</button>
-            <button class="chip" data-val="$" onclick="setFilter('price',this)">$</button>
-            <button class="chip" data-val="$$" onclick="setFilter('price',this)">$$</button>
-            <button class="chip" data-val="$$$" onclick="setFilter('price',this)">$$$</button>
-            <button class="chip" data-val="ฟรี" onclick="setFilter('price',this)">ฟรี</button>
-          </div>
-        </div>
-      </div>
-      <div class="filter-actions">
-        <button class="btn-outline" onclick="resetFilters()">ล้างตัวกรอง</button>
-        <button class="btn-primary" onclick="toggleFilters()">แสดงผลลัพธ์ <span id="filterCount">2,000</span> แห่ง</button>
+        <!-- Stories rendered by home.js -->
       </div>
     </div>
 
-    <!-- Map -->
-    <div id="map" class="map-container"></div>
-
-    <!-- Nearby Toggle -->
-    <button id="nearbyBtn" class="nearby-btn" onclick="findNearby()">
-      <i class="fas fa-location-crosshairs"></i>
-      <span>ใกล้ฉัน</span>
-    </button>
-
-    <!-- Map Stats -->
-    <div class="map-stats">
-      <span id="mapCount">2,000 สถานที่</span>
+    <!-- Quick Actions Grid -->
+    <div class="quick-actions">
+      <div class="qa-grid">
+        <button class="qa-item" onclick="navigate('explore')"><div class="qa-icon" style="background:linear-gradient(135deg,#4CAF50,#2E7D32)"><i class="fas fa-map-marked-alt"></i></div><span>แผนที่</span></button>
+        <button class="qa-item" onclick="navigate('explore');setTimeout(()=>showExploreTab('events'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#FF9800,#E65100)"><i class="fas fa-calendar-star"></i></div><span>กิจกรรม</span></button>
+        <button class="qa-item" onclick="navigate('market');setTimeout(()=>showMarketTab('coupons'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#E91E63,#880E4F)"><i class="fas fa-ticket-alt"></i></div><span>คูปอง</span></button>
+        <button class="qa-item" onclick="navigate('market')"><div class="qa-icon" style="background:linear-gradient(135deg,#FFC501,#E5A800)"><i class="fas fa-shopping-bag"></i></div><span>ตลาด</span></button>
+        <button class="qa-item" onclick="showComingSoon('Taily Med')"><div class="qa-icon" style="background:linear-gradient(135deg,#2196F3,#0D47A1)"><i class="fas fa-stethoscope"></i></div><span>สัตวแพทย์</span></button>
+        <button class="qa-item" onclick="showComingSoon('Insurance')"><div class="qa-icon" style="background:linear-gradient(135deg,#9C27B0,#4A148C)"><i class="fas fa-shield-dog"></i></div><span>ประกัน</span></button>
+        <button class="qa-item" onclick="navigate('me');setTimeout(()=>showMeSection('petid'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#00BCD4,#006064)"><i class="fas fa-id-card"></i></div><span>Pet ID</span></button>
+        <button class="qa-item" onclick="showMoreActions()"><div class="qa-icon" style="background:linear-gradient(135deg,#607D8B,#37474F)"><i class="fas fa-ellipsis-h"></i></div><span>เพิ่มเติม</span></button>
+      </div>
     </div>
 
-    <!-- Bottom Sheet: Merchant List -->
-    <div id="bottomSheet" class="bottom-sheet">
-      <div class="sheet-handle" id="sheetHandle">
-        <div class="handle-bar"></div>
-        <span class="handle-hint"><i class="fas fa-chevron-up"></i> ดึงขึ้นเพื่อดูรายการสถานที่</span>
+    <!-- Nearby Places Carousel -->
+    <div class="home-section">
+      <div class="section-header"><h3><i class="fas fa-location-dot"></i> สถานที่ใกล้คุณ</h3><button class="see-all-btn" onclick="navigate('explore')">ดูทั้งหมด <i class="fas fa-chevron-right"></i></button></div>
+      <div class="horizontal-scroll" id="nearbyPlaces">
+        <div class="skeleton-cards"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
       </div>
-      <div class="sheet-header">
-        <h3>สถานที่ Pet-Friendly</h3>
-        <div class="sheet-header-right">
-          <div class="view-toggle">
-            <button class="active" onclick="setListView('list',this)"><i class="fas fa-list"></i></button>
-            <button onclick="setListView('grid',this)"><i class="fas fa-th"></i></button>
+    </div>
+
+    <!-- Social Feed Preview -->
+    <div class="home-section">
+      <div class="section-header"><h3><i class="fas fa-fire"></i> โพสต์ยอดนิยม</h3><button class="see-all-btn" onclick="navigate('social')">ดูทั้งหมด <i class="fas fa-chevron-right"></i></button></div>
+      <div id="homeFeed" class="home-feed"></div>
+      <div id="homeFeedLoader" class="feed-loader" style="display:none"><div class="spinner"></div></div>
+    </div>
+
+    <!-- Featured Merchants -->
+    <div class="home-section">
+      <div class="section-header"><h3><i class="fas fa-crown"></i> ร้านค้าแนะนำ</h3><button class="see-all-btn" onclick="navigate('explore')">ดูทั้งหมด <i class="fas fa-chevron-right"></i></button></div>
+      <div class="horizontal-scroll" id="featuredMerchants">
+        <div class="skeleton-cards"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
+      </div>
+    </div>
+
+    <!-- Events Happening Now -->
+    <div class="home-section">
+      <div class="section-header"><h3><i class="fas fa-calendar-check"></i> กิจกรรมที่กำลังจะมา</h3><button class="see-all-btn" onclick="navigate('explore');setTimeout(()=>showExploreTab('events'),100)">ดูทั้งหมด <i class="fas fa-chevron-right"></i></button></div>
+      <div class="horizontal-scroll" id="upcomingEvents">
+        <div class="skeleton-cards"><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
+      </div>
+    </div>
+
+    <!-- Deals & Coupons Preview -->
+    <div class="home-section">
+      <div class="section-header"><h3><i class="fas fa-tag"></i> ดีลส่วนลด</h3><button class="see-all-btn" onclick="navigate('market');setTimeout(()=>showMarketTab('coupons'),100)">ดูทั้งหมด <i class="fas fa-chevron-right"></i></button></div>
+      <div class="deals-grid" id="homeDeals"></div>
+    </div>
+
+    <div class="home-footer">
+      <p>Taily v2.0 — The Pet Lovers' Community</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- TAB 2: EXPLORE -->
+  <!-- ============================================================ -->
+  <section id="page-explore" class="page">
+    <!-- Explore Sub-tabs -->
+    <div class="explore-tabs">
+      <button class="explore-tab active" onclick="showExploreTab('map')"><i class="fas fa-map"></i> แผนที่</button>
+      <button class="explore-tab" onclick="showExploreTab('events')"><i class="fas fa-calendar-star"></i> กิจกรรม</button>
+    </div>
+
+    <!-- Sub: Map -->
+    <div id="explore-map" class="explore-sub active">
+      <div class="map-search-bar">
+        <div class="search-input-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" id="mapSearch" placeholder="ค้นหาสถานที่ Pet-Friendly..." oninput="filterMerchants()">
+          <button class="search-clear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
+        </div>
+        <button class="filter-toggle-btn" onclick="toggleFilters()"><i class="fas fa-sliders-h"></i></button>
+      </div>
+
+      <!-- Trending Search Chips -->
+      <div class="trending-chips" id="trendingChips">
+        <button class="trend-chip" onclick="quickSearch('คาเฟ่หมา')"><i class="fas fa-fire" style="color:#FF8C42"></i> คาเฟ่หมา</button>
+        <button class="trend-chip" onclick="quickSearch('โรงแรม')"><i class="fas fa-bolt" style="color:#FFC501"></i> โรงแรม Pet-Friendly</button>
+        <button class="trend-chip" onclick="quickSearch('กรุงเทพ')">📍 กรุงเทพ</button>
+      </div>
+
+      <!-- Filter Panel -->
+      <div id="filterPanel" class="filter-panel">
+        <div class="filter-scroll">
+          <div class="filter-section">
+            <h4><i class="fas fa-layer-group"></i> ประเภท</h4>
+            <div class="filter-chips" id="categoryFilters">
+              <button class="chip active" data-val="all" onclick="setFilter('category',this)">ทั้งหมด</button>
+              <button class="chip" data-val="ร้านอาหาร" onclick="setFilter('category',this)"><i class="fas fa-utensils"></i> ร้านอาหาร</button>
+              <button class="chip" data-val="คาเฟ่" onclick="setFilter('category',this)"><i class="fas fa-coffee"></i> คาเฟ่</button>
+              <button class="chip" data-val="โรงแรม" onclick="setFilter('category',this)"><i class="fas fa-hotel"></i> โรงแรม</button>
+              <button class="chip" data-val="สถานที่ท่องเที่ยว" onclick="setFilter('category',this)"><i class="fas fa-mountain"></i> ท่องเที่ยว</button>
+            </div>
           </div>
-          <button class="sheet-close-btn" onclick="setSheetState('peek')" title="ซ่อนรายการ"><i class="fas fa-chevron-down"></i></button>
+          <div class="filter-section">
+            <h4><i class="fas fa-map-marker-alt"></i> ภาค</h4>
+            <div class="filter-chips" id="regionFilters">
+              <button class="chip active" data-val="all" onclick="setFilter('region',this)">ทั้งหมด</button>
+              <button class="chip" data-val="ภาคกลาง" onclick="setFilter('region',this)">กลาง</button>
+              <button class="chip" data-val="ภาคเหนือ" onclick="setFilter('region',this)">เหนือ</button>
+              <button class="chip" data-val="ภาคตะวันออกเฉียงเหนือ" onclick="setFilter('region',this)">อีสาน</button>
+              <button class="chip" data-val="ภาคตะวันออก" onclick="setFilter('region',this)">ตะวันออก</button>
+              <button class="chip" data-val="ภาคตะวันตก" onclick="setFilter('region',this)">ตะวันตก</button>
+              <button class="chip" data-val="ภาคใต้ฝั่งอ่าวไทย" onclick="setFilter('region',this)">ใต้อ่าวไทย</button>
+              <button class="chip" data-val="ภาคใต้ฝั่งอันดามัน" onclick="setFilter('region',this)">ใต้อันดามัน</button>
+              <button class="chip" data-val="ภาคกลางตอนบน" onclick="setFilter('region',this)">กลางตอนบน</button>
+            </div>
+          </div>
+          <div class="filter-section">
+            <h4><i class="fas fa-map-pin"></i> จังหวัด</h4>
+            <select id="provinceFilter" onchange="filterMerchants()" class="province-select"><option value="all">ทุกจังหวัด</option></select>
+          </div>
+          <div class="filter-section">
+            <h4><i class="fas fa-dollar-sign"></i> ระดับราคา</h4>
+            <div class="filter-chips" id="priceFilters">
+              <button class="chip active" data-val="all" onclick="setFilter('price',this)">ทั้งหมด</button>
+              <button class="chip" data-val="$" onclick="setFilter('price',this)">$</button>
+              <button class="chip" data-val="$$" onclick="setFilter('price',this)">$$</button>
+              <button class="chip" data-val="$$$" onclick="setFilter('price',this)">$$$</button>
+              <button class="chip" data-val="ฟรี" onclick="setFilter('price',this)">ฟรี</button>
+            </div>
+          </div>
+        </div>
+        <div class="filter-actions">
+          <button class="btn-outline" onclick="resetFilters()">ล้างตัวกรอง</button>
+          <button class="btn-primary" onclick="toggleFilters()">แสดงผลลัพธ์ <span id="filterCount">2,000</span> แห่ง</button>
         </div>
       </div>
-      <div id="merchantList" class="merchant-list"></div>
+
+      <div id="map" class="map-container"></div>
+
+      <button id="nearbyBtn" class="nearby-btn" onclick="findNearby()"><i class="fas fa-location-crosshairs"></i><span>ใกล้ฉัน</span></button>
+      <div class="map-stats"><span id="mapCount">2,000 สถานที่</span></div>
+
+      <!-- Bottom Sheet -->
+      <div id="bottomSheet" class="bottom-sheet">
+        <div class="sheet-handle" id="sheetHandle">
+          <div class="handle-bar"></div>
+          <span class="handle-hint"><i class="fas fa-chevron-up"></i> ดึงขึ้นเพื่อดูรายการสถานที่</span>
+        </div>
+        <div class="sheet-header">
+          <h3>สถานที่ Pet-Friendly</h3>
+          <div class="sheet-header-right">
+            <div class="view-toggle">
+              <button class="active" onclick="setListView('list',this)"><i class="fas fa-list"></i></button>
+              <button onclick="setListView('grid',this)"><i class="fas fa-th"></i></button>
+            </div>
+            <button class="sheet-close-btn" onclick="setSheetState('peek')"><i class="fas fa-chevron-down"></i></button>
+          </div>
+        </div>
+        <div id="merchantList" class="merchant-list"></div>
+      </div>
+    </div>
+
+    <!-- Sub: Events -->
+    <div id="explore-events" class="explore-sub">
+      <div class="events-header"><h2><i class="fas fa-calendar-star"></i> กิจกรรม & อีเวนท์</h2><p>ค้นหากิจกรรมสำหรับคุณและน้องๆ</p></div>
+      <div class="events-search">
+        <div class="search-input-wrap"><i class="fas fa-search"></i><input type="text" id="eventSearch" placeholder="ค้นหากิจกรรม..." oninput="filterEvents()"></div>
+      </div>
+      <div class="events-filters">
+        <div class="filter-chips">
+          <button class="chip active" data-val="all" onclick="setEventFilter(this)">ทั้งหมด</button>
+          <button class="chip" data-val="งานรวมพล" onclick="setEventFilter(this)">งานรวมพล</button>
+          <button class="chip" data-val="เวิร์กชอป" onclick="setEventFilter(this)">เวิร์กชอป</button>
+          <button class="chip" data-val="เทศกาล" onclick="setEventFilter(this)">เทศกาล</button>
+          <button class="chip" data-val="นิทรรศการ" onclick="setEventFilter(this)">นิทรรศการ</button>
+          <button class="chip" data-val="กีฬา" onclick="setEventFilter(this)">กีฬา</button>
+          <button class="chip" data-val="ท่องเที่ยว" onclick="setEventFilter(this)">ท่องเที่ยว</button>
+          <button class="chip" data-val="ประกวด" onclick="setEventFilter(this)">ประกวด</button>
+          <button class="chip" data-val="สุขภาพ" onclick="setEventFilter(this)">สุขภาพ</button>
+        </div>
+      </div>
+      <div class="events-view-tabs">
+        <button class="view-tab active" onclick="setEventView('list',this)"><i class="fas fa-list"></i> รายการ</button>
+        <button class="view-tab" onclick="setEventView('gallery',this)"><i class="fas fa-th-large"></i> แกลเลอรี</button>
+        <button class="view-tab" onclick="setEventView('calendar',this)"><i class="fas fa-calendar-alt"></i> ปฏิทิน</button>
+      </div>
+      <div id="eventsContent" class="events-content"></div>
     </div>
   </section>
 
   <!-- PAGE: MERCHANT DETAIL -->
-  <section id="page-merchant" class="page">
-    <div id="merchantDetail"></div>
-  </section>
-
-  <!-- PAGE: EVENTS -->
-  <section id="page-events" class="page">
-    <div class="events-header">
-      <h2><i class="fas fa-calendar-star"></i> กิจกรรม & อีเวนท์</h2>
-      <p>ค้นหากิจกรรมสำหรับคุณและน้องๆ</p>
-    </div>
-    <div class="events-search">
-      <div class="search-input-wrap">
-        <i class="fas fa-search"></i>
-        <input type="text" id="eventSearch" placeholder="ค้นหากิจกรรม..." oninput="filterEvents()">
-      </div>
-    </div>
-    <div class="events-filters">
-      <div class="filter-chips">
-        <button class="chip active" data-val="all" onclick="setEventFilter(this)">ทั้งหมด</button>
-        <button class="chip" data-val="งานรวมพล" onclick="setEventFilter(this)">งานรวมพล</button>
-        <button class="chip" data-val="เวิร์กชอป" onclick="setEventFilter(this)">เวิร์กชอป</button>
-        <button class="chip" data-val="เทศกาล" onclick="setEventFilter(this)">เทศกาล</button>
-        <button class="chip" data-val="นิทรรศการ" onclick="setEventFilter(this)">นิทรรศการ</button>
-        <button class="chip" data-val="กีฬา" onclick="setEventFilter(this)">กีฬา</button>
-        <button class="chip" data-val="ท่องเที่ยว" onclick="setEventFilter(this)">ท่องเที่ยว</button>
-        <button class="chip" data-val="ประกวด" onclick="setEventFilter(this)">ประกวด</button>
-        <button class="chip" data-val="สุขภาพ" onclick="setEventFilter(this)">สุขภาพ</button>
-      </div>
-    </div>
-    <div class="events-view-tabs">
-      <button class="view-tab active" onclick="setEventView('list',this)"><i class="fas fa-list"></i> รายการ</button>
-      <button class="view-tab" onclick="setEventView('gallery',this)"><i class="fas fa-th-large"></i> แกลเลอรี</button>
-      <button class="view-tab" onclick="setEventView('calendar',this)"><i class="fas fa-calendar-alt"></i> ปฏิทิน</button>
-    </div>
-    <div id="eventsContent" class="events-content"></div>
-  </section>
+  <section id="page-merchant" class="page"><div id="merchantDetail"></div></section>
 
   <!-- PAGE: EVENT DETAIL -->
-  <section id="page-event-detail" class="page">
-    <div id="eventDetail"></div>
-  </section>
+  <section id="page-event-detail" class="page"><div id="eventDetail"></div></section>
 
-  <!-- PAGE: COUPONS -->
-  <section id="page-coupons" class="page">
-    <div class="coupons-header">
-      <h2><i class="fas fa-ticket-alt"></i> คูปอง</h2>
-      <p>สิทธิพิเศษสำหรับคนรักสัตว์เลี้ยง</p>
+  <!-- ============================================================ -->
+  <!-- TAB 3: MARKET -->
+  <!-- ============================================================ -->
+  <section id="page-market" class="page">
+    <!-- Market Sub-tabs -->
+    <div class="market-tabs">
+      <button class="market-tab active" onclick="showMarketTab('shop')"><i class="fas fa-store"></i> ร้านค้า</button>
+      <button class="market-tab" onclick="showMarketTab('coupons')"><i class="fas fa-ticket-alt"></i> คูปอง</button>
+      <button class="market-tab" onclick="showMarketTab('orders')"><i class="fas fa-box"></i> คำสั่งซื้อ</button>
     </div>
-    <div class="coupon-tabs">
-      <button class="coupon-tab active" onclick="setCouponTab('all',this)">ทั้งหมด</button>
-      <button class="coupon-tab" onclick="setCouponTab('discount',this)">ส่วนลด</button>
-      <button class="coupon-tab" onclick="setCouponTab('free',this)">ของแถม</button>
-      <button class="coupon-tab" onclick="setCouponTab('special',this)">พิเศษ</button>
+
+    <!-- Sub: Shop -->
+    <div id="market-shop" class="market-sub active">
+      <!-- Promo Banner -->
+      <div class="promo-banner-wrap">
+        <div class="promo-banner" id="promoBanner"></div>
+        <div class="promo-dots" id="promoDots"></div>
+      </div>
+      <!-- Category Bar -->
+      <div class="market-categories" id="marketCategories">
+        <button class="mcat-btn active" onclick="filterProducts('all',this)"><i class="fas fa-th-large"></i> ทั้งหมด</button>
+        <button class="mcat-btn" onclick="filterProducts('food',this)"><i class="fas fa-bone"></i> อาหาร</button>
+        <button class="mcat-btn" onclick="filterProducts('grooming',this)"><i class="fas fa-shower"></i> กรูมมิ่ง</button>
+        <button class="mcat-btn" onclick="filterProducts('toys',this)"><i class="fas fa-baseball"></i> ของเล่น</button>
+        <button class="mcat-btn" onclick="filterProducts('health',this)"><i class="fas fa-heart-pulse"></i> สุขภาพ</button>
+        <button class="mcat-btn" onclick="filterProducts('fashion',this)"><i class="fas fa-shirt"></i> แฟชั่น</button>
+        <button class="mcat-btn" onclick="filterProducts('accessories',this)"><i class="fas fa-tag"></i> อุปกรณ์</button>
+      </div>
+      <!-- Product Grid -->
+      <div id="productGrid" class="product-grid"></div>
+      <div id="productLoader" class="feed-loader" style="display:none"><div class="spinner"></div></div>
     </div>
-    <div id="couponsList" class="coupons-list"></div>
+
+    <!-- Sub: Coupons -->
+    <div id="market-coupons" class="market-sub">
+      <div class="coupons-header"><h2><i class="fas fa-ticket-alt"></i> คูปอง</h2><p>สิทธิพิเศษสำหรับคนรักสัตว์เลี้ยง</p></div>
+      <div class="coupon-tabs">
+        <button class="coupon-tab active" onclick="setCouponTab('all',this)">ทั้งหมด</button>
+        <button class="coupon-tab" onclick="setCouponTab('discount',this)">ส่วนลด</button>
+        <button class="coupon-tab" onclick="setCouponTab('free',this)">ของแถม</button>
+        <button class="coupon-tab" onclick="setCouponTab('special',this)">พิเศษ</button>
+      </div>
+      <div id="couponsList" class="coupons-list"></div>
+    </div>
+
+    <!-- Sub: Orders -->
+    <div id="market-orders" class="market-sub">
+      <div class="orders-header"><h2><i class="fas fa-box"></i> คำสั่งซื้อของฉัน</h2></div>
+      <div class="order-status-tabs">
+        <button class="os-tab active" onclick="filterOrders('all',this)">ทั้งหมด</button>
+        <button class="os-tab" onclick="filterOrders('confirmed',this)">กำลังเตรียม</button>
+        <button class="os-tab" onclick="filterOrders('shipped',this)">กำลังส่ง</button>
+        <button class="os-tab" onclick="filterOrders('delivered',this)">ส่งแล้ว</button>
+      </div>
+      <div id="ordersList" class="orders-list"></div>
+    </div>
   </section>
 
-  <!-- PAGE: PROFILE SUB-PAGES -->
-  <section id="page-profile-sub" class="page">
-    <div id="profileSubContent"></div>
+  <!-- PAGE: PRODUCT DETAIL -->
+  <section id="page-product" class="page"><div id="productDetail"></div></section>
+
+  <!-- PAGE: CHECKOUT -->
+  <section id="page-checkout" class="page"><div id="checkoutContent"></div></section>
+
+  <!-- ============================================================ -->
+  <!-- TAB 4: SOCIAL -->
+  <!-- ============================================================ -->
+  <section id="page-social" class="page">
+    <!-- Social Sub-tabs -->
+    <div class="social-tabs">
+      <button class="social-tab active" onclick="showSocialTab('feed')"><i class="fas fa-fire"></i> ฟีด</button>
+      <button class="social-tab" onclick="showSocialTab('groups')"><i class="fas fa-users"></i> กลุ่ม</button>
+      <button class="social-tab" onclick="showSocialTab('messages')"><i class="fas fa-comment-dots"></i> แชท</button>
+      <button class="social-tab" onclick="showSocialTab('adoption')"><i class="fas fa-heart"></i> รับเลี้ยง</button>
+    </div>
+
+    <!-- Sub: Feed -->
+    <div id="social-feed" class="social-sub active">
+      <div class="feed-tabs">
+        <button class="ftab active" onclick="setFeedTab('following',this)">กำลังติดตาม</button>
+        <button class="ftab" onclick="setFeedTab('discover',this)">ค้นพบ</button>
+      </div>
+      <div id="socialFeed" class="social-feed"></div>
+      <div id="socialFeedLoader" class="feed-loader" style="display:none"><div class="spinner"></div></div>
+      <!-- FAB: Create Post -->
+      <button class="fab-create" onclick="openCreatePost()"><i class="fas fa-plus"></i></button>
+    </div>
+
+    <!-- Sub: Groups -->
+    <div id="social-groups" class="social-sub">
+      <div class="groups-header"><h2><i class="fas fa-users"></i> กลุ่มชุมชน</h2><p>เข้าร่วมกลุ่มคนรักสัตว์เลี้ยง</p></div>
+      <div id="groupsList" class="groups-grid"></div>
+    </div>
+
+    <!-- Sub: Messages -->
+    <div id="social-messages" class="social-sub">
+      <div class="messages-header"><h2><i class="fas fa-comment-dots"></i> ข้อความ</h2></div>
+      <div id="conversationsList" class="conversations-list"></div>
+    </div>
+
+    <!-- Sub: Adoption -->
+    <div id="social-adoption" class="social-sub">
+      <div class="adoption-header"><h2><i class="fas fa-heart"></i> รับเลี้ยงน้อง</h2><p>ให้บ้านใหม่กับน้องๆ ที่รอคอย</p></div>
+      <div class="adoption-filters">
+        <button class="chip active" onclick="filterAdoption('all',this)">ทั้งหมด</button>
+        <button class="chip" onclick="filterAdoption('dog',this)"><i class="fas fa-dog"></i> สุนัข</button>
+        <button class="chip" onclick="filterAdoption('cat',this)"><i class="fas fa-cat"></i> แมว</button>
+      </div>
+      <div id="adoptionGrid" class="adoption-grid"></div>
+    </div>
   </section>
 
-  <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="navigate('map')">
-      <i class="fas fa-map-marked-alt"></i>
-      <span>แผนที่</span>
+  <!-- PAGE: POST DETAIL -->
+  <section id="page-post" class="page"><div id="postDetail"></div></section>
+
+  <!-- PAGE: GROUP DETAIL -->
+  <section id="page-group" class="page"><div id="groupDetail"></div></section>
+
+  <!-- PAGE: CHAT -->
+  <section id="page-chat" class="page"><div id="chatContent"></div></section>
+
+  <!-- PAGE: ADOPTION DETAIL -->
+  <section id="page-adoption-detail" class="page"><div id="adoptionDetail"></div></section>
+
+  <!-- ============================================================ -->
+  <!-- TAB 5: ME -->
+  <!-- ============================================================ -->
+  <section id="page-me" class="page">
+    <!-- Profile Header -->
+    <div class="me-profile-header" id="meProfileHeader">
+      <div class="me-avatar-wrap">
+        <img id="meAvatar" src="https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=200" alt="">
+        <div class="me-tier-badge"><i class="fas fa-crown"></i></div>
+      </div>
+      <h2 id="meName">สมชาย รักน้องหมา</h2>
+      <p id="meBio" class="me-bio">คนรักสัตว์ 🐕🐈</p>
+      <div class="me-tier-label"><span class="tier-badge gold"><i class="fas fa-crown"></i> Gold Member</span></div>
+      <div class="me-stats">
+        <div class="me-stat"><strong id="mePostCount">45</strong><span>โพสต์</span></div>
+        <div class="me-stat"><strong id="meFollowers">328</strong><span>ผู้ติดตาม</span></div>
+        <div class="me-stat"><strong id="meFollowing">156</strong><span>กำลังติดตาม</span></div>
+      </div>
+      <button class="btn-outline btn-sm" onclick="editProfile()"><i class="fas fa-pen"></i> แก้ไขโปรไฟล์</button>
+    </div>
+
+    <!-- Pet Profiles Carousel -->
+    <div class="me-section">
+      <div class="section-header"><h3><i class="fas fa-paw"></i> สัตว์เลี้ยงของฉัน</h3><button class="see-all-btn" onclick="showMeSection('pets')">ดูทั้งหมด <i class="fas fa-chevron-right"></i></button></div>
+      <div class="horizontal-scroll" id="myPetsCarousel"></div>
+    </div>
+
+    <!-- Taily Wallet Card -->
+    <div class="me-section">
+      <div class="wallet-card" id="walletCard" onclick="showMeSection('wallet')">
+        <div class="wallet-top"><span class="wallet-label"><i class="fas fa-wallet"></i> Taily Points</span><span class="wallet-tier"><i class="fas fa-crown"></i> Gold</span></div>
+        <div class="wallet-balance" id="walletBalance">12,500</div>
+        <div class="wallet-sub">คะแนนของคุณ</div>
+        <div class="wallet-progress"><div class="wp-bar"><div class="wp-fill" id="wpFill" style="width:62.5%"></div></div><span class="wp-text">62.5% ไป Platinum</span></div>
+      </div>
+    </div>
+
+    <!-- Quick Links Grid -->
+    <div class="me-section">
+      <div class="me-links">
+        <button class="me-link" onclick="showMeSection('orders')"><div class="ml-icon"><i class="fas fa-box"></i></div><span>คำสั่งซื้อ</span></button>
+        <button class="me-link" onclick="showMeSection('coupons')"><div class="ml-icon"><i class="fas fa-ticket-alt"></i></div><span>คูปอง</span></button>
+        <button class="me-link" onclick="showMeSection('favorites')"><div class="ml-icon"><i class="fas fa-heart"></i></div><span>รายการโปรด</span></button>
+        <button class="me-link" onclick="showMeSection('petid')"><div class="ml-icon"><i class="fas fa-id-card"></i></div><span>Pet ID</span></button>
+        <button class="me-link" onclick="showMeSection('health')"><div class="ml-icon"><i class="fas fa-notes-medical"></i></div><span>สุขภาพ</span></button>
+        <button class="me-link" onclick="showMeSection('settings')"><div class="ml-icon"><i class="fas fa-cog"></i></div><span>ตั้งค่า</span></button>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="me-section">
+      <div class="section-header"><h3><i class="fas fa-clock-rotate-left"></i> กิจกรรมล่าสุด</h3></div>
+      <div id="meActivity" class="me-activity"></div>
+    </div>
+  </section>
+
+  <!-- PAGE: ME Sub-Pages -->
+  <section id="page-me-sub" class="page"><div id="meSubContent"></div></section>
+
+  <!-- ============================================================ -->
+  <!-- BOTTOM NAVIGATION (5 Tabs) -->
+  <!-- ============================================================ -->
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-item active" onclick="navigate('home')" data-tab="home">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
     </button>
-    <button class="nav-item" onclick="navigate('events')">
-      <i class="fas fa-calendar-alt"></i>
-      <span>กิจกรรม</span>
+    <button class="nav-item" onclick="navigate('explore')" data-tab="explore">
+      <i class="fas fa-compass"></i>
+      <span>Explore</span>
     </button>
-    <button class="nav-item" onclick="navigate('coupons')">
-      <i class="fas fa-ticket-alt"></i>
-      <span>คูปอง</span>
+    <button class="nav-item center-tab" onclick="navigate('market')" data-tab="market">
+      <div class="nav-center-icon"><i class="fas fa-shopping-bag"></i></div>
+      <span>Market</span>
+      <span class="nav-cart-badge" id="navCartBadge" style="display:none">0</span>
     </button>
-    <button class="nav-item" onclick="showProfile()">
+    <button class="nav-item" onclick="navigate('social')" data-tab="social">
+      <i class="fas fa-comments"></i>
+      <span>Social</span>
+    </button>
+    <button class="nav-item" onclick="navigate('me')" data-tab="me">
       <i class="fas fa-user"></i>
-      <span>โปรไฟล์</span>
+      <span>Me</span>
     </button>
   </nav>
+
 </div>
 
-<!-- Popup/Modal Overlay -->
+<!-- ========== SHOPPING CART SHEET ========== -->
+<div id="cartSheet" class="cart-sheet">
+  <div class="cart-sheet-header">
+    <h3><i class="fas fa-shopping-cart"></i> ตะกร้าสินค้า</h3>
+    <button onclick="closeCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="cartItems" class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>รวมทั้งหมด</span><strong id="cartTotal">฿0</strong></div>
+    <button class="btn-primary btn-block" onclick="goCheckout()">สั่งซื้อ (<span id="cartCountText">0</span> ชิ้น)</button>
+  </div>
+</div>
+
+<!-- ========== MODALS & OVERLAYS ========== -->
 <div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
 <div id="modalContent" class="modal-content"></div>
 
-<!-- Toast -->
+<!-- ========== TOAST ========== -->
 <div id="toast" class="toast"></div>
 
-<!-- Scripts -->
+<!-- ========== GLOBAL SEARCH OVERLAY ========== -->
+<div id="globalSearchOverlay" class="global-search-overlay" style="display:none">
+  <div class="gs-header">
+    <button onclick="closeGlobalSearch()"><i class="fas fa-arrow-left"></i></button>
+    <input type="text" id="globalSearchInput" placeholder="ค้นหาร้านค้า, สินค้า, กิจกรรม..." oninput="handleGlobalSearch(this.value)" autofocus>
+    <button onclick="document.getElementById('globalSearchInput').value='';handleGlobalSearch('')"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="globalSearchResults" class="gs-results">
+    <div class="gs-recent">
+      <h4>ค้นหาล่าสุด</h4>
+      <div id="recentSearches" class="recent-chips"></div>
+    </div>
+    <div class="gs-trending">
+      <h4>🔥 กำลังนิยม</h4>
+      <div class="trending-list">
+        <button onclick="quickGlobalSearch('คาเฟ่หมา กรุงเทพ')">คาเฟ่หมา กรุงเทพ</button>
+        <button onclick="quickGlobalSearch('อาหารสุนัข grain-free')">อาหารสุนัข grain-free</button>
+        <button onclick="quickGlobalSearch('โรงแรม Pet-Friendly เชียงใหม่')">โรงแรม Pet-Friendly เชียงใหม่</button>
+        <button onclick="quickGlobalSearch('กิจกรรม สัตว์เลี้ยง')">กิจกรรม สัตว์เลี้ยง</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SCRIPTS ========== -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="js/store.js"></script>
+<script src="js/mock-api.js"></script>
 <script src="js/app.js"></script>
+<script src="js/home.js"></script>
+<script src="js/explore.js"></script>
+<script src="js/market.js"></script>
+<script src="js/social.js"></script>
+<script src="js/me.js"></script>
 </body>
 </html>

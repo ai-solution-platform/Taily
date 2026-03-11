@@ -25,6 +25,10 @@ function handleLogin(e) {
   renderAdminEvents();
   renderRegistrations();
   renderAdminCoupons();
+  renderProducts();
+  renderOrders();
+  renderSocial();
+  renderAdoption();
   renderMembers();
   renderTopMerchants();
 }
@@ -264,6 +268,188 @@ function renderTopMerchants() {
       <span style="font-size:13px;font-weight:600;color:var(--accent)">★ ${m.rating}</span>
     </div>
   `).join('');
+}
+
+// ===== PRODUCTS TABLE =====
+const productsData = [
+  { id:1, img:'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=60', name:'อาหารสุนัข Royal Canin Adult', category:'อาหาร', price:890, discount:10, stock:245, sold:1230, status:'active' },
+  { id:2, img:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=60', name:'อาหารแมว Whiskas Tuna', category:'อาหาร', price:350, discount:5, stock:180, sold:890, status:'active' },
+  { id:3, img:'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=60', name:'แชมพูอาบน้ำสุนัข สูตรอ่อนโยน', category:'กรูมมิ่ง', price:280, discount:15, stock:120, sold:567, status:'active' },
+  { id:4, img:'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=60', name:'ของเล่นลูกบอลยาง สุนัข', category:'ของเล่น', price:150, discount:0, stock:300, sold:445, status:'active' },
+  { id:5, img:'https://images.unsplash.com/photo-1583337130417-13104dec14a3?w=60', name:'วิตามินบำรุงขน Omega 3', category:'สุขภาพ', price:590, discount:20, stock:85, sold:334, status:'active' },
+  { id:6, img:'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=60', name:'เสื้อกันหนาวสุนัข ลายสก็อต', category:'แฟชั่น', price:450, discount:0, stock:60, sold:210, status:'active' },
+  { id:7, img:'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=60', name:'หวีขนแมว Self-Cleaning', category:'กรูมมิ่ง', price:320, discount:10, stock:0, sold:678, status:'inactive' },
+  { id:8, img:'https://images.unsplash.com/photo-1615497001839-b0a0eac3274c?w=60', name:'ปลอกคอ GPS Tracker สัตว์เลี้ยง', category:'สุขภาพ', price:1990, discount:5, stock:42, sold:156, status:'active' },
+];
+
+function renderProducts(filter) {
+  filter = filter || 'all';
+  const filtered = filter === 'all' ? productsData : productsData.filter(p => p.category === filter);
+  const tbody = document.getElementById('productTableBody');
+  tbody.innerHTML = filtered.map(p => `
+    <tr>
+      <td>${p.id}</td>
+      <td><img src="${p.img}" alt="${p.name}" style="width:40px;height:40px;border-radius:8px;object-fit:cover"></td>
+      <td><strong>${p.name}</strong></td>
+      <td><span class="status-badge active">${p.category}</span></td>
+      <td>฿${p.price.toLocaleString()}</td>
+      <td>${p.discount > 0 ? '<span style="color:var(--danger);font-weight:600">-' + p.discount + '%</span>' : '-'}</td>
+      <td>${p.stock > 0 ? p.stock : '<span style="color:var(--danger)">หมด</span>'}</td>
+      <td>${p.sold.toLocaleString()}</td>
+      <td><span class="status-badge ${p.status}">${p.status === 'active' ? 'Active' : 'Inactive'}</span></td>
+      <td>
+        <button class="btn-sm"><i class="fas fa-edit"></i></button>
+        <button class="btn-danger"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterProducts(cat, btn) {
+  document.querySelectorAll('#sec-products .filter-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderProducts(cat);
+}
+
+// ===== ORDERS TABLE =====
+const ordersData = [
+  { code:'ORD-20260301', customer:'สมชาย รักน้องหมา', product:'อาหารสุนัข Royal Canin x2', amount:1780, status:'completed', date:'1 มี.ค. 69' },
+  { code:'ORD-20260305', customer:'สมหญิง แมวเหมียว', product:'วิตามินบำรุงขน Omega 3', amount:472, status:'shipping', date:'5 มี.ค. 69' },
+  { code:'ORD-20260307', customer:'วิชัย เดินทาง', product:'ปลอกคอ GPS Tracker', amount:1891, status:'pending', date:'7 มี.ค. 69' },
+  { code:'ORD-20260308', customer:'พรทิพย์ คนรักหมา', product:'เสื้อกันหนาวสุนัข x3', amount:1350, status:'pending', date:'8 มี.ค. 69' },
+  { code:'ORD-20260309', customer:'ธนา Pet Lover', product:'แชมพูอาบน้ำสุนัข x2, ของเล่นลูกบอล', amount:710, status:'completed', date:'9 มี.ค. 69' },
+  { code:'ORD-20260310', customer:'มาลี รักแมว', product:'หวีขนแมว Self-Cleaning', amount:288, status:'cancelled', date:'10 มี.ค. 69' },
+];
+
+function renderOrders(filter) {
+  filter = filter || 'all';
+  const filtered = filter === 'all' ? ordersData : ordersData.filter(o => o.status === filter);
+  const statusMap = { pending:'รอยืนยัน', shipping:'กำลังจัดส่ง', completed:'สำเร็จ', cancelled:'ยกเลิก' };
+  const badgeMap = { pending:'badge-warning', shipping:'badge-info', completed:'active', cancelled:'badge-danger' };
+  const tbody = document.getElementById('orderTableBody');
+  tbody.innerHTML = filtered.map(o => `
+    <tr>
+      <td><strong>${o.code}</strong></td>
+      <td>${o.customer}</td>
+      <td>${o.product}</td>
+      <td><strong>฿${o.amount.toLocaleString()}</strong></td>
+      <td><span class="status-badge ${badgeMap[o.status]}">${statusMap[o.status]}</span></td>
+      <td>${o.date}</td>
+      <td>
+        <button class="btn-sm"><i class="fas fa-eye"></i></button>
+        ${o.status === 'pending' ? '<button class="btn-sm" style="color:var(--success)"><i class="fas fa-check"></i></button>' : ''}
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterOrders(status, btn) {
+  document.querySelectorAll('#sec-orders .filter-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderOrders(status);
+}
+
+// ===== SOCIAL TABLE =====
+const socialData = [
+  { id:1, user:'สมชาย รักน้องหมา', content:'พาน้องหมาไปเดินเล่นสวนลุม วันนี้อากาศดีมาก!', type:'โพสต์รูป', likes:89, reports:0, status:'approved' },
+  { id:2, user:'แมวเหมียว FC', content:'แนะนำคาเฟ่แมวใหม่ย่านอารีย์ น่ารักมาก', type:'รีวิว', likes:156, reports:0, status:'approved' },
+  { id:3, user:'Pet Health TH', content:'5 สัญญาณอันตรายที่ต้องพาน้องหมาไปหาหมอ', type:'บทความ', likes:234, reports:0, status:'approved' },
+  { id:4, user:'ผู้ใช้ใหม่123', content:'ขายลูกสุนัข ราคาถูก ติดต่อ...', type:'โพสต์ข้อความ', likes:2, reports:12, status:'flagged' },
+  { id:5, user:'สุดา น่ารัก', content:'น้องแมวหายไป 3 วันแล้ว ช่วยแชร์ด้วยนะคะ', type:'โพสต์รูป', likes:445, reports:0, status:'approved' },
+  { id:6, user:'DogLover99', content:'โปรโมชั่นร้านกรูมมิ่งลด 50% จริงไหม?', type:'โพสต์ข้อความ', likes:23, reports:3, status:'pending' },
+];
+
+function renderSocial() {
+  const statusMap = { approved:'อนุมัติ', flagged:'ถูกรายงาน', pending:'รอตรวจสอบ' };
+  const badgeMap = { approved:'active', flagged:'badge-danger', pending:'badge-warning' };
+  const tbody = document.getElementById('socialTableBody');
+  tbody.innerHTML = socialData.map(s => `
+    <tr>
+      <td>${s.id}</td>
+      <td><strong>${s.user}</strong></td>
+      <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.content}</td>
+      <td>${s.type}</td>
+      <td><i class="fas fa-heart" style="color:var(--danger);font-size:11px"></i> ${s.likes}</td>
+      <td>${s.reports > 0 ? '<span style="color:var(--danger);font-weight:600">' + s.reports + '</span>' : '0'}</td>
+      <td><span class="status-badge ${badgeMap[s.status]}">${statusMap[s.status]}</span></td>
+      <td>
+        <button class="btn-sm" style="color:var(--success)" title="อนุมัติ"><i class="fas fa-check"></i></button>
+        <button class="btn-sm" style="color:var(--warning)" title="ตั้งค่าสถานะ"><i class="fas fa-flag"></i></button>
+        <button class="btn-danger" title="ลบ"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ===== ADOPTION TABLE =====
+const adoptionData = [
+  { id:1, img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=60', name:'โกลเด้น', breed:'Golden Retriever', age:'2 ปี', status:'available', org:'มูลนิธิช่วยเหลือสัตว์' },
+  { id:2, img:'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=60', name:'มิ้นท์', breed:'Scottish Fold', age:'1 ปี', status:'pending', org:'บ้านพักสัตว์ทองหล่อ' },
+  { id:3, img:'https://images.unsplash.com/photo-1558788353-f76d92427f16?w=60', name:'บราวนี่', breed:'ไทยหลังอาน', age:'8 เดือน', status:'available', org:'สมาคมรักสัตว์' },
+  { id:4, img:'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=60', name:'สโนว์', breed:'Persian', age:'3 ปี', status:'adopted', org:'มูลนิธิช่วยเหลือสัตว์' },
+  { id:5, img:'https://images.unsplash.com/photo-1587764379873-97837921fd44?w=60', name:'บัดดี้', breed:'Labrador', age:'5 เดือน', status:'available', org:'ศูนย์ดูแลสัตว์ กทม.' },
+  { id:6, img:'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=60', name:'มีมี่', breed:'Siamese', age:'2 ปี', status:'pending', org:'บ้านพักสัตว์ทองหล่อ' },
+];
+
+function renderAdoption() {
+  const statusMap = { available:'พร้อมรับเลี้ยง', pending:'รอดำเนินการ', adopted:'มีเจ้าของแล้ว' };
+  const badgeMap = { available:'active', pending:'badge-purple', adopted:'completed' };
+  const tbody = document.getElementById('adoptionTableBody');
+  tbody.innerHTML = adoptionData.map(a => `
+    <tr>
+      <td>${a.id}</td>
+      <td><img src="${a.img}" alt="${a.name}" style="width:40px;height:40px;border-radius:50%;object-fit:cover"></td>
+      <td><strong>${a.name}</strong></td>
+      <td>${a.breed}</td>
+      <td>${a.age}</td>
+      <td><span class="status-badge ${badgeMap[a.status]}">${statusMap[a.status]}</span></td>
+      <td>${a.org}</td>
+      <td>
+        <button class="btn-sm"><i class="fas fa-eye"></i></button>
+        <button class="btn-sm"><i class="fas fa-edit"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ===== ADD PRODUCT MODAL =====
+function showAddProduct() {
+  showAdminModal(`
+    <div class="modal-title"><i class="fas fa-shopping-bag" style="color:var(--primary)"></i> เพิ่มสินค้าใหม่</div>
+    <div class="form-grid">
+      <div class="form-group"><label>ชื่อสินค้า</label><input type="text" placeholder="ชื่อสินค้า..."></div>
+      <div class="form-group"><label>หมวดหมู่</label><select><option>อาหาร</option><option>กรูมมิ่ง</option><option>ของเล่น</option><option>สุขภาพ</option><option>แฟชั่น</option></select></div>
+      <div class="form-group"><label>ราคา (บาท)</label><input type="number" placeholder="0"></div>
+      <div class="form-group"><label>ส่วนลด (%)</label><input type="number" placeholder="0"></div>
+      <div class="form-group"><label>จำนวนสต็อก</label><input type="number" placeholder="0"></div>
+      <div class="form-group"><label>รูปภาพ URL</label><input type="url" placeholder="https://..."></div>
+      <div class="form-group full"><label>รายละเอียดสินค้า</label><textarea placeholder="รายละเอียด..."></textarea></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeAdminModal()">ยกเลิก</button>
+      <button class="btn-primary" onclick="closeAdminModal()"><i class="fas fa-save"></i> บันทึก</button>
+    </div>
+  `);
+}
+
+// ===== ADD PET MODAL =====
+function showAddPet() {
+  showAdminModal(`
+    <div class="modal-title"><i class="fas fa-heart" style="color:var(--primary)"></i> เพิ่มสัตว์เลี้ยง</div>
+    <div class="form-grid">
+      <div class="form-group"><label>ชื่อสัตว์</label><input type="text" placeholder="ชื่อ..."></div>
+      <div class="form-group"><label>ประเภท</label><select><option>สุนัข</option><option>แมว</option><option>อื่นๆ</option></select></div>
+      <div class="form-group"><label>สายพันธุ์</label><input type="text" placeholder="สายพันธุ์..."></div>
+      <div class="form-group"><label>อายุ</label><input type="text" placeholder="เช่น 2 ปี"></div>
+      <div class="form-group"><label>องค์กร/มูลนิธิ</label><input type="text" placeholder="ชื่อองค์กร..."></div>
+      <div class="form-group"><label>รูปภาพ URL</label><input type="url" placeholder="https://..."></div>
+      <div class="form-group full"><label>รายละเอียดเพิ่มเติม</label><textarea placeholder="นิสัย สุขภาพ ฯลฯ..."></textarea></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeAdminModal()">ยกเลิก</button>
+      <button class="btn-primary" onclick="closeAdminModal()"><i class="fas fa-save"></i> บันทึก</button>
+    </div>
+  `);
 }
 
 // ===== MODALS =====

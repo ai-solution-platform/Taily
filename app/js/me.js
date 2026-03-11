@@ -1,0 +1,732 @@
+/* ========== TAILY ME TAB v2.0 ========== */
+
+// ===== INIT =====
+async function initMe() {
+  let profile;
+  try {
+    profile = TailyStore.get('user') || await MockAPI.getUserProfile();
+  } catch (e) {
+    profile = null;
+  }
+
+  if (profile && profile.user) {
+    const u = profile.user;
+    const nameEl = document.getElementById('meName');
+    const bioEl = document.getElementById('meBio');
+    const avatarEl = document.getElementById('meAvatar');
+    const postCountEl = document.getElementById('mePostCount');
+    const followersEl = document.getElementById('meFollowers');
+    const followingEl = document.getElementById('meFollowing');
+
+    if (nameEl) nameEl.textContent = u.name;
+    if (bioEl) bioEl.textContent = u.bio || '';
+    if (avatarEl) avatarEl.src = u.avatar;
+
+    // Support both flat and nested stats
+    const posts = u.stats?.posts ?? u.postCount ?? 45;
+    const followers = u.stats?.followers ?? u.followers ?? 328;
+    const following = u.stats?.following ?? u.following ?? 156;
+    if (postCountEl) postCountEl.textContent = formatNumber(posts);
+    if (followersEl) followersEl.textContent = formatNumber(followers);
+    if (followingEl) followingEl.textContent = formatNumber(following);
+  }
+
+  // Render pet carousel
+  if (profile && profile.pets) {
+    renderMyPets(profile.pets);
+  }
+
+  // Render wallet card
+  if (profile && profile.wallet) {
+    renderWalletCard(profile.wallet);
+  }
+
+  // Render recent activity
+  renderRecentActivity();
+}
+
+// ===================================================================
+//  EDIT PROFILE
+// ===================================================================
+
+function editProfile() {
+  const user = TailyStore.get('user');
+  const u = user?.user || {};
+
+  showModal(`
+    <div class="edit-profile-modal">
+      <div class="edit-profile-header">
+        <h3><i class="fas fa-pen"></i> แก้ไขโปรไฟล์</h3>
+        <button onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="edit-profile-body">
+        <div class="edit-profile-avatar-section" onclick="showToast('เปลี่ยนรูปโปรไฟล์')">
+          <img src="${u.avatar || ''}" alt="" class="edit-profile-avatar">
+          <span class="edit-avatar-label"><i class="fas fa-camera"></i> เปลี่ยนรูป</span>
+        </div>
+        <div class="edit-field">
+          <label>ชื่อ</label>
+          <input type="text" id="editName" value="${u.name || ''}" placeholder="ชื่อของคุณ">
+        </div>
+        <div class="edit-field">
+          <label>Bio</label>
+          <textarea id="editBio" rows="3" placeholder="เกี่ยวกับตัวคุณ...">${u.bio || ''}</textarea>
+        </div>
+        <button class="btn-primary btn-block" onclick="saveProfile()">
+          <i class="fas fa-check"></i> บันทึก
+        </button>
+      </div>
+    </div>
+  `);
+}
+
+function saveProfile() {
+  const nameVal = document.getElementById('editName')?.value?.trim();
+  const bioVal = document.getElementById('editBio')?.value?.trim();
+  const user = TailyStore.get('user') || {};
+
+  if (nameVal && user.user) {
+    user.user.name = nameVal;
+    user.user.bio = bioVal || '';
+    TailyStore.set('user', user);
+
+    const nameEl = document.getElementById('meName');
+    const bioEl = document.getElementById('meBio');
+    if (nameEl) nameEl.textContent = nameVal;
+    if (bioEl) bioEl.textContent = bioVal || '';
+  }
+
+  closeModal();
+  showToast('บันทึกโปรไฟล์แล้ว');
+}
+
+// ===================================================================
+//  PET CARDS CAROUSEL
+// ===================================================================
+
+function renderMyPets(pets) {
+  const container = document.getElementById('myPetsCarousel');
+  if (!container) return;
+
+  container.innerHTML = pets.map(pet => {
+    const speciesIcon = pet.species === 'dog' ? 'fa-dog' : 'fa-cat';
+    const petImage = pet.avatar || pet.image || '';
+    const weightStr = typeof pet.weight === 'number' ? pet.weight + ' kg' : (pet.weight || '');
+
+    return `
+      <div class="my-pet-card" onclick="showMeSection('petid')">
+        <div class="my-pet-img">
+          <img src="${petImage}" alt="${pet.name}" loading="lazy">
+        </div>
+        <div class="my-pet-info">
+          <div class="my-pet-name"><i class="fas ${speciesIcon}"></i> ${pet.name}</div>
+          <div class="my-pet-breed">${pet.breed}</div>
+          <div class="my-pet-age">${pet.age}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===================================================================
+//  WALLET CARD
+// ===================================================================
+
+function renderWalletCard(wallet) {
+  const balanceEl = document.getElementById('walletBalance');
+  const fillEl = document.getElementById('wpFill');
+
+  // Support both data shapes
+  const points = wallet.balance ?? wallet.points ?? 0;
+  if (balanceEl) balanceEl.textContent = points.toLocaleString();
+
+  const tp = wallet.tierProgress || {};
+  const nextMin = tp.nextMin ?? wallet.nextTierPoints ?? 20000;
+  const pct = tp.progress ?? Math.min(100, (points / nextMin) * 100);
+  const nextTier = tp.next ?? wallet.nextTier ?? 'Platinum';
+
+  if (fillEl) {
+    fillEl.style.width = pct + '%';
+    const wpText = fillEl.closest('.wallet-progress')?.querySelector('.wp-text');
+    if (wpText) wpText.textContent = `${Number(pct).toFixed(1)}% ไป ${nextTier}`;
+  }
+}
+
+// ===================================================================
+//  RECENT ACTIVITY
+// ===================================================================
+
+function renderRecentActivity() {
+  const container = document.getElementById('meActivity');
+  if (!container) return;
+
+  const activities = [
+    { icon: 'fa-heart', color: '#E91E63', text: 'ถูกใจโพสต์ของ มินนี่', time: '2026-03-11T10:00:00' },
+    { icon: 'fa-shopping-bag', color: '#FFC501', text: 'สั่งซื้อสินค้า 2 ชิ้น', time: '2026-03-10T14:30:00' },
+    { icon: 'fa-users', color: '#4CAF50', text: 'เข้าร่วมกลุ่ม Cat Lovers BKK', time: '2026-03-09T16:00:00' },
+    { icon: 'fa-comment', color: '#2196F3', text: 'แสดงความคิดเห็นในโพสต์ วิชัย', time: '2026-03-09T11:00:00' },
+    { icon: 'fa-map-marker-alt', color: '#FF8C42', text: 'เช็คอิน Jungle de Woof', time: '2026-03-08T18:00:00' }
+  ];
+
+  container.innerHTML = activities.map(a => `
+    <div class="activity-item">
+      <div class="activity-icon" style="background:${a.color}"><i class="fas ${a.icon}"></i></div>
+      <div class="activity-text">${a.text}</div>
+      <div class="activity-time">${timeAgo(a.time)}</div>
+    </div>
+  `).join('');
+}
+
+// ===================================================================
+//  ME SUB-SECTIONS
+// ===================================================================
+
+function showMeSection(section) {
+  // Special redirects
+  if (section === 'orders') {
+    navigate('market');
+    setTimeout(() => showMarketTab('orders'), 100);
+    return;
+  }
+  if (section === 'coupons') {
+    navigate('market');
+    setTimeout(() => showMarketTab('coupons'), 100);
+    return;
+  }
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-me-sub').classList.add('active');
+
+  const container = document.getElementById('meSubContent');
+  if (!container) return;
+
+  switch (section) {
+    case 'pets':
+      renderPetsSection(container);
+      break;
+    case 'favorites':
+      renderFavoritesSection(container);
+      break;
+    case 'petid':
+      renderPetIdSection(container);
+      break;
+    case 'health':
+      renderHealthSection(container);
+      break;
+    case 'wallet':
+      renderWalletSection(container);
+      break;
+    case 'settings':
+      renderSettingsSection(container);
+      break;
+    case 'notifications':
+      renderNotificationsSection(container);
+      break;
+    default:
+      container.innerHTML = `
+        <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>กลับ</span></button>
+        <div class="empty-state"><i class="fas fa-cog"></i><p>เร็วๆ นี้</p></div>
+      `;
+  }
+}
+
+// ===================================================================
+//  FAVORITES
+// ===================================================================
+
+async function renderFavoritesSection(container) {
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>รายการโปรด</span></button>
+    <div class="me-sub-loading"><div class="spinner"></div></div>
+  `;
+
+  const favIds = TailyStore.get('favorites');
+  if (!favIds || favIds.size === 0) {
+    container.innerHTML = `
+      <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>รายการโปรด</span></button>
+      <div class="empty-state">
+        <i class="fas fa-heart"></i>
+        <p>ยังไม่มีรายการโปรด</p>
+        <button class="btn-primary btn-sm" onclick="navigate('explore')">ไปสำรวจ</button>
+      </div>
+    `;
+    return;
+  }
+
+  let merchants = [];
+  try { merchants = await MockAPI.getMerchants(); } catch (e) { /* empty */ }
+  const favMerchants = merchants.filter(m => favIds.has(m.id));
+
+  if (!favMerchants.length) {
+    container.innerHTML = `
+      <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>รายการโปรด</span></button>
+      <div class="empty-state">
+        <i class="fas fa-heart"></i>
+        <p>ยังไม่มีรายการโปรด</p>
+        <button class="btn-primary btn-sm" onclick="navigate('explore')">ไปสำรวจ</button>
+      </div>
+    `;
+    return;
+  }
+
+  const categoryEmojis = { 'ร้านอาหาร': '🍽️', 'คาเฟ่': '☕', 'โรงแรม': '🏨', 'สถานที่ท่องเที่ยว': '🌿' };
+
+  const cardsHtml = favMerchants.map(m => {
+    const emoji = categoryEmojis[m.category] || '🐾';
+    return `
+      <div class="fav-merchant-card">
+        <div class="fav-merchant-emoji">${emoji}</div>
+        <div class="fav-merchant-info">
+          <div class="fav-merchant-name">${m.name}</div>
+          <div class="fav-merchant-cat">${m.category} &middot; ${m.province || ''}</div>
+          <div class="fav-merchant-rating"><span class="fav-stars">★</span> ${m.rating}</div>
+        </div>
+        <button class="fav-remove-btn" onclick="removeFavorite(${m.id}, this)">
+          <i class="fas fa-heart" style="color:#E91E63"></i>
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>รายการโปรด (${favMerchants.length})</span></button>
+    <div class="favorites-list">${cardsHtml}</div>
+  `;
+}
+
+function removeFavorite(merchantId, el) {
+  TailyStore.toggleFavorite(merchantId);
+  const card = el.closest('.fav-merchant-card');
+  if (card) {
+    card.style.opacity = '0';
+    card.style.transform = 'translateX(100%)';
+    card.style.transition = 'all 0.3s ease';
+    setTimeout(() => card.remove(), 300);
+  }
+  showToast('ลบออกจากรายการโปรดแล้ว');
+}
+
+// ===================================================================
+//  PET ID (Digital Pet ID Card)
+// ===================================================================
+
+function renderPetIdSection(container) {
+  const profile = TailyStore.get('user');
+  const pets = profile?.pets || [];
+
+  if (!pets.length) {
+    container.innerHTML = `
+      <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>Pet ID</span></button>
+      <div class="empty-state"><i class="fas fa-id-card"></i><p>ยังไม่มีสัตว์เลี้ยง</p></div>
+    `;
+    return;
+  }
+
+  const cardsHtml = pets.map(pet => {
+    const speciesIcon = pet.species === 'dog' ? 'fa-dog' : 'fa-cat';
+    const speciesText = pet.species === 'dog' ? 'สุนัข' : 'แมว';
+    const petImage = pet.avatar || pet.image || '';
+    const genderText = pet.gender === 'male' ? 'ชาย' : pet.gender === 'female' ? 'หญิง' : pet.gender;
+    const weightStr = typeof pet.weight === 'number' ? pet.weight + ' kg' : (pet.weight || '');
+
+    const vaccBadges = (pet.vaccinations || []).map(v =>
+      `<span class="petid-vacc-item"><i class="fas fa-check-circle" style="color:#4CAF50"></i> ${v.name}</span>`
+    ).join('');
+
+    return `
+      <div class="petid-card">
+        <div class="petid-card-header">
+          <div class="petid-logo">
+            <svg width="24" height="24" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="#FFC501"/><text x="11" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">T</text><g transform="translate(24,28)"><ellipse cx="6" cy="14" rx="6" ry="5" fill="#3D2B1F"/><circle cx="1" cy="6" r="2.5" fill="#3D2B1F"/><circle cx="6" cy="3.5" r="2.5" fill="#3D2B1F"/><circle cx="11" cy="6" r="2.5" fill="#3D2B1F"/></g><text x="38" y="52" font-family="Arial Black,Inter,sans-serif" font-size="22" font-weight="900" fill="#3D2B1F" letter-spacing="1">ILY</text></svg>
+          </div>
+          <span class="petid-title">TAILY PET ID</span>
+          <span class="petid-species-badge"><i class="fas ${speciesIcon}"></i> ${speciesText}</span>
+        </div>
+
+        <div class="petid-card-body">
+          <div class="petid-photo-section">
+            <img class="petid-photo" src="${petImage}" alt="${pet.name}" loading="lazy">
+          </div>
+          <div class="petid-info-section">
+            <h3 class="petid-name">${pet.name}</h3>
+            <div class="petid-detail"><span class="petid-label">สายพันธุ์</span><span>${pet.breed}</span></div>
+            <div class="petid-detail"><span class="petid-label">อายุ</span><span>${pet.age}</span></div>
+            <div class="petid-detail"><span class="petid-label">เพศ</span><span>${genderText}</span></div>
+            <div class="petid-detail"><span class="petid-label">น้ำหนัก</span><span>${weightStr}</span></div>
+          </div>
+        </div>
+
+        <div class="petid-chip-section">
+          <i class="fas fa-microchip"></i>
+          <span class="petid-chip-id">${pet.microchipId || 'ไม่ระบุ'}</span>
+        </div>
+
+        <div class="petid-qr-section">
+          <svg class="petid-qr" width="80" height="80" viewBox="0 0 80 80">
+            <rect x="0" y="0" width="80" height="80" fill="#fff" stroke="#ddd" rx="8"/>
+            <rect x="8" y="8" width="24" height="24" fill="#3D2B1F" rx="4"/>
+            <rect x="48" y="8" width="24" height="24" fill="#3D2B1F" rx="4"/>
+            <rect x="8" y="48" width="24" height="24" fill="#3D2B1F" rx="4"/>
+            <rect x="14" y="14" width="12" height="12" fill="#FFC501" rx="2"/>
+            <rect x="54" y="14" width="12" height="12" fill="#FFC501" rx="2"/>
+            <rect x="14" y="54" width="12" height="12" fill="#FFC501" rx="2"/>
+            <rect x="36" y="36" width="8" height="8" fill="#3D2B1F" rx="1"/>
+            <rect x="48" y="48" width="8" height="8" fill="#3D2B1F" rx="1"/>
+            <rect x="60" y="48" width="8" height="8" fill="#3D2B1F" rx="1"/>
+            <rect x="48" y="60" width="8" height="8" fill="#3D2B1F" rx="1"/>
+            <rect x="60" y="60" width="8" height="8" fill="#3D2B1F" rx="1"/>
+            <text x="40" y="44" text-anchor="middle" font-size="8" font-weight="bold" fill="#3D2B1F">QR</text>
+          </svg>
+          <span class="petid-qr-text">สแกนเพื่อดูข้อมูล</span>
+        </div>
+
+        ${vaccBadges ? `
+        <div class="petid-vacc-section">
+          <h4><i class="fas fa-syringe"></i> วัคซีน</h4>
+          <div class="petid-vacc-list">${vaccBadges}</div>
+        </div>` : ''}
+
+        <div class="petid-owner-section">
+          <span class="petid-owner-label">เจ้าของ</span>
+          <span class="petid-owner-name">${profile?.user?.name || 'ไม่ระบุ'}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>Pet ID</span></button>
+    <div class="petid-list">${cardsHtml}</div>
+  `;
+}
+
+// ===================================================================
+//  PETS SECTION (All Pets)
+// ===================================================================
+
+function renderPetsSection(container) {
+  const profile = TailyStore.get('user');
+  const pets = profile?.pets || [];
+
+  const cardsHtml = pets.map(pet => {
+    const speciesIcon = pet.species === 'dog' ? 'fa-dog' : 'fa-cat';
+    const petImage = pet.avatar || pet.image || '';
+    const weightStr = typeof pet.weight === 'number' ? pet.weight + ' kg' : (pet.weight || '');
+
+    return `
+      <div class="pets-section-card" onclick="showMeSection('petid')">
+        <img class="pets-section-img" src="${petImage}" alt="${pet.name}" loading="lazy">
+        <div class="pets-section-info">
+          <h4><i class="fas ${speciesIcon}"></i> ${pet.name}</h4>
+          <p>${pet.breed}</p>
+          <span>${pet.age} &middot; ${weightStr}</span>
+        </div>
+        <i class="fas fa-chevron-right" style="color:var(--text-secondary);font-size:14px"></i>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>สัตว์เลี้ยงของฉัน</span></button>
+    <div class="pets-section-list">${cardsHtml || '<div class="empty-state"><i class="fas fa-paw"></i><p>ยังไม่มีสัตว์เลี้ยง</p></div>'}</div>
+  `;
+}
+
+// ===================================================================
+//  HEALTH RECORDS
+// ===================================================================
+
+function renderHealthSection(container) {
+  const profile = TailyStore.get('user');
+  const pets = profile?.pets || [];
+
+  const now = new Date('2026-03-11');
+
+  let timelineHtml = '';
+  pets.forEach(pet => {
+    const speciesIcon = pet.species === 'dog' ? 'fa-dog' : 'fa-cat';
+    timelineHtml += `<h3 class="health-pet-name"><i class="fas ${speciesIcon}"></i> ${pet.name}</h3>`;
+
+    const records = (pet.vaccinations || []).map(v => {
+      const vaccDate = new Date(v.date);
+      const nextDateStr = v.nextDue || v.nextDate || '';
+      const nextDate = nextDateStr ? new Date(nextDateStr) : null;
+      const isPast = vaccDate <= now;
+
+      // Color based on status field or date comparison
+      let dotColor = '#4CAF50'; // default green (current)
+      if (v.status === 'overdue') dotColor = '#E53935';
+      else if (v.status === 'upcoming') dotColor = '#FF9800';
+      else if (!isPast) dotColor = '#FF9800';
+
+      return `
+        <div class="health-timeline-item">
+          <div class="health-timeline-dot" style="background:${dotColor}"></div>
+          <div class="health-timeline-content">
+            <div class="health-timeline-date">${formatThaiDate(v.date)}</div>
+            <div class="health-timeline-name">${v.name}</div>
+            ${v.vet ? `<div class="health-timeline-vet"><i class="fas fa-hospital"></i> ${v.vet}</div>` : ''}
+            ${nextDateStr ? `<div class="health-timeline-next"><i class="fas fa-calendar-alt"></i> นัดถัดไป: ${formatThaiDate(nextDateStr)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    timelineHtml += `<div class="health-timeline">${records}</div>`;
+  });
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>สุขภาพสัตว์เลี้ยง</span></button>
+    <div class="health-section">
+      ${timelineHtml || '<div class="empty-state"><i class="fas fa-notes-medical"></i><p>ยังไม่มีข้อมูลสุขภาพ</p></div>'}
+    </div>
+  `;
+}
+
+// ===================================================================
+//  WALLET DETAIL
+// ===================================================================
+
+function renderWalletSection(container) {
+  const profile = TailyStore.get('user');
+  const wallet = profile?.wallet || {};
+
+  // Support both data shapes
+  const points = wallet.balance ?? wallet.points ?? 0;
+  const tp = wallet.tierProgress || {};
+  const tier = tp.current ?? wallet.tier ?? 'Gold';
+  const nextTier = tp.next ?? wallet.nextTier ?? 'Platinum';
+  const nextTierPoints = tp.nextMin ?? wallet.nextTierPoints ?? 20000;
+  const pct = tp.progress ?? Math.min(100, (points / nextTierPoints) * 100);
+  const transactions = wallet.transactions || wallet.history || [];
+
+  const historyHtml = transactions.map(h => {
+    const isEarn = h.type === 'earn';
+    const amount = h.amount;
+    const amountColor = isEarn ? '#4CAF50' : '#E53935';
+    const amountPrefix = isEarn ? '+' : '';
+    const icon = h.icon || (isEarn ? 'fa-plus-circle' : 'fa-minus-circle');
+
+    return `
+      <div class="wallet-history-item">
+        <div class="wallet-history-icon" style="color:${amountColor}"><i class="fas ${icon}"></i></div>
+        <div class="wallet-history-info">
+          <div class="wallet-history-desc">${h.desc}</div>
+          <div class="wallet-history-date">${formatThaiDate(h.date)}</div>
+        </div>
+        <div class="wallet-history-amount" style="color:${amountColor}">${amountPrefix}${Math.abs(amount).toLocaleString()}</div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>Taily Wallet</span></button>
+    <div class="wallet-detail">
+      <div class="wallet-detail-card">
+        <div class="wallet-detail-top">
+          <span class="wallet-detail-label"><i class="fas fa-wallet"></i> Taily Points</span>
+          <span class="wallet-detail-tier"><i class="fas fa-crown"></i> ${tier}</span>
+        </div>
+        <div class="wallet-detail-balance">${points.toLocaleString()}</div>
+        <div class="wallet-detail-sub">คะแนนสะสมของคุณ</div>
+        <div class="wallet-detail-progress">
+          <div class="wp-bar"><div class="wp-fill" style="width:${pct}%"></div></div>
+          <span class="wp-text">${Number(pct).toFixed(1)}% ไป ${nextTier}</span>
+        </div>
+      </div>
+
+      <div class="wallet-actions">
+        <button class="wallet-action-btn" onclick="showComingSoon('เติมเงิน')"><i class="fas fa-plus-circle"></i><span>เติมคะแนน</span></button>
+        <button class="wallet-action-btn" onclick="showComingSoon('แลกคะแนน')"><i class="fas fa-gift"></i><span>แลกรางวัล</span></button>
+        <button class="wallet-action-btn" onclick="showComingSoon('โอนคะแนน')"><i class="fas fa-paper-plane"></i><span>โอนคะแนน</span></button>
+      </div>
+
+      ${historyHtml ? `
+        <div class="wallet-history-section">
+          <h3><i class="fas fa-clock-rotate-left"></i> ประวัติ</h3>
+          ${historyHtml}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// ===================================================================
+//  SETTINGS
+// ===================================================================
+
+function renderSettingsSection(container) {
+  const profile = TailyStore.get('user');
+  const u = profile?.user || {};
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>ตั้งค่า</span></button>
+    <div class="settings-page">
+      <div class="settings-group">
+        <h4><i class="fas fa-bell"></i> การแจ้งเตือน</h4>
+        <div class="settings-item">
+          <span>การแจ้งเตือนทั่วไป</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="showToast(this.checked ? 'เปิดการแจ้งเตือน' : 'ปิดการแจ้งเตือน')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span>การแจ้งเตือนโปรโมชัน</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="showToast(this.checked ? 'เปิดการแจ้งเตือนโปรโมชัน' : 'ปิดการแจ้งเตือนโปรโมชัน')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h4><i class="fas fa-palette"></i> การแสดงผล</h4>
+        <div class="settings-item">
+          <span>โหมดมืด</span>
+          <label class="toggle-switch">
+            <input type="checkbox" onchange="showToast('โหมดมืด (เร็วๆ นี้)')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span>ภาษา</span>
+          <span class="settings-value">ไทย</span>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h4><i class="fas fa-user"></i> บัญชี</h4>
+        <div class="settings-item">
+          <span>อีเมล</span>
+          <span class="settings-value">${u.email || 'somchai@email.com'}</span>
+        </div>
+        <div class="settings-item">
+          <span>เบอร์โทร</span>
+          <span class="settings-value">${u.phone || '081-XXX-XXXX'}</span>
+        </div>
+        <div class="settings-item clickable" onclick="editProfile()">
+          <span>แก้ไขโปรไฟล์</span>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h4><i class="fas fa-info-circle"></i> เกี่ยวกับ</h4>
+        <div class="settings-item">
+          <span>เวอร์ชัน</span>
+          <span class="settings-value">Taily v2.0</span>
+        </div>
+        <div class="settings-item clickable" onclick="showComingSoon('เงื่อนไขการใช้งาน')">
+          <span>เงื่อนไขการใช้งาน</span>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="settings-item clickable" onclick="showComingSoon('นโยบายความเป็นส่วนตัว')">
+          <span>นโยบายความเป็นส่วนตัว</span>
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+
+      <button class="btn-outline btn-block settings-logout" onclick="showToast('ออกจากระบบแล้ว')">
+        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+      </button>
+    </div>
+  `;
+}
+
+// ===================================================================
+//  NOTIFICATIONS
+// ===================================================================
+
+async function renderNotificationsSection(container) {
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>การแจ้งเตือน</span></button>
+    <div class="me-sub-loading"><div class="spinner"></div></div>
+  `;
+
+  let notifications = [];
+  try { notifications = await MockAPI.getNotifications(); } catch (e) { /* empty */ }
+
+  if (!notifications || !notifications.length) {
+    container.innerHTML = `
+      <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>การแจ้งเตือน</span></button>
+      <div class="empty-state"><i class="fas fa-bell-slash"></i><p>ไม่มีการแจ้งเตือน</p></div>
+    `;
+    return;
+  }
+
+  // Group by date
+  const groups = {};
+  const nowStr = '2026-03-11';
+  const yesterdayStr = '2026-03-10';
+
+  notifications.forEach(n => {
+    const ts = n.timestamp || n.time || '';
+    const dateStr = ts.substring(0, 10);
+    let label;
+    if (dateStr === nowStr) label = 'วันนี้';
+    else if (dateStr === yesterdayStr) label = 'เมื่อวาน';
+    else label = formatThaiDate(dateStr);
+
+    if (!groups[label]) groups[label] = [];
+    groups[label].push(n);
+  });
+
+  const typeIcons = {
+    like:    { icon: 'fa-heart',       color: '#E91E63' },
+    comment: { icon: 'fa-comment',     color: '#2196F3' },
+    follow:  { icon: 'fa-user-plus',   color: '#4CAF50' },
+    order:   { icon: 'fa-box',         color: '#FF8C42' },
+    event:   { icon: 'fa-calendar-star',color: '#9C27B0' },
+    coupon:  { icon: 'fa-ticket-alt',  color: '#FFC501' },
+    system:  { icon: 'fa-info-circle', color: '#607D8B' },
+    promo:   { icon: 'fa-tag',         color: '#FF8C42' },
+    group:   { icon: 'fa-users',       color: '#4CAF50' },
+    health:  { icon: 'fa-notes-medical',color: '#E53935' }
+  };
+
+  let html = '';
+  Object.keys(groups).forEach(dateLabel => {
+    html += `<div class="notif-date-group"><h4 class="notif-date-label">${dateLabel}</h4>`;
+    groups[dateLabel].forEach(n => {
+      const typeConfig = typeIcons[n.type] || { icon: 'fa-bell', color: '#9E9E9E' };
+      const isUnread = n.read === false;
+      const actionHash = n.action || '';
+      const actionTab = actionHash.replace('#', '');
+
+      html += `
+        <div class="notif-item ${isUnread ? 'notif-unread' : ''}" onclick="handleNotifClick('${actionTab}')">
+          <div class="notif-icon-wrap">
+            ${n.image ? `<img class="notif-image" src="${n.image}" alt="" loading="lazy">` : `<div class="notif-icon" style="background:${typeConfig.color}"><i class="fas ${typeConfig.icon}"></i></div>`}
+          </div>
+          <div class="notif-content">
+            <div class="notif-title">${n.title}</div>
+            ${n.body ? `<div class="notif-body">${n.body}</div>` : ''}
+            <div class="notif-time">${timeAgo(n.timestamp || n.time)}</div>
+          </div>
+          ${isUnread ? '<div class="notif-unread-dot"></div>' : ''}
+        </div>
+      `;
+    });
+    html += `</div>`;
+  });
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>การแจ้งเตือน</span></button>
+    <div class="notifications-list">${html}</div>
+  `;
+}
+
+function handleNotifClick(actionTab) {
+  if (actionTab && ['home', 'explore', 'market', 'social', 'me'].includes(actionTab)) {
+    navigate(actionTab);
+  } else if (actionTab === 'events') {
+    navigate('explore');
+    setTimeout(() => showExploreTab('events'), 100);
+  } else if (actionTab === 'coupons') {
+    navigate('market');
+    setTimeout(() => showMarketTab('coupons'), 100);
+  } else if (actionTab === 'profile') {
+    navigate('me');
+  }
+}

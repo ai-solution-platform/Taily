@@ -5,7 +5,79 @@ Format follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [v1.3.1] - 2026-03-10 (CURRENT)
+## [v2.0.0] - 2026-03-11 (CURRENT) — Super App
+
+### 🎉 Major Architecture Overhaul
+Complete restructuring from 4-tab map-focused app to **5-tab Super App** prototype with comprehensive mock data, simulated backend, and production-quality UI.
+
+### New Tab Structure
+- **Home** — Stories bar, quick actions grid, social feed, nearby places carousel, featured merchants, upcoming events, deals preview
+- **Explore** — Refactored map with 2,000 markers, category filters, bottom sheet, merchant detail, event list/gallery/calendar (migrated from v1.x)
+- **Market** — Product grid, category filters, promo banners, product detail, shopping cart, checkout flow (3-step), order history, coupons
+- **Social** — Following/Discover feed, Groups, Messages (DM chat), Pet Adoption listings
+- **Me** — Profile with stats, Pet Profiles, Taily Wallet (points/tier), Pet Digital ID (QR), Health Records timeline, Notifications, Settings
+
+### New Files Created
+- **CSS** (split per-tab): `home.css`, `explore.css`, `market.css`, `social.css`, `me.css`
+- **JS** (modular): `store.js` (pub-sub state), `mock-api.js` (simulated API), `home.js`, `explore.js`, `market.js`, `social.js`, `me.js`
+- **Mock Data** (11 JSON files): `merchants.json` (2,000), `events.json` (31), `posts.json` (30), `stories.json` (12), `products.json` (50), `groups.json` (6), `messages.json` (3 chats), `adoption.json` (8 pets), `notifications.json` (15), `orders.json` (5), `user-profile.json` (1 user + 2 pets + wallet)
+
+### New Features
+- **Stories** — Instagram-like stories with gradient rings, full-screen viewer, 5s auto-advance, progress bar
+- **Social Feed** — Pet photo posts with like/comment/share/bookmark, tier badges, hashtags, infinite scroll
+- **Marketplace** — 50 products, 2-column grid, category pills, discount badges, star ratings, sold count
+- **Shopping Cart** — Slide-up bottom sheet, quantity controls, subtotal, checkout with PromptPay/Card/COD
+- **Chat/Messages** — Conversation list with unread badges, chat bubbles with timestamps
+- **Pet Adoption** — Grid of pets with species badges, vaccination status, adoption detail page
+- **Groups** — Community groups with cover images, member counts, join buttons
+- **Taily Wallet** — Golden gradient card, 12,500 points, Gold tier progress to Platinum, transactions
+- **Pet Digital ID** — Styled card with QR code (SVG), microchip ID, vaccination badges
+- **Health Records** — Vertical timeline with colored dots, vaccination history, next reminders
+- **Notifications** — Grouped by date, type-based icons, unread indicators
+- **Global Search** — Overlay with merchant/product/event results
+- **Hash Routing** — SPA navigation with `#home`, `#explore`, `#market`, `#social`, `#me`
+- **State Management** — `TailyStore` pub-sub with localStorage persistence for cart, likes, bookmarks, viewed stories
+
+### Admin Panel Updates
+- 4 new management sections: Products, Orders, Social Content, Adoption
+- 4 new dashboard stat cards: Product Sales (฿847,320), Active Orders (156), Social Posts (1,247), Adoptions (34)
+- Products table with category filters, images, prices, discounts, stock, sales
+- Orders table with status badges (color-coded), filter tabs
+- Social moderation with approve/flag/delete actions
+- Adoption management with pet listing table
+
+### Phase 8 Polish
+- Skeleton loading animation system (shimmer effect) for feed, stories, products, cards
+- Page transition animations (fadeIn, slideInRight, slideInUp, scaleIn, popIn)
+- Staggered card entrance animations
+- Empty state components with icons/emoji
+- Pull-to-refresh spinner
+- Card press/touch feedback (scale 0.97)
+- Heart burst animation for likes
+- Notification badge pulse
+- Scroll position restoration per tab
+- Image lazy-load observer with fade-in
+- Progress bar fill animation
+
+### Fixed (during QA)
+- **Conversation list styling**: CSS `.convo-*` class mismatch with JS `.conversation-*` — added compatibility aliases
+- **Health timeline styling**: CSS `.ht-*` mismatch with JS `.health-timeline-*` — added compatibility aliases
+- **Product detail buttons hidden**: `.pd-actions` `bottom: 0` → `bottom: calc(var(--nav-height) + var(--safe-bottom))`
+- **Comment input hidden**: Same bottom positioning fix for `.post-detail-comment-input`
+
+### Technical
+- Vanilla HTML/CSS/JS — zero build tools, direct GitHub Pages deploy
+- Unsplash URLs for realistic pet/product images + ui-avatars.com for user avatars
+- MockAPI with simulated 200-800ms async delays for realistic loading
+- CSS custom properties for consistent theming across all tabs
+- Font Awesome 6 icons throughout
+- IBM Plex Sans Thai + Inter font stack
+- iOS safe area support (`env(safe-area-inset-*)`)
+- Max-width 430px mobile viewport
+
+---
+
+## [v1.3.1] - 2026-03-10
 
 ### Fixed — Floating Elements Positioning (B3 follow-up)
 - **Root cause**: `.bottom-sheet`, `.map-stats`, `.nearby-btn` used `bottom: calc(var(--nav-height) + var(--safe-bottom))` but they're inside `.page` which already ends at the nav bar top — causing ~94px unwanted gap

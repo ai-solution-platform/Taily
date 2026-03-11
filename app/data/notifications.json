@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "type": "like",
+    "title": "โพสต์ของคุณได้รับความนิยม!",
+    "body": "มีคนกด 25 คนถูกใจรูปน้องบราวนี่วิ่งเล่นที่สวนลุม",
+    "image": "https://ui-avatars.com/api/?name=25&background=FF8C42&color=fff&size=80",
+    "action": "#social",
+    "read": false,
+    "timestamp": "2026-03-11T09:15:00+07:00"
+  },
+  {
+    "id": 2,
+    "type": "comment",
+    "title": "ความคิดเห็นใหม่",
+    "body": "มินนี่ คอมเมนต์ว่า \"น้องน่ารักมากเลยค่ะ ขนสวยจัง!\"",
+    "image": "https://ui-avatars.com/api/?name=MN&background=FFC501&color=3D2B1F&size=80",
+    "action": "#social",
+    "read": false,
+    "timestamp": "2026-03-11T08:45:00+07:00"
+  },
+  {
+    "id": 3,
+    "type": "order",
+    "title": "สินค้าจัดส่งแล้ว!",
+    "body": "คำสั่งซื้อ ORD-20260308 อาหารสุนัข Royal Canin ถูกจัดส่งแล้ว เลขพัสดุ TH2026031100123",
+    "image": "https://ui-avatars.com/api/?name=RC&background=3D2B1F&color=FFC501&size=80",
+    "action": "#market",
+    "read": false,
+    "timestamp": "2026-03-11T07:30:00+07:00"
+  },
+  {
+    "id": 4,
+    "type": "event",
+    "title": "กิจกรรมที่คุณสนใจใกล้จะถึงแล้ว!",
+    "body": "Pet Lovers Meetup at Lumpini Park วันเสาร์ที่ 15 มี.ค. เหลืออีก 4 วัน!",
+    "image": "https://ui-avatars.com/api/?name=EV&background=FFD740&color=3D2B1F&size=80",
+    "action": "#events",
+    "read": false,
+    "timestamp": "2026-03-11T06:00:00+07:00"
+  },
+  {
+    "id": 5,
+    "type": "coupon",
+    "title": "คูปองใหม่สำหรับคุณ!",
+    "body": "รับส่วนลด 20% ที่ Meow Cafe ใช้โค้ด CAFE20 ก่อนหมดเขต 15 พ.ค.",
+    "image": "https://ui-avatars.com/api/?name=20&background=FF8C42&color=fff&size=80",
+    "action": "#coupons",
+    "read": false,
+    "timestamp": "2026-03-10T20:00:00+07:00"
+  },
+  {
+    "id": 6,
+    "type": "follow",
+    "title": "มีคนติดตามคุณ",
+    "body": "ก้อย Dog Park Club เริ่มติดตามคุณแล้ว",
+    "image": "https://ui-avatars.com/api/?name=KY&background=FFC501&color=3D2B1F&size=80",
+    "action": "#social",
+    "read": true,
+    "timestamp": "2026-03-10T18:30:00+07:00"
+  },
+  {
+    "id": 7,
+    "type": "like",
+    "title": "โพสต์ของคุณได้รับถูกใจ",
+    "body": "คุณเจมส์ และอีก 8 คนถูกใจโพสต์ \"พาน้องไปหาหมอประจำปี\"",
+    "image": "https://ui-avatars.com/api/?name=JM&background=FFD740&color=3D2B1F&size=80",
+    "action": "#social",
+    "read": true,
+    "timestamp": "2026-03-10T16:00:00+07:00"
+  },
+  {
+    "id": 8,
+    "type": "system",
+    "title": "อัปเดต Taily เวอร์ชันใหม่!",
+    "body": "Taily v2.0 มาแล้ว! ฟีเจอร์ใหม่: Taily Wallet, ร้านค้าออนไลน์ และแชทส่วนตัว",
+    "image": "https://ui-avatars.com/api/?name=TL&background=FFC501&color=3D2B1F&size=80",
+    "action": "#home",
+    "read": true,
+    "timestamp": "2026-03-10T12:00:00+07:00"
+  },
+  {
+    "id": 9,
+    "type": "comment",
+    "title": "ความคิดเห็นใหม่ในกลุ่ม",
+    "body": "วิชัย ตอบกลับในกระทู้ \"วิธีดูแลขนโกลเด้นให้สวยเงางาม\" ว่า \"ลองใช้น้ำมันปลาครับ ได้ผลดีมาก\"",
+    "image": "https://ui-avatars.com/api/?name=WC&background=FFC501&color=3D2B1F&size=80",
+    "action": "#social",
+    "read": true,
+    "timestamp": "2026-03-10T10:30:00+07:00"
+  },
+  {
+    "id": 10,
+    "type": "order",
+    "title": "คำสั่งซื้อสำเร็จ",
+    "body": "ชำระเงินสำหรับคำสั่งซื้อ ORD-20260310 เรียบร้อยแล้ว กำลังเตรียมจัดส่ง",
+    "image": "https://ui-avatars.com/api/?name=OK&background=3D2B1F&color=FFC501&size=80",
+    "action": "#market",
+    "read": true,
+    "timestamp": "2026-03-10T09:00:00+07:00"
+  },
+  {
+    "id": 11,
+    "type": "follow",
+    "title": "มีคนติดตามคุณ",
+    "body": "พี่แอน Pet Sitter เริ่มติดตามคุณแล้ว",
+    "image": "https://ui-avatars.com/api/?name=AN&background=FFC501&color=3D2B1F&size=80",
+    "action": "#social",
+    "read": true,
+    "timestamp": "2026-03-09T21:00:00+07:00"
+  },
+  {
+    "id": 12,
+    "type": "event",
+    "title": "กิจกรรมใหม่ใกล้คุณ",
+    "body": "Dog Agility Workshop ที่ Central Park Bangna วันที่ 22 มี.ค. เปิดรับสมัครแล้ว!",
+    "image": "https://ui-avatars.com/api/?name=AG&background=FFD740&color=3D2B1F&size=80",
+    "action": "#events",
+    "read": true,
+    "timestamp": "2026-03-09T14:00:00+07:00"
+  },
+  {
+    "id": 13,
+    "type": "coupon",
+    "title": "คูปองกำลังจะหมดอายุ!",
+    "body": "คูปอง Jungle de Woof ลด 10% จะหมดอายุใน 3 วัน อย่าลืมใช้นะ!",
+    "image": "https://ui-avatars.com/api/?name=JW&background=FF8C42&color=fff&size=80",
+    "action": "#coupons",
+    "read": true,
+    "timestamp": "2026-03-09T10:00:00+07:00"
+  },
+  {
+    "id": 14,
+    "type": "system",
+    "title": "ยืนยันอีเมลสำเร็จ",
+    "body": "อีเมล somchai@example.com ได้รับการยืนยันเรียบร้อยแล้ว ขอบคุณค่ะ",
+    "image": "https://ui-avatars.com/api/?name=TL&background=FFC501&color=3D2B1F&size=80",
+    "action": "#profile",
+    "read": true,
+    "timestamp": "2026-03-09T08:00:00+07:00"
+  },
+  {
+    "id": 15,
+    "type": "like",
+    "title": "โพสต์ของคุณมีคนถูกใจเพิ่ม",
+    "body": "น้ำหวาน และอีก 12 คนถูกใจรูปน้องมีโกะนอนอาบแดด",
+    "image": "https://ui-avatars.com/api/?name=NW&background=FFD740&color=3D2B1F&size=80",
+    "action": "#social",
+    "read": true,
+    "timestamp": "2026-03-08T19:00:00+07:00"
+  }
+]

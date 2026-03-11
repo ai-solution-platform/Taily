@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "userId": "U001",
+    "userName": "สมชาย",
+    "userAvatar": "https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=100",
+    "image": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-11T08:00:00",
+    "viewed": false,
+    "isMine": true
+  },
+  {
+    "id": 2,
+    "userId": "U002",
+    "userName": "มินนี่",
+    "userAvatar": "https://ui-avatars.com/api/?name=MN&background=FFD740&color=3D2B1F&size=100",
+    "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-11T07:45:00",
+    "viewed": false,
+    "isMine": false
+  },
+  {
+    "id": 3,
+    "userId": "U006",
+    "userName": "กานต์",
+    "userAvatar": "https://ui-avatars.com/api/?name=KN&background=4CAF50&color=fff&size=100",
+    "image": "https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-11T07:30:00",
+    "viewed": false,
+    "isMine": false
+  },
+  {
+    "id": 4,
+    "userId": "U004",
+    "userName": "น้ำหวาน",
+    "userAvatar": "https://ui-avatars.com/api/?name=NW&background=E5A800&color=fff&size=100",
+    "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-11T06:50:00",
+    "viewed": true,
+    "isMine": false
+  },
+  {
+    "id": 5,
+    "userId": "U011",
+    "userName": "โอ๊ค",
+    "userAvatar": "https://ui-avatars.com/api/?name=OK&background=795548&color=fff&size=100",
+    "image": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-11T06:15:00",
+    "viewed": true,
+    "isMine": false
+  },
+  {
+    "id": 6,
+    "userId": "U012",
+    "userName": "แพร",
+    "userAvatar": "https://ui-avatars.com/api/?name=PR&background=F48FB1&color=3D2B1F&size=100",
+    "image": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T22:00:00",
+    "viewed": false,
+    "isMine": false
+  },
+  {
+    "id": 7,
+    "userId": "U015",
+    "userName": "ฟ้า",
+    "userAvatar": "https://ui-avatars.com/api/?name=FA&background=81D4FA&color=3D2B1F&size=100",
+    "image": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T21:30:00",
+    "viewed": false,
+    "isMine": false
+  },
+  {
+    "id": 8,
+    "userId": "U009",
+    "userName": "อาร์ม",
+    "userAvatar": "https://ui-avatars.com/api/?name=AM&background=9C27B0&color=fff&size=100",
+    "image": "https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T20:00:00",
+    "viewed": true,
+    "isMine": false
+  },
+  {
+    "id": 9,
+    "userId": "U014",
+    "userName": "มายด์",
+    "userAvatar": "https://ui-avatars.com/api/?name=MD&background=CE93D8&color=3D2B1F&size=100",
+    "image": "https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T19:00:00",
+    "viewed": false,
+    "isMine": false
+  },
+  {
+    "id": 10,
+    "userId": "U007",
+    "userName": "ธนา",
+    "userAvatar": "https://ui-avatars.com/api/?name=TN&background=2196F3&color=fff&size=100",
+    "image": "https://images.unsplash.com/photo-1568572933382-74d440642117?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T18:15:00",
+    "viewed": true,
+    "isMine": false
+  },
+  {
+    "id": 11,
+    "userId": "U010",
+    "userName": "เจน",
+    "userAvatar": "https://ui-avatars.com/api/?name=JN&background=FF5722&color=fff&size=100",
+    "image": "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T17:00:00",
+    "viewed": true,
+    "isMine": false
+  },
+  {
+    "id": 12,
+    "userId": "U005",
+    "userName": "ปาริชาต",
+    "userAvatar": "https://ui-avatars.com/api/?name=PC&background=3D2B1F&color=FFC501&size=100",
+    "image": "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=400&h=700&fit=crop",
+    "timestamp": "2026-03-10T16:00:00",
+    "viewed": false,
+    "isMine": false
+  }
+]

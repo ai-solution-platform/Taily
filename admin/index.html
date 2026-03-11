@@ -55,6 +55,10 @@
       <a class="nav-link" onclick="showSection('events')"><i class="fas fa-calendar-alt"></i>กิจกรรม & อีเวนท์</a>
       <a class="nav-link" onclick="showSection('registrations')"><i class="fas fa-clipboard-list"></i>การลงทะเบียน</a>
       <a class="nav-link" onclick="showSection('coupons')"><i class="fas fa-ticket-alt"></i>คูปอง & โปรโมชั่น</a>
+      <a class="nav-link" onclick="showSection('products')"><i class="fas fa-shopping-bag"></i>สินค้า & บริการ</a>
+      <a class="nav-link" onclick="showSection('orders')"><i class="fas fa-box"></i>คำสั่งซื้อ</a>
+      <a class="nav-link" onclick="showSection('social')"><i class="fas fa-comments"></i>โซเชียล & คอนเทนต์</a>
+      <a class="nav-link" onclick="showSection('adoption')"><i class="fas fa-heart"></i>รับเลี้ยงสัตว์</a>
       <div class="nav-section">MEMBERS</div>
       <a class="nav-link" onclick="showSection('members')"><i class="fas fa-users"></i>สมาชิก</a>
       <a class="nav-link" onclick="showSection('tiers')"><i class="fas fa-crown"></i>Member Tiers</a>
@@ -135,6 +139,38 @@
               <div class="stat-label">คูปองที่ถูกเก็บ</div>
             </div>
             <div class="stat-change up"><i class="fas fa-arrow-up"></i> 15%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(255,140,66,0.1);color:var(--accent)"><i class="fas fa-shopping-bag"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">฿847,320</div>
+              <div class="stat-label">ยอดขายสินค้า</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> +23.5%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(156,39,176,0.1);color:#9C27B0"><i class="fas fa-box"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">156</div>
+              <div class="stat-label">คำสั่งซื้อที่กำลังดำเนินการ</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> +12</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(0,150,136,0.1);color:#009688"><i class="fas fa-comments"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">1,247</div>
+              <div class="stat-label">โพสต์ทั้งหมด</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> +89 วันนี้</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(233,30,99,0.1);color:#E91E63"><i class="fas fa-heart"></i></div>
+            <div class="stat-info">
+              <div class="stat-number">34</div>
+              <div class="stat-label">สัตว์ที่หาบ้านได้</div>
+            </div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> เดือนนี้</div>
           </div>
         </div>
 
@@ -312,6 +348,102 @@
           <table class="data-table">
             <thead><tr><th>รหัส</th><th>ร้านค้า</th><th>รายละเอียด</th><th>เก็บแล้ว</th><th>ใช้แล้ว</th><th>หมดอายุ</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
             <tbody id="couponTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PRODUCTS MANAGEMENT -->
+      <section id="sec-products" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-shopping-bag"></i> สินค้า & บริการ</h1>
+          <div class="section-actions">
+            <button class="btn-primary" onclick="showAddProduct()"><i class="fas fa-plus"></i> เพิ่มสินค้า</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterProducts('all',this)">ทั้งหมด</button>
+            <button class="filter-tab" onclick="filterProducts('อาหาร',this)">อาหาร</button>
+            <button class="filter-tab" onclick="filterProducts('กรูมมิ่ง',this)">กรูมมิ่ง</button>
+            <button class="filter-tab" onclick="filterProducts('ของเล่น',this)">ของเล่น</button>
+            <button class="filter-tab" onclick="filterProducts('สุขภาพ',this)">สุขภาพ</button>
+            <button class="filter-tab" onclick="filterProducts('แฟชั่น',this)">แฟชั่น</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>#</th><th>รูป</th><th>ชื่อสินค้า</th><th>หมวดหมู่</th><th>ราคา</th><th>ส่วนลด</th><th>สต็อก</th><th>ยอดขาย</th><th>สถานะ</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ORDERS MANAGEMENT -->
+      <section id="sec-orders" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-box"></i> คำสั่งซื้อ</h1>
+          <div class="section-actions">
+            <button class="btn-outline"><i class="fas fa-download"></i> Export</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterOrders('all',this)">ทั้งหมด</button>
+            <button class="filter-tab" onclick="filterOrders('pending',this)">รอยืนยัน</button>
+            <button class="filter-tab" onclick="filterOrders('shipping',this)">กำลังจัดส่ง</button>
+            <button class="filter-tab" onclick="filterOrders('completed',this)">สำเร็จ</button>
+            <button class="filter-tab" onclick="filterOrders('cancelled',this)">ยกเลิก</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>รหัส</th><th>ลูกค้า</th><th>สินค้า</th><th>จำนวนเงิน</th><th>สถานะ</th><th>วันที่</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody id="orderTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SOCIAL & CONTENT MANAGEMENT -->
+      <section id="sec-social" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-comments"></i> โซเชียล & คอนเทนต์</h1>
+          <div class="section-actions">
+            <button class="btn-outline" onclick="renderSocial()"><i class="fas fa-sync-alt"></i> รีเฟรช</button>
+          </div>
+        </div>
+        <div class="stats-grid small">
+          <div class="stat-card mini"><div class="stat-number" style="color:var(--primary)">1,247</div><div class="stat-label">โพสต์ทั้งหมด</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:var(--danger)">18</div><div class="stat-label">รายงานรอตรวจสอบ</div></div>
+          <div class="stat-card mini"><div class="stat-number" style="color:var(--info)">3,892</div><div class="stat-label">ผู้ใช้งานที่แอคทีฟ</div></div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>#</th><th>ผู้ใช้</th><th>เนื้อหา</th><th>ประเภท</th><th>ไลค์</th><th>รายงาน</th><th>สถานะ</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody id="socialTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ADOPTION MANAGEMENT -->
+      <section id="sec-adoption" class="section">
+        <div class="section-header">
+          <h1><i class="fas fa-heart"></i> รับเลี้ยงสัตว์</h1>
+          <div class="section-actions">
+            <button class="btn-primary" onclick="showAddPet()"><i class="fas fa-plus"></i> เพิ่มสัตว์</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>#</th><th>รูป</th><th>ชื่อ</th><th>สายพันธุ์</th><th>อายุ</th><th>สถานะ</th><th>องค์กร</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody id="adoptionTableBody"></tbody>
           </table>
         </div>
       </section>
