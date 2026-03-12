@@ -55,7 +55,7 @@ function navigate(tab) {
 function updateHeaderForTab(tab) {
   // Header adjusts per tab (could hide/show search, etc.)
   const header = document.getElementById('appHeader');
-  header.style.display = (tab === 'explore') ? 'none' : ''; // Hide header on explore (map uses own search)
+  header.style.display = ''; // Always show header (all tabs including explore)
 }
 
 // ===== SUB-PAGE NAVIGATION =====

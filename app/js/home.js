@@ -208,26 +208,82 @@ function expandCaption(el, fullText) {
 }
 
 // ===== NEARBY PLACES =====
+// Pet-friendly place photos by category (Unsplash)
+const placePhotos = {
+  'ร้านอาหาร': [
+    'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=400&h=300&fit=crop'
+  ],
+  'คาเฟ่': [
+    'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=300&fit=crop'
+  ],
+  'โรงแรม': [
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1455587734955-081b22074882?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&h=300&fit=crop'
+  ],
+  'สถานที่ท่องเที่ยว': [
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1528164344705-47542687000d?w=400&h=300&fit=crop'
+  ]
+};
+
+// Counter per category for unique photos
+const _photoIdx = {};
+function getPlacePhoto(category) {
+  const photos = placePhotos[category] || placePhotos['คาเฟ่'];
+  if (!_photoIdx[category]) _photoIdx[category] = 0;
+  const idx = _photoIdx[category] % photos.length;
+  _photoIdx[category]++;
+  return photos[idx];
+}
+
 function renderNearbyPlaces(merchants) {
   const container = document.getElementById('nearbyPlaces');
   if (!container) return;
 
-  const categoryEmojis = {
-    'ร้านอาหาร': '🍽️',
-    'คาเฟ่': '☕',
-    'โรงแรม': '🏨',
-    'สถานที่ท่องเที่ยว': '🌿'
+  const categoryIcons = {
+    'ร้านอาหาร': { icon: 'fa-utensils', color: '#E53935' },
+    'คาเฟ่': { icon: 'fa-mug-hot', color: '#795548' },
+    'โรงแรม': { icon: 'fa-bed', color: '#1E88E5' },
+    'สถานที่ท่องเที่ยว': { icon: 'fa-mountain-sun', color: '#43A047' }
   };
 
   container.innerHTML = merchants.map(m => {
-    const emoji = categoryEmojis[m.category] || '🐾';
+    const catInfo = categoryIcons[m.category] || { icon: 'fa-paw', color: '#FFC501' };
+    const photo = getPlacePhoto(m.category);
     const ratingStars = '★'.repeat(Math.floor(m.rating)) + '☆'.repeat(5 - Math.floor(m.rating));
     const distText = m.distance ? `${m.distance.toFixed(1)} km` : '';
 
     return `
       <div class="nearby-card" onclick="navigate('explore');setTimeout(()=>openMerchant(${m.id}),300)">
         <div class="nearby-img">
-          <div class="nearby-emoji">${emoji}</div>
+          <img src="${photo}" alt="${m.name}" loading="lazy">
+          <span class="nearby-cat-badge" style="background:${catInfo.color}"><i class="fas ${catInfo.icon}"></i></span>
         </div>
         <div class="nearby-body">
           <div class="nearby-name">${m.name}</div>
@@ -247,22 +303,24 @@ function renderFeaturedMerchants(merchants) {
   const container = document.getElementById('featuredMerchants');
   if (!container) return;
 
-  const categoryEmojis = {
-    'ร้านอาหาร': '🍽️',
-    'คาเฟ่': '☕',
-    'โรงแรม': '🏨',
-    'สถานที่ท่องเที่ยว': '🌿'
+  const categoryIcons = {
+    'ร้านอาหาร': { icon: 'fa-utensils', color: '#E53935' },
+    'คาเฟ่': { icon: 'fa-mug-hot', color: '#795548' },
+    'โรงแรม': { icon: 'fa-bed', color: '#1E88E5' },
+    'สถานที่ท่องเที่ยว': { icon: 'fa-mountain-sun', color: '#43A047' }
   };
 
   container.innerHTML = merchants.map(m => {
-    const emoji = categoryEmojis[m.category] || '🐾';
+    const catInfo = categoryIcons[m.category] || { icon: 'fa-paw', color: '#FFC501' };
+    const photo = getPlacePhoto(m.category);
     const ratingStars = '★'.repeat(Math.floor(m.rating)) + '☆'.repeat(5 - Math.floor(m.rating));
 
     return `
       <div class="featured-card" onclick="navigate('explore');setTimeout(()=>openMerchant(${m.id}),300)">
         <div class="featured-img">
-          <div class="featured-emoji">${emoji}</div>
+          <img src="${photo}" alt="${m.name}" loading="lazy">
           <div class="featured-badge">แนะนำ</div>
+          <span class="nearby-cat-badge" style="background:${catInfo.color}"><i class="fas ${catInfo.icon}"></i></span>
         </div>
         <div class="featured-body">
           <div class="featured-name">${m.name}</div>

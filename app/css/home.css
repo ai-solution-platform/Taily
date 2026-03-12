@@ -244,9 +244,35 @@
 .nearby-img {
   width: 100%;
   height: 120px;
-  object-fit: cover;
   background: var(--border);
   position: relative;
+  overflow: hidden;
+}
+
+.nearby-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.nearby-card:active .nearby-img img {
+  transform: scale(1.05);
+}
+
+.nearby-cat-badge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  font-size: 11px;
+  color: white;
+  border-radius: var(--radius-full);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
 }
 
 .nearby-emoji {
@@ -318,8 +344,26 @@
 .featured-img {
   width: 100%;
   height: 160px;
-  object-fit: cover;
   background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.featured-card:active .featured-img img {
+  transform: scale(1.05);
+}
+
+.featured-img .nearby-cat-badge {
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  top: auto;
 }
 
 .featured-emoji {

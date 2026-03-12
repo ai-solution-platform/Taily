@@ -10,8 +10,12 @@
   display: flex;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
-  position: sticky;
+  position: fixed;
   top: calc(var(--header-height) + var(--safe-top));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
   z-index: var(--z-sticky);
 }
 
@@ -50,6 +54,11 @@
 
 .market-tab:active {
   opacity: 0.7;
+}
+
+/* Compensate for fixed tabs height */
+.market-sub {
+  padding-top: 48px;
 }
 
 .market-sub {
