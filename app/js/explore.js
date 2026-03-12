@@ -791,68 +791,71 @@ function openEvent(id) {
         </div>
       </div>
 
-      <div class="event-detail-body" style="padding:20px 16px">
-        <div class="event-detail-section" style="margin-bottom:20px">
-          <div class="event-info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div class="event-info-item" style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg);border-radius:12px">
-              <i class="fas fa-calendar" style="color:var(--primary);font-size:16px;margin-top:2px"></i>
-              <div><div class="eii-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase">\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48</div><div class="eii-value" style="font-size:13px;font-weight:600;color:var(--text-primary)">${dateStr}</div></div>
+      <div class="event-detail-body" style="padding:20px 16px 32px">
+        <!-- Info Grid Card -->
+        <div class="ed-card" style="background:var(--bg-card);border-radius:18px;padding:16px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,197,1,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-calendar" style="color:var(--primary-dark);font-size:15px"></i></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">วันที่</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${dateStr}</div></div>
             </div>
-            <div class="event-info-item" style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg);border-radius:12px">
-              <i class="fas fa-clock" style="color:var(--primary);font-size:16px;margin-top:2px"></i>
-              <div><div class="eii-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase">\u0E40\u0E27\u0E25\u0E32</div><div class="eii-value" style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.time}</div></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,140,66,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-clock" style="color:var(--accent);font-size:15px"></i></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">เวลา</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.time}</div></div>
             </div>
-            <div class="event-info-item" style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg);border-radius:12px">
-              <i class="fas fa-map-marker-alt" style="color:var(--primary);font-size:16px;margin-top:2px"></i>
-              <div><div class="eii-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase">\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48</div><div class="eii-value" style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.location}</div></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(76,175,80,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-map-marker-alt" style="color:#2E7D32;font-size:15px"></i></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">สถานที่</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.location}</div></div>
             </div>
-            <div class="event-info-item" style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--bg);border-radius:12px">
-              <i class="fas fa-ticket-alt" style="color:var(--primary);font-size:16px;margin-top:2px"></i>
-              <div><div class="eii-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase">\u0E04\u0E48\u0E32\u0E40\u0E02\u0E49\u0E32\u0E23\u0E48\u0E27\u0E21</div><div class="eii-value" style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.price}</div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="event-detail-section" style="margin-bottom:20px">
-          <h3 style="font-size:16px;font-weight:600;margin-bottom:10px">\u0E23\u0E32\u0E22\u0E25\u0E30\u0E40\u0E2D\u0E35\u0E22\u0E14</h3>
-          <p style="font-size:14px;line-height:1.7;color:var(--text-secondary)">${e.description}</p>
-          <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
-            ${e.tags.map(t => `<span class="service-tag" style="background:var(--bg);border:1px solid var(--border);padding:4px 12px;border-radius:16px;font-size:12px;color:var(--text-secondary)">#${t}</span>`).join('')}
-          </div>
-        </div>
-
-        <div class="event-detail-section" style="margin-bottom:20px">
-          <h3 style="font-size:16px;font-weight:600;margin-bottom:10px">\u0E08\u0E33\u0E19\u0E27\u0E19\u0E1C\u0E39\u0E49\u0E25\u0E07\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19</h3>
-          <div class="event-progress">
-            <div class="progress-text" style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);margin-bottom:6px">
-              <span>${e.registered.toLocaleString()} \u0E04\u0E19</span>
-              <span>${e.capacity.toLocaleString()} \u0E04\u0E19</span>
-            </div>
-            <div class="progress-bar" style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
-              <div class="fill" style="width:${Math.min(pct,100)}%;height:100%;background:${full?'var(--danger)':'var(--primary)'};border-radius:4px;transition:width 0.5s ease"></div>
-            </div>
-            <div class="progress-text" style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-light);margin-top:4px">
-              <span>${full ? '\u0E40\u0E15\u0E47\u0E21\u0E41\u0E25\u0E49\u0E27' : `\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E2D\u0E35\u0E01 ${(e.capacity - e.registered).toLocaleString()} \u0E17\u0E35\u0E48`}</span>
-              <span>${pct}%</span>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(33,150,243,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-ticket-alt" style="color:#1565C0;font-size:15px"></i></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">ค่าเข้าร่วม</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.price}</div></div>
             </div>
           </div>
         </div>
 
-        <div class="event-detail-section" style="margin-bottom:24px">
-          <h3 style="font-size:16px;font-weight:600;margin-bottom:10px">\u0E1C\u0E39\u0E49\u0E08\u0E31\u0E14\u0E07\u0E32\u0E19</h3>
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:48px;height:48px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--primary-on);font-size:20px">
+        <!-- Description Card -->
+        <div class="ed-card" style="background:var(--bg-card);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-info-circle" style="color:var(--primary-dark)"></i> รายละเอียด</h3>
+          <p style="font-size:14px;line-height:1.8;color:var(--text-secondary);margin-bottom:14px">${e.description}</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            ${e.tags.map(t => `<span style="background:linear-gradient(135deg,rgba(255,197,1,0.1),rgba(255,140,66,0.1));border:1px solid rgba(255,197,1,0.25);padding:5px 14px;border-radius:20px;font-size:12px;color:var(--primary-dark);font-weight:500">#${t}</span>`).join('')}
+          </div>
+        </div>
+
+        <!-- Registration Progress Card -->
+        <div class="ed-card" style="background:var(--bg-card);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i class="fas fa-users" style="color:var(--primary-dark)"></i> จำนวนผู้ลงทะเบียน</h3>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);margin-bottom:8px">
+            <span>${e.registered.toLocaleString()} คน</span>
+            <span>${e.capacity.toLocaleString()} คน</span>
+          </div>
+          <div style="height:10px;background:var(--border);border-radius:5px;overflow:hidden">
+            <div style="width:${Math.min(pct,100)}%;height:100%;background:${full?'var(--danger)':'linear-gradient(90deg,var(--primary),var(--accent))'};border-radius:5px;transition:width 0.5s ease"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-light);margin-top:6px">
+            <span>${full ? 'เต็มแล้ว' : `เหลืออีก ${(e.capacity - e.registered).toLocaleString()} ที่`}</span>
+            <span style="font-weight:600;color:${full ? 'var(--danger)' : 'var(--primary-dark)'}">${pct}%</span>
+          </div>
+        </div>
+
+        <!-- Organizer Card -->
+        <div class="ed-card" style="background:var(--bg-card);border-radius:18px;padding:20px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i class="fas fa-building" style="color:var(--primary-dark)"></i> ผู้จัดงาน</h3>
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:var(--primary-on);font-size:22px;flex-shrink:0">
               <i class="fas fa-building"></i>
             </div>
             <div>
-              <div style="font-size:15px;font-weight:600">${e.organizer}</div>
-              <div style="font-size:13px;color:var(--text-secondary)">\u0E1C\u0E39\u0E49\u0E08\u0E31\u0E14\u0E01\u0E34\u0E08\u0E01\u0E23\u0E23\u0E21</div>
+              <div style="font-size:15px;font-weight:700">${e.organizer}</div>
+              <div style="font-size:13px;color:var(--text-secondary)">ผู้จัดกิจกรรม</div>
             </div>
           </div>
         </div>
 
-        <button class="register-btn ${full ? 'full' : ''}" onclick="${full ? '' : `registerEvent(${e.id})`}" style="width:100%;padding:14px;border-radius:14px;border:none;font-size:15px;font-weight:700;cursor:${full?'not-allowed':'pointer'};display:flex;align-items:center;justify-content:center;gap:8px;${full ? 'background:#eee;color:#999' : 'background:var(--primary);color:var(--primary-on)'}">
-          ${full ? '<i class="fas fa-ban"></i> \u0E40\u0E15\u0E47\u0E21\u0E41\u0E25\u0E49\u0E27' : '<i class="fas fa-check-circle"></i> \u0E25\u0E07\u0E17\u0E30\u0E40\u0E1A\u0E35\u0E22\u0E19\u0E40\u0E02\u0E49\u0E32\u0E23\u0E48\u0E27\u0E21'}
+        <!-- Register Button -->
+        <button class="register-btn ${full ? 'full' : ''}" onclick="${full ? '' : `registerEvent(${e.id})`}" style="width:100%;padding:16px;border-radius:16px;border:none;font-size:15px;font-weight:700;cursor:${full?'not-allowed':'pointer'};display:flex;align-items:center;justify-content:center;gap:8px;${full ? 'background:#f0f0f0;color:#999' : 'background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--primary-on);box-shadow:0 4px 12px rgba(255,197,1,0.3)'}">
+          ${full ? '<i class="fas fa-ban"></i> เต็มแล้ว' : '<i class="fas fa-check-circle"></i> ลงทะเบียนเข้าร่วม'}
         </button>
       </div>
     </div>

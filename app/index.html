@@ -52,7 +52,7 @@
     <div class="header-right">
       <button class="header-btn" onclick="openMessages()" id="btnMessages"><i class="fas fa-comment-dots"></i><span class="badge" id="msgBadge" style="display:none">0</span></button>
       <button class="header-btn" onclick="openNotifications()" id="btnNotif"><i class="fas fa-bell"></i><span class="badge" id="notifBadge">5</span></button>
-      <button class="header-btn header-avatar" onclick="navigate('me')"><img id="headerAvatar" src="https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=60" alt=""></button>
+      <button class="header-btn header-avatar" onclick="navigate('me')"><img id="headerAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt=""></button>
     </div>
   </header>
 
@@ -64,7 +64,7 @@
     <div class="stories-bar" id="storiesBar">
       <div class="stories-scroll">
         <div class="story-item my-story" onclick="createStory()">
-          <div class="story-avatar-wrap add-story"><img id="myStoryAvatar" src="https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=100" alt=""><div class="story-add-icon"><i class="fas fa-plus"></i></div></div>
+          <div class="story-avatar-wrap add-story"><img id="myStoryAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt=""><div class="story-add-icon"><i class="fas fa-plus"></i></div></div>
           <span class="story-name">เรื่องของคุณ</span>
         </div>
         <!-- Stories rendered by home.js -->
@@ -74,14 +74,62 @@
     <!-- Quick Actions Grid -->
     <div class="quick-actions">
       <div class="qa-grid">
-        <button class="qa-item" onclick="navigate('explore')"><div class="qa-icon" style="background:linear-gradient(135deg,#4CAF50,#2E7D32)"><i class="fas fa-map-marked-alt"></i></div><span>แผนที่</span></button>
-        <button class="qa-item" onclick="navigate('explore');setTimeout(()=>showExploreTab('events'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#FF9800,#E65100)"><i class="fas fa-calendar-star"></i></div><span>กิจกรรม</span></button>
-        <button class="qa-item" onclick="navigate('market');setTimeout(()=>showMarketTab('coupons'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#E91E63,#880E4F)"><i class="fas fa-ticket-alt"></i></div><span>คูปอง</span></button>
-        <button class="qa-item" onclick="navigate('market')"><div class="qa-icon" style="background:linear-gradient(135deg,#FFC501,#E5A800)"><i class="fas fa-shopping-bag"></i></div><span>ตลาด</span></button>
-        <button class="qa-item" onclick="showComingSoon('Taily Med')"><div class="qa-icon" style="background:linear-gradient(135deg,#2196F3,#0D47A1)"><i class="fas fa-stethoscope"></i></div><span>สัตวแพทย์</span></button>
-        <button class="qa-item" onclick="showComingSoon('Insurance')"><div class="qa-icon" style="background:linear-gradient(135deg,#9C27B0,#4A148C)"><i class="fas fa-shield-dog"></i></div><span>ประกัน</span></button>
-        <button class="qa-item" onclick="navigate('me');setTimeout(()=>showMeSection('petid'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#00BCD4,#006064)"><i class="fas fa-id-card"></i></div><span>Pet ID</span></button>
-        <button class="qa-item" onclick="showMoreActions()"><div class="qa-icon" style="background:linear-gradient(135deg,#607D8B,#37474F)"><i class="fas fa-ellipsis-h"></i></div><span>เพิ่มเติม</span></button>
+        <button class="qa-item" onclick="navigate('explore')">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#4CAF50,#2E7D32)">
+            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=80&h=80&fit=crop" alt="แผนที่" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-map-marked-alt"></i></div>
+          </div>
+          <span>แผนที่</span>
+        </button>
+        <button class="qa-item" onclick="navigate('explore');setTimeout(()=>showExploreTab('events'),100)">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#FF9800,#E65100)">
+            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=80&h=80&fit=crop" alt="กิจกรรม" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-calendar-star"></i></div>
+          </div>
+          <span>กิจกรรม</span>
+        </button>
+        <button class="qa-item" onclick="navigate('market');setTimeout(()=>showMarketTab('coupons'),100)">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#E91E63,#880E4F)">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=80&h=80&fit=crop" alt="คูปอง" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-ticket-alt"></i></div>
+          </div>
+          <span>คูปอง</span>
+        </button>
+        <button class="qa-item" onclick="navigate('market')">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#FFC501,#E5A800)">
+            <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=80&h=80&fit=crop" alt="ตลาด" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-shopping-bag"></i></div>
+          </div>
+          <span>ตลาด</span>
+        </button>
+        <button class="qa-item" onclick="showMeSection('vet')">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#2196F3,#0D47A1)">
+            <img src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=80&h=80&fit=crop" alt="สัตวแพทย์" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-stethoscope"></i></div>
+          </div>
+          <span>สัตวแพทย์</span>
+        </button>
+        <button class="qa-item" onclick="showMeSection('insurance')">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#9C27B0,#4A148C)">
+            <img src="https://images.unsplash.com/photo-1450778869180-e77b3e76203b?w=80&h=80&fit=crop" alt="ประกัน" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-shield-dog"></i></div>
+          </div>
+          <span>ประกัน</span>
+        </button>
+        <button class="qa-item" onclick="navigate('me');setTimeout(()=>showMeSection('petid'),100)">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#00BCD4,#006064)">
+            <img src="https://images.unsplash.com/photo-1587764379873-97837921fd44?w=80&h=80&fit=crop" alt="Pet ID" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-id-card"></i></div>
+          </div>
+          <span>Pet ID</span>
+        </button>
+        <button class="qa-item" onclick="showMoreActions()">
+          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#607D8B,#37474F)">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=80&h=80&fit=crop" alt="เพิ่มเติม" loading="lazy">
+            <div class="qa-icon-overlay"><i class="fas fa-ellipsis-h"></i></div>
+          </div>
+          <span>เพิ่มเติม</span>
+        </button>
       </div>
     </div>
 
@@ -393,7 +441,7 @@
     <!-- Profile Header -->
     <div class="me-profile-header" id="meProfileHeader">
       <div class="me-avatar-wrap">
-        <img id="meAvatar" src="https://ui-avatars.com/api/?name=SC&background=FFC501&color=3D2B1F&size=200" alt="">
+        <img id="meAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="">
         <div class="me-tier-badge"><i class="fas fa-crown"></i></div>
       </div>
       <h2 id="meName">สมชาย รักน้องหมา</h2>

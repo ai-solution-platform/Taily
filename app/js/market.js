@@ -46,35 +46,60 @@ function showMarketTab(tab) {
   if (tabs[tabMap[tab]]) tabs[tabMap[tab]].classList.add('active');
 }
 
-// ===== PROMO BANNER =====
+// ===== PROMO BANNER (Ads/Placement Banners) =====
 function initPromoBanner() {
   const container = document.getElementById('promoBanner');
   const dotsContainer = document.getElementById('promoDots');
   if (!container || !dotsContainer) return;
 
+  // Ads Placement System — each banner = purchasable ad slot for merchants/brands
   const banners = [
     {
-      text: '\uD83C\uDF89 Grand Opening Sale! \u0E25\u0E14\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14 50%',
+      text: 'Grand Opening Sale!',
+      headline: '\u0E25\u0E14\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14 50%',
       sub: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E04\u0E38\u0E13\u0E20\u0E32\u0E1E \u0E23\u0E32\u0E04\u0E32\u0E1E\u0E34\u0E40\u0E28\u0E29',
-      gradient: 'linear-gradient(135deg, #FFC501, #E5A800)'
+      cta: '\u0E14\u0E39\u0E42\u0E1B\u0E23\u0E42\u0E21\u0E0A\u0E31\u0E48\u0E19',
+      gradient: 'linear-gradient(135deg, #FFC501, #E5A800)',
+      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a8?w=300&h=200&fit=crop',
+      merchantId: null,
+      adSlot: 'hero-1',
+      badge: 'AD'
     },
     {
-      text: '\uD83D\uDC15 \u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E22\u0E2D\u0E14\u0E19\u0E34\u0E22\u0E21',
-      sub: '\u0E2D\u0E32\u0E2B\u0E32\u0E23 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19 \u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C\u0E04\u0E23\u0E1A',
-      gradient: 'linear-gradient(135deg, #4CAF50, #2E7D32)'
+      text: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E22\u0E22\u0E2D\u0E14\u0E19\u0E34\u0E22\u0E21',
+      headline: '\u0E2D\u0E32\u0E2B\u0E32\u0E23 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19 \u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C',
+      sub: '\u0E04\u0E23\u0E1A\u0E17\u0E38\u0E01\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E41\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E07\u0E41\u0E21\u0E27',
+      cta: '\u0E0A\u0E49\u0E2D\u0E1B\u0E40\u0E25\u0E22',
+      gradient: 'linear-gradient(135deg, #4CAF50, #2E7D32)',
+      image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop',
+      merchantId: null,
+      adSlot: 'hero-2',
+      badge: null
     },
     {
-      text: '\uD83C\uDFF7\uFE0F \u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E2A\u0E48\u0E27\u0E19\u0E25\u0E14\u0E21\u0E32\u0E01\u0E21\u0E32\u0E22! \u0E40\u0E01\u0E47\u0E1A\u0E40\u0E25\u0E22',
+      text: '\u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E2A\u0E48\u0E27\u0E19\u0E25\u0E14\u0E1E\u0E34\u0E40\u0E28\u0E29!',
+      headline: '\u0E40\u0E01\u0E47\u0E1A\u0E40\u0E25\u0E22 \u0E08\u0E33\u0E01\u0E31\u0E14\u0E08\u0E33\u0E19\u0E27\u0E19',
       sub: '\u0E2A\u0E34\u0E17\u0E18\u0E34\u0E1E\u0E34\u0E40\u0E28\u0E29\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E21\u0E32\u0E0A\u0E34\u0E01 Taily',
-      gradient: 'linear-gradient(135deg, #FF8C42, #E65100)'
+      cta: '\u0E23\u0E31\u0E1A\u0E04\u0E39\u0E1B\u0E2D\u0E07',
+      gradient: 'linear-gradient(135deg, #FF8C42, #E65100)',
+      image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=200&fit=crop',
+      merchantId: null,
+      adSlot: 'hero-3',
+      badge: 'AD'
     }
   ];
 
   container.innerHTML = banners.map((b, i) => `
-    <div class="promo-slide${i === 0 ? ' active' : ''}" style="background:${b.gradient}">
+    <div class="promo-slide${i === 0 ? ' active' : ''}" style="background:${b.gradient}" onclick="openPromoDetail(${i})">
+      <div class="promo-image-wrap">
+        <img src="${b.image}" alt="${b.text}" loading="lazy">
+      </div>
       <div class="promo-content">
+        ${b.badge ? `<span class="promo-ad-badge">${b.badge}</span>` : ''}
         <div class="promo-text">${b.text}</div>
+        <div class="promo-headline">${b.headline}</div>
         <div class="promo-sub">${b.sub}</div>
+        <button class="promo-cta-btn">${b.cta} <i class="fas fa-chevron-right"></i></button>
       </div>
     </div>
   `).join('');
@@ -89,6 +114,65 @@ function initPromoBanner() {
     promoBannerIndex = (promoBannerIndex + 1) % banners.length;
     updatePromoSlide();
   }, 4000);
+}
+
+// ===== PROMO DETAIL PAGE (Ad Placement Detail) =====
+function openPromoDetail(bannerIndex) {
+  const promos = [
+    {
+      title: 'Grand Opening Sale!',
+      subtitle: '\u0E25\u0E14\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14 50% \u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E04\u0E38\u0E13\u0E20\u0E32\u0E1E',
+      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a8?w=600&h=400&fit=crop',
+      desc: '\u0E09\u0E25\u0E2D\u0E07\u0E42\u0E1B\u0E23\u0E42\u0E21\u0E0A\u0E31\u0E48\u0E19\u0E40\u0E1B\u0E34\u0E14\u0E15\u0E31\u0E27\u0E43\u0E2B\u0E21\u0E48! \u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E17\u0E38\u0E01\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E25\u0E14\u0E23\u0E32\u0E04\u0E32\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14 50% \u0E15\u0E31\u0E49\u0E07\u0E41\u0E15\u0E48\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E16\u0E36\u0E07\u0E2A\u0E34\u0E49\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19 \u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C \u0E41\u0E25\u0E30\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E41\u0E1F\u0E0A\u0E31\u0E48\u0E19\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07 \u0E2A\u0E48\u0E07\u0E1F\u0E23\u0E35\u0E17\u0E31\u0E48\u0E27\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28',
+      period: '11 - 31 \u0E21\u0E35.\u0E04. 2569',
+      merchant: 'Taily Official Store',
+      code: 'GRAND50'
+    },
+    {
+      title: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E22\u0E22\u0E2D\u0E14\u0E19\u0E34\u0E22\u0E21',
+      subtitle: '\u0E2D\u0E32\u0E2B\u0E32\u0E23 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19 \u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C\u0E04\u0E23\u0E1A',
+      image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop',
+      desc: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E41\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E07\u0E41\u0E21\u0E27\u0E22\u0E2D\u0E14\u0E19\u0E34\u0E22\u0E21\u0E17\u0E35\u0E48\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E21\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E04\u0E38\u0E13 \u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E40\u0E01\u0E23\u0E14\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21\u0E04\u0E38\u0E13\u0E20\u0E32\u0E1E\u0E2A\u0E39\u0E07 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19\u0E41\u0E1A\u0E23\u0E19\u0E14\u0E4C\u0E14\u0E31\u0E07 \u0E41\u0E25\u0E30\u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C\u0E40\u0E2A\u0E23\u0E34\u0E21\u0E2A\u0E27\u0E22\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
+      period: '1 - 30 \u0E40\u0E21.\u0E22. 2569',
+      merchant: 'Pet Mart Central',
+      code: 'PETLOVER'
+    },
+    {
+      title: '\u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E2A\u0E48\u0E27\u0E19\u0E25\u0E14\u0E1E\u0E34\u0E40\u0E28\u0E29!',
+      subtitle: '\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E21\u0E32\u0E0A\u0E34\u0E01 Taily \u0E40\u0E17\u0E48\u0E32\u0E19\u0E31\u0E49\u0E19',
+      image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=400&fit=crop',
+      desc: '\u0E2A\u0E21\u0E32\u0E0A\u0E34\u0E01 Taily \u0E23\u0E31\u0E1A\u0E2A\u0E34\u0E17\u0E18\u0E34\u0E4C\u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E2A\u0E48\u0E27\u0E19\u0E25\u0E14\u0E1E\u0E34\u0E40\u0E28\u0E29\u0E21\u0E32\u0E01\u0E21\u0E32\u0E22! \u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E01\u0E31\u0E1A\u0E23\u0E49\u0E32\u0E19\u0E04\u0E49\u0E32\u0E1E\u0E31\u0E19\u0E18\u0E21\u0E34\u0E15\u0E23\u0E17\u0E31\u0E48\u0E27\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28 \u0E23\u0E31\u0E1A\u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E17\u0E35\u0E48\u0E2B\u0E19\u0E49\u0E32\u0E04\u0E39\u0E1B\u0E2D\u0E07 \u0E08\u0E33\u0E01\u0E31\u0E14\u0E08\u0E33\u0E19\u0E27\u0E19',
+      period: '1 \u0E21\u0E35.\u0E04. - 30 \u0E40\u0E21.\u0E22. 2569',
+      merchant: 'Taily Partners',
+      code: 'MEMBER2026'
+    }
+  ];
+
+  const p = promos[bannerIndex] || promos[0];
+  showModal(`
+    <div class="promo-detail-modal">
+      <div class="promo-detail-hero">
+        <img src="${p.image}" alt="${p.title}">
+        <div class="promo-detail-overlay"></div>
+        <button class="promo-detail-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="promo-detail-body">
+        <h2>${p.title}</h2>
+        <p class="promo-detail-subtitle">${p.subtitle}</p>
+        <div class="promo-detail-meta">
+          <div class="promo-meta-item"><i class="fas fa-calendar"></i> ${p.period}</div>
+          <div class="promo-meta-item"><i class="fas fa-store"></i> ${p.merchant}</div>
+        </div>
+        <div class="promo-detail-desc">${p.desc}</div>
+        <div class="promo-detail-code">
+          <span>\u0E23\u0E2B\u0E31\u0E2A:</span>
+          <strong>${p.code}</strong>
+          <button onclick="copyCouponCode('${p.code}')"><i class="fas fa-copy"></i></button>
+        </div>
+        <button class="btn-primary btn-block" onclick="closeModal();showMarketTab('coupons')">\u0E14\u0E39\u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</button>
+      </div>
+    </div>
+  `);
 }
 
 function goToPromoSlide(index) {
