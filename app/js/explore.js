@@ -176,7 +176,7 @@ function openNavigation(link) {
 function toggleFilters() {
   const panel = document.getElementById('filterPanel');
   const btn = document.querySelector('.filter-toggle-btn');
-  if (panel) panel.classList.toggle('show');
+  if (panel) panel.classList.toggle('active');
   if (btn) btn.classList.toggle('active');
 }
 
