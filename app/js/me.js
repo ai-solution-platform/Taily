@@ -646,73 +646,69 @@ function renderSettingsSection(container) {
 
   container.innerHTML = `
     <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>ตั้งค่า</span></button>
-    <div class="settings-page">
+    <div style="padding:16px">
+      <div class="settings-group-title">การแจ้งเตือน</div>
       <div class="settings-group">
-        <h4><i class="fas fa-bell"></i> การแจ้งเตือน</h4>
-        <div class="settings-item">
-          <span>การแจ้งเตือนทั่วไป</span>
-          <label class="toggle-switch">
-            <input type="checkbox" checked onchange="showToast(this.checked ? 'เปิดการแจ้งเตือน' : 'ปิดการแจ้งเตือน')">
-            <span class="toggle-slider"></span>
-          </label>
+        <div class="setting-row">
+          <div class="setting-row-icon" style="background:#FFC501"><i class="fas fa-bell"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">การแจ้งเตือนทั่วไป</span></div>
+          <button class="toggle-switch active" onclick="this.classList.toggle('active');showToast(this.classList.contains('active')?'เปิดการแจ้งเตือน':'ปิดการแจ้งเตือน')"></button>
         </div>
-        <div class="settings-item">
-          <span>การแจ้งเตือนโปรโมชัน</span>
-          <label class="toggle-switch">
-            <input type="checkbox" checked onchange="showToast(this.checked ? 'เปิดการแจ้งเตือนโปรโมชัน' : 'ปิดการแจ้งเตือนโปรโมชัน')">
-            <span class="toggle-slider"></span>
-          </label>
+        <div class="setting-row">
+          <div class="setting-row-icon" style="background:#FF8C42"><i class="fas fa-gift"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">โปรโมชั่น</span></div>
+          <button class="toggle-switch active" onclick="this.classList.toggle('active');showToast(this.classList.contains('active')?'เปิดการแจ้งเตือนโปรโมชัน':'ปิดการแจ้งเตือนโปรโมชัน')"></button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-row-icon" style="background:#4CAF50"><i class="fas fa-calendar-alt"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">กิจกรรม</span></div>
+          <button class="toggle-switch active" onclick="this.classList.toggle('active');showToast(this.classList.contains('active')?'เปิดการแจ้งเตือนกิจกรรม':'ปิดการแจ้งเตือนกิจกรรม')"></button>
         </div>
       </div>
 
+      <div class="settings-group-title">แอปพลิเคชัน</div>
       <div class="settings-group">
-        <h4><i class="fas fa-palette"></i> การแสดงผล</h4>
-        <div class="settings-item">
-          <span>โหมดมืด</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="darkModeToggle" ${document.documentElement.getAttribute('data-theme') === 'dark' ? 'checked' : ''} onchange="toggleDarkMode(this.checked)">
-            <span class="toggle-slider"></span>
-          </label>
+        <div class="setting-row" onclick="showComingSoon('ภาษา')" style="cursor:pointer">
+          <div class="setting-row-icon" style="background:#2196F3"><i class="fas fa-globe"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">ภาษา</span></div>
+          <span style="font-size:14px;color:var(--text-light)">ไทย</span>
+          <i class="fas fa-chevron-right" style="color:var(--text-light);font-size:12px;margin-left:8px"></i>
         </div>
-        <div class="settings-item">
-          <span>ภาษา</span>
-          <span class="settings-value">ไทย</span>
+        <div class="setting-row">
+          <div class="setting-row-icon" style="background:#5C6BC0"><i class="fas fa-moon"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">โหมดมืด</span></div>
+          <button class="toggle-switch ${document.documentElement.getAttribute('data-theme')==='dark'?'active':''}" id="darkModeToggleV2" onclick="this.classList.toggle('active');toggleDarkMode(this.classList.contains('active'))"></button>
+        </div>
+        <div class="setting-row" onclick="showComingSoon('แผนที่เริ่มต้น')" style="cursor:pointer">
+          <div class="setting-row-icon" style="background:#FF7043"><i class="fas fa-map"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">แผนที่เริ่มต้น</span></div>
+          <span style="font-size:14px;color:var(--text-light)">ทั่วประเทศ</span>
+          <i class="fas fa-chevron-right" style="color:var(--text-light);font-size:12px;margin-left:8px"></i>
         </div>
       </div>
 
+      <div class="settings-group-title">เกี่ยวกับ</div>
       <div class="settings-group">
-        <h4><i class="fas fa-user"></i> บัญชี</h4>
-        <div class="settings-item">
-          <span>อีเมล</span>
-          <span class="settings-value">${u.email || 'somchai@email.com'}</span>
+        <div class="setting-row">
+          <div class="setting-row-icon" style="background:#78909C"><i class="fas fa-info-circle"></i></div>
+          <div class="setting-row-info">
+            <span class="setting-row-label">เวอร์ชัน</span>
+            <span class="setting-row-value">Taily v2.0</span>
+          </div>
         </div>
-        <div class="settings-item">
-          <span>เบอร์โทร</span>
-          <span class="settings-value">${u.phone || '081-XXX-XXXX'}</span>
+        <div class="setting-row" onclick="showComingSoon('เงื่อนไขการใช้งาน')" style="cursor:pointer">
+          <div class="setting-row-icon" style="background:#26A69A"><i class="fas fa-file-alt"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">เงื่อนไขการใช้งาน</span></div>
+          <i class="fas fa-chevron-right" style="color:var(--text-light);font-size:12px"></i>
         </div>
-        <div class="settings-item clickable" onclick="editProfile()">
-          <span>แก้ไขโปรไฟล์</span>
-          <i class="fas fa-chevron-right"></i>
+        <div class="setting-row" onclick="showComingSoon('นโยบายความเป็นส่วนตัว')" style="cursor:pointer">
+          <div class="setting-row-icon" style="background:#7E57C2"><i class="fas fa-shield-alt"></i></div>
+          <div class="setting-row-info"><span class="setting-row-label">นโยบายความเป็นส่วนตัว</span></div>
+          <i class="fas fa-chevron-right" style="color:var(--text-light);font-size:12px"></i>
         </div>
       </div>
 
-      <div class="settings-group">
-        <h4><i class="fas fa-info-circle"></i> เกี่ยวกับ</h4>
-        <div class="settings-item">
-          <span>เวอร์ชัน</span>
-          <span class="settings-value">Taily v2.0</span>
-        </div>
-        <div class="settings-item clickable" onclick="showComingSoon('เงื่อนไขการใช้งาน')">
-          <span>เงื่อนไขการใช้งาน</span>
-          <i class="fas fa-chevron-right"></i>
-        </div>
-        <div class="settings-item clickable" onclick="showComingSoon('นโยบายความเป็นส่วนตัว')">
-          <span>นโยบายความเป็นส่วนตัว</span>
-          <i class="fas fa-chevron-right"></i>
-        </div>
-      </div>
-
-      <button class="btn-outline btn-block settings-logout" onclick="showToast('ออกจากระบบแล้ว')">
+      <button class="btn-outline btn-block settings-logout" onclick="showToast('ออกจากระบบแล้ว')" style="margin-top:24px;border-radius:12px;padding:14px;font-weight:600">
         <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
       </button>
     </div>
@@ -855,7 +851,7 @@ function renderVetSection(container) {
     },
     {
       id: 4, name: 'Bangkok Pet Hospital',
-      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a3?w=400&h=250&fit=crop',
+      image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400&h=250&fit=crop',
       rating: 4.9, reviews: 456, distance: '5.1 km',
       address: 'ลาดพร้าว 71 กรุงเทพฯ',
       hours: '24 ชม.', phone: '02-456-7890',
@@ -909,7 +905,7 @@ function renderVetSection(container) {
   const clinicsHtml = vetClinics.map(c => `
     <div class="vet-clinic-card" onclick="openVetClinicDetail(${c.id})">
       <div class="vet-clinic-img">
-        <img src="${c.image}" alt="${c.name}" loading="lazy">
+        <img src="${c.image}" alt="${c.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=350&fit=crop'">
         ${c.isPartner ? '<span class="vet-partner-badge"><i class="fas fa-check-circle"></i> พาร์ทเนอร์</span>' : ''}
         <span class="vet-open-badge ${c.isOpen ? 'open' : 'closed'}">${c.isOpen ? 'เปิดอยู่' : 'ปิดแล้ว'}</span>
       </div>
@@ -964,7 +960,7 @@ function openVetClinicDetail(clinicId) {
     1: { name: 'Taily Animal Hospital', image: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=350&fit=crop', rating: 4.9, reviews: 328, address: 'สุขุมวิท ซอย 39 กรุงเทพฯ', hours: '08:00 - 20:00', phone: '02-123-4567', services: ['ตรวจสุขภาพทั่วไป', 'วัคซีนป้องกันโรค', 'ทำหมัน', 'ทำฟัน / ขูดหินปูน', 'ผ่าตัด', 'อัลตราซาวด์', 'เอกซเรย์', 'Lab ตรวจเลือด'], desc: 'โรงพยาบาลสัตว์ชั้นนำ พาร์ทเนอร์กับ Taily ให้บริการดูแลสุขภาพสัตว์เลี้ยงครบวงจร พร้อมทีมสัตวแพทย์ผู้เชี่ยวชาญ', isPartner: true },
     2: { name: 'Pet Wellness Clinic', image: 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=600&h=350&fit=crop', rating: 4.8, reviews: 215, address: 'ทองหล่อ ซอย 13 กรุงเทพฯ', hours: '09:00 - 21:00', phone: '02-234-5678', services: ['ตรวจสุขภาพ', 'วัคซีน', 'อัลตราซาวด์', 'Lab ตรวจเลือด', 'ตรวจผิวหนัง', 'โภชนาการ'], desc: 'คลินิกสุขภาพสัตว์เลี้ยงที่เน้นการดูแลสุขภาพเชิงป้องกัน ด้วยเครื่องมือทันสมัย', isPartner: true },
     3: { name: 'Happy Paws Vet', image: 'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=600&h=350&fit=crop', rating: 4.7, reviews: 189, address: 'พระราม 9 ซอย 13 กรุงเทพฯ', hours: '10:00 - 19:00', phone: '02-345-6789', services: ['ตรวจสุขภาพ', 'วัคซีน', 'ทำหมัน', 'Grooming', 'Pet Hotel'], desc: 'คลินิกสัตว์เลี้ยงที่อบอุ่นเหมือนบ้าน พร้อมบริการ Grooming และ Pet Hotel', isPartner: false },
-    4: { name: 'Bangkok Pet Hospital', image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a3?w=600&h=350&fit=crop', rating: 4.9, reviews: 456, address: 'ลาดพร้าว 71 กรุงเทพฯ', hours: '24 ชั่วโมง', phone: '02-456-7890', services: ['ฉุกเฉิน 24 ชม.', 'ผ่าตัดซับซ้อน', 'ICU สัตว์ป่วย', 'วัคซีน', 'Lab', 'เอกซเรย์', 'อัลตราซาวด์'], desc: 'โรงพยาบาลสัตว์เปิด 24 ชม. พร้อมห้อง ICU และทีมผ่าตัดเฉพาะทาง', isPartner: true }
+    4: { name: 'Bangkok Pet Hospital', image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&h=350&fit=crop', rating: 4.9, reviews: 456, address: 'ลาดพร้าว 71 กรุงเทพฯ', hours: '24 ชั่วโมง', phone: '02-456-7890', services: ['ฉุกเฉิน 24 ชม.', 'ผ่าตัดซับซ้อน', 'ICU สัตว์ป่วย', 'วัคซีน', 'Lab', 'เอกซเรย์', 'อัลตราซาวด์'], desc: 'โรงพยาบาลสัตว์เปิด 24 ชม. พร้อมห้อง ICU และทีมผ่าตัดเฉพาะทาง', isPartner: true }
   };
   const c = clinics[clinicId];
   if (!c) return;
@@ -974,7 +970,7 @@ function openVetClinicDetail(clinicId) {
   modal.innerHTML = `
     <div class="vet-detail-content">
       <div class="vet-detail-hero">
-        <img src="${c.image}" alt="${c.name}" loading="lazy">
+        <img src="${c.image}" alt="${c.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=350&fit=crop'">
         <div class="vet-detail-hero-overlay"></div>
         <button class="vet-detail-close" onclick="this.closest('.vet-detail-modal').remove()"><i class="fas fa-times"></i></button>
         ${c.isPartner ? '<span class="vet-partner-badge lg"><i class="fas fa-check-circle"></i> Taily Partner</span>' : ''}
@@ -1094,7 +1090,7 @@ function renderInsuranceSection(container) {
     <!-- Insurance Hero -->
     <div class="ins-hero">
       <div class="ins-hero-bg">
-        <img src="https://images.unsplash.com/photo-1450778869180-e77b3e76203b?w=600&h=300&fit=crop" alt="ประกันสัตว์เลี้ยง" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=400&fit=crop" alt="ประกันสัตว์เลี้ยง" loading="lazy">
         <div class="ins-hero-overlay"></div>
       </div>
       <div class="ins-hero-content">

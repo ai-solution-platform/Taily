@@ -2417,13 +2417,13 @@
 
 .ins-hero {
   position: relative;
-  height: 180px;
+  height: 200px;
   margin: 12px 16px;
   border-radius: 20px;
   overflow: hidden;
 }
 .ins-hero-bg img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .ins-hero-overlay {
   position: absolute; inset: 0;
@@ -2757,7 +2757,7 @@
   flex: 1;
   border: none;
   font-size: 15px;
-  text-align: right;
+  text-align: left;
   outline: none;
   background: transparent;
   color: var(--text);
@@ -2779,7 +2779,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 2px;
 }
 
@@ -2791,7 +2791,7 @@
 .edit-username-wrap input {
   flex: 0 1 auto;
   width: auto;
-  text-align: right;
+  text-align: left;
 }
 
 .edit-field-bio {
@@ -3663,25 +3663,29 @@
 }
 
 .training-book-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: calc(100% - 32px);
   margin: 16px auto;
-  padding: 14px;
+  padding: 14px 24px;
   border-radius: 14px;
   background: linear-gradient(135deg, var(--primary-light), var(--primary));
   color: var(--primary-on);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
   border: none;
   cursor: pointer;
   font-family: inherit;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(255,197,1,0.3);
-  transition: transform 0.15s;
+  box-shadow: 0 4px 16px rgba(255, 197, 1, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  letter-spacing: 0.3px;
 }
 
 .training-book-btn:active {
   transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(255, 197, 1, 0.2);
 }
 
 .booking-modal {
