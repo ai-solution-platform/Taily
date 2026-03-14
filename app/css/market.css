@@ -315,6 +315,31 @@
   font-size: 13px;
 }
 
+.promo-detail-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--primary-on);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 197, 1, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.promo-detail-cta-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(255, 197, 1, 0.2);
+}
+.promo-detail-cta-btn i {
+  font-size: 18px;
+}
+
 .promo-dots {
   display: flex;
   gap: var(--space-sm);

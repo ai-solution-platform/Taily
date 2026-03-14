@@ -189,23 +189,43 @@ function renderCart() {
   const cart = TailyStore.get('cart');
   const el = document.getElementById('cartItems');
   if (!cart.length) {
-    el.innerHTML = '<div class="empty-state"><i class="fas fa-shopping-cart"></i><p>ตะกร้าว่าง</p></div>';
+    el.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon"><i class="fas fa-shopping-cart"></i></div>
+        <h4>ตะกร้าว่างเปล่า</h4>
+        <p>เลือกสินค้าที่ชอบแล้วเพิ่มลงตะกร้าเลย!</p>
+        <button class="btn-primary btn-sm" onclick="closeCart();navigate('market')"><i class="fas fa-shopping-bag"></i> ไปช้อปปิ้ง</button>
+      </div>
+    `;
+    document.getElementById('cartFooter').style.display = 'none';
     return;
   }
-  el.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <img src="${item.image}" alt="">
-      <div class="cart-item-info">
-        <h4>${item.name}</h4>
-        <span class="cart-item-price">฿${item.price.toLocaleString()}</span>
+  document.getElementById('cartFooter').style.display = 'block';
+  el.innerHTML = cart.map(item => {
+    const subtotal = item.price * item.qty;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-img">
+          <img src="${item.image}" alt="${item.name}" loading="lazy">
+        </div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">฿${item.price.toLocaleString()}</div>
+          <div class="cart-item-bottom">
+            <div class="cart-item-qty">
+              <button onclick="TailyStore.updateCartQty(${item.productId},${item.qty-1});renderCart()"><i class="fas fa-minus"></i></button>
+              <span>${item.qty}</span>
+              <button onclick="TailyStore.updateCartQty(${item.productId},${item.qty+1});renderCart()"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="cart-item-subtotal">฿${subtotal.toLocaleString()}</div>
+          </div>
+        </div>
+        <button class="cart-item-delete" onclick="TailyStore.updateCartQty(${item.productId},0);renderCart()">
+          <i class="fas fa-trash-alt"></i>
+        </button>
       </div>
-      <div class="cart-item-qty">
-        <button onclick="TailyStore.updateCartQty(${item.productId},${item.qty-1});renderCart()"><i class="fas fa-minus"></i></button>
-        <span>${item.qty}</span>
-        <button onclick="TailyStore.updateCartQty(${item.productId},${item.qty+1});renderCart()"><i class="fas fa-plus"></i></button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
   document.getElementById('cartTotal').textContent = '฿' + TailyStore.getCartTotal().toLocaleString();
   document.getElementById('cartCountText').textContent = TailyStore.get('cartCount');
 }

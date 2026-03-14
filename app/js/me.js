@@ -370,30 +370,27 @@ function renderPetIdSection(container) {
             <div class="petid-detail"><span class="petid-label">เพศ</span><span>${genderText}</span></div>
             <div class="petid-detail"><span class="petid-label">น้ำหนัก</span><span>${weightStr}</span></div>
           </div>
-        </div>
-
-        <div class="petid-chip-section">
-          <i class="fas fa-microchip"></i>
-          <span class="petid-chip-id">${pet.microchipId || 'ไม่ระบุ'}</span>
-        </div>
-
-        <div class="petid-qr-section">
-          <svg class="petid-qr" width="80" height="80" viewBox="0 0 80 80">
-            <rect x="0" y="0" width="80" height="80" fill="#fff" stroke="#ddd" rx="8"/>
-            <rect x="8" y="8" width="24" height="24" fill="#3D2B1F" rx="4"/>
-            <rect x="48" y="8" width="24" height="24" fill="#3D2B1F" rx="4"/>
-            <rect x="8" y="48" width="24" height="24" fill="#3D2B1F" rx="4"/>
-            <rect x="14" y="14" width="12" height="12" fill="#FFC501" rx="2"/>
-            <rect x="54" y="14" width="12" height="12" fill="#FFC501" rx="2"/>
-            <rect x="14" y="54" width="12" height="12" fill="#FFC501" rx="2"/>
-            <rect x="36" y="36" width="8" height="8" fill="#3D2B1F" rx="1"/>
-            <rect x="48" y="48" width="8" height="8" fill="#3D2B1F" rx="1"/>
-            <rect x="60" y="48" width="8" height="8" fill="#3D2B1F" rx="1"/>
-            <rect x="48" y="60" width="8" height="8" fill="#3D2B1F" rx="1"/>
-            <rect x="60" y="60" width="8" height="8" fill="#3D2B1F" rx="1"/>
-            <text x="40" y="44" text-anchor="middle" font-size="8" font-weight="bold" fill="#3D2B1F">QR</text>
-          </svg>
-          <span class="petid-qr-text">สแกนเพื่อดูข้อมูล</span>
+          <div class="petid-qr-column">
+            <svg class="petid-qr" width="100" height="100" viewBox="0 0 80 80">
+              <rect x="0" y="0" width="80" height="80" fill="#fff" stroke="#ddd" rx="8"/>
+              <rect x="8" y="8" width="24" height="24" fill="#3D2B1F" rx="4"/>
+              <rect x="48" y="8" width="24" height="24" fill="#3D2B1F" rx="4"/>
+              <rect x="8" y="48" width="24" height="24" fill="#3D2B1F" rx="4"/>
+              <rect x="14" y="14" width="12" height="12" fill="#FFC501" rx="2"/>
+              <rect x="54" y="14" width="12" height="12" fill="#FFC501" rx="2"/>
+              <rect x="14" y="54" width="12" height="12" fill="#FFC501" rx="2"/>
+              <rect x="36" y="36" width="8" height="8" fill="#3D2B1F" rx="1"/>
+              <rect x="48" y="48" width="8" height="8" fill="#3D2B1F" rx="1"/>
+              <rect x="60" y="48" width="8" height="8" fill="#3D2B1F" rx="1"/>
+              <rect x="48" y="60" width="8" height="8" fill="#3D2B1F" rx="1"/>
+              <rect x="60" y="60" width="8" height="8" fill="#3D2B1F" rx="1"/>
+            </svg>
+            <div class="petid-chip-inline">
+              <i class="fas fa-microchip"></i>
+              <span>${pet.microchipId || 'ไม่ระบุ'}</span>
+            </div>
+            <span class="petid-qr-text">สแกนเพื่อดูข้อมูล</span>
+          </div>
         </div>
 
         ${vaccBadges ? `

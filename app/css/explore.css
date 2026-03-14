@@ -608,35 +608,37 @@
    7. Bottom Sheet (draggable)
    ------------------------------------------------------------ */
 .bottom-sheet {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  bottom: calc(var(--nav-height, 60px) + var(--safe-bottom, 0px));
   left: 0;
   right: 0;
+  max-width: 430px;
+  margin: 0 auto;
   background: var(--bg-card);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: var(--shadow-xl);
-  z-index: var(--z-sheet);
+  z-index: 900;
   transition: transform var(--duration-base) var(--ease-out);
-  max-height: 85vh;
+  max-height: 70vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   will-change: transform;
 }
 
-/* Peek: only 60px handle visible */
+/* Peek: only handle visible */
 .bottom-sheet.peek {
-  transform: translateY(calc(100% - 60px));
+  transform: translateY(calc(100% - 64px));
 }
 
-/* Half: 50% screen */
+/* Half: 50% of sheet */
 .bottom-sheet.half {
-  transform: translateY(50%);
+  transform: translateY(40%);
 }
 
-/* Full: 85% screen (15% from top) */
+/* Full: show almost all */
 .bottom-sheet.full {
-  transform: translateY(15%);
+  transform: translateY(0);
 }
 
 .sheet-handle {

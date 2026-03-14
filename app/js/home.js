@@ -17,7 +17,7 @@ async function initHome() {
   ]);
 
   renderStories(stories);
-  renderHomeFeed(feedResult.items);
+  renderHomeFeed(feedResult.items.slice(0, 3));
   homeFeedHasMore = feedResult.hasMore;
   renderNearbyPlaces(nearby);
   renderFeaturedMerchants(featured);
@@ -196,7 +196,14 @@ function renderHomeFeed(posts) {
     `;
   }).join('');
 
-  container.innerHTML = html;
+  container.innerHTML = html + `
+    <div class="home-feed-more">
+      <button class="home-feed-more-btn" onclick="navigate('social')">
+        <i class="fas fa-grid-2"></i> ดูโพสต์ทั้งหมดใน Social
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  `;
 }
 
 function expandCaption(el, fullText) {

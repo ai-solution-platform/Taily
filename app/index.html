@@ -75,59 +75,35 @@
     <div class="quick-actions">
       <div class="qa-grid">
         <button class="qa-item" onclick="navigate('explore')">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#4CAF50,#2E7D32)">
-            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=80&h=80&fit=crop" alt="แผนที่" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-map-marked-alt"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#81C784,#4CAF50)"><i class="fas fa-map-marked-alt"></i></div>
           <span>แผนที่</span>
         </button>
         <button class="qa-item" onclick="navigate('explore');setTimeout(()=>showExploreTab('events'),100)">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#FF9800,#E65100)">
-            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=80&h=80&fit=crop" alt="กิจกรรม" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-calendar-star"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#FFB74D,#FF9800)"><i class="fas fa-calendar-check"></i></div>
           <span>กิจกรรม</span>
         </button>
         <button class="qa-item" onclick="navigate('market');setTimeout(()=>showMarketTab('coupons'),100)">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#E91E63,#880E4F)">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=80&h=80&fit=crop" alt="คูปอง" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-ticket-alt"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#F48FB1,#E91E63)"><i class="fas fa-ticket-alt"></i></div>
           <span>คูปอง</span>
         </button>
         <button class="qa-item" onclick="navigate('market')">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#FFC501,#E5A800)">
-            <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=80&h=80&fit=crop" alt="ตลาด" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-shopping-bag"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#FFD54F,#FFC501)"><i class="fas fa-shopping-bag"></i></div>
           <span>ตลาด</span>
         </button>
         <button class="qa-item" onclick="showMeSection('vet')">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#2196F3,#0D47A1)">
-            <img src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=80&h=80&fit=crop" alt="สัตวแพทย์" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-stethoscope"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#64B5F6,#2196F3)"><i class="fas fa-stethoscope"></i></div>
           <span>สัตวแพทย์</span>
         </button>
         <button class="qa-item" onclick="showMeSection('insurance')">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#9C27B0,#4A148C)">
-            <img src="https://images.unsplash.com/photo-1450778869180-e77b3e76203b?w=80&h=80&fit=crop" alt="ประกัน" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-shield-dog"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#CE93D8,#9C27B0)"><i class="fas fa-shield-alt"></i></div>
           <span>ประกัน</span>
         </button>
         <button class="qa-item" onclick="navigate('me');setTimeout(()=>showMeSection('petid'),100)">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#00BCD4,#006064)">
-            <img src="https://images.unsplash.com/photo-1587764379873-97837921fd44?w=80&h=80&fit=crop" alt="Pet ID" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-id-card"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#4DD0E1,#00BCD4)"><i class="fas fa-id-card"></i></div>
           <span>Pet ID</span>
         </button>
         <button class="qa-item" onclick="showMoreActions()">
-          <div class="qa-icon qa-icon-img" style="background:linear-gradient(135deg,#607D8B,#37474F)">
-            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=80&h=80&fit=crop" alt="เพิ่มเติม" loading="lazy">
-            <div class="qa-icon-overlay"><i class="fas fa-ellipsis-h"></i></div>
-          </div>
+          <div class="qa-icon" style="background:linear-gradient(135deg,#90A4AE,#607D8B)"><i class="fas fa-ellipsis-h"></i></div>
           <span>เพิ่มเติม</span>
         </button>
       </div>
@@ -438,21 +414,29 @@
   <!-- TAB 5: ME -->
   <!-- ============================================================ -->
   <section id="page-me" class="page">
-    <!-- Profile Header -->
+    <!-- Profile Header — TikTok/IG style -->
     <div class="me-profile-header" id="meProfileHeader">
-      <div class="me-avatar-wrap">
-        <img id="meAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="">
-        <div class="me-tier-badge"><i class="fas fa-crown"></i></div>
+      <div class="me-profile-top">
+        <div class="me-avatar-wrap">
+          <img id="meAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="">
+          <div class="me-tier-badge"><i class="fas fa-crown"></i></div>
+        </div>
+        <div class="me-stats">
+          <div class="me-stat"><strong id="mePostCount">45</strong><span>โพสต์</span></div>
+          <div class="me-stat"><strong id="meFollowers">328</strong><span>ผู้ติดตาม</span></div>
+          <div class="me-stat"><strong id="meFollowing">156</strong><span>กำลังติดตาม</span></div>
+        </div>
       </div>
-      <h2 id="meName">สมชาย รักน้องหมา</h2>
-      <p id="meBio" class="me-bio">คนรักสัตว์ 🐕🐈</p>
-      <div class="me-tier-label"><span class="tier-badge gold"><i class="fas fa-crown"></i> Gold Member</span></div>
-      <div class="me-stats">
-        <div class="me-stat"><strong id="mePostCount">45</strong><span>โพสต์</span></div>
-        <div class="me-stat"><strong id="meFollowers">328</strong><span>ผู้ติดตาม</span></div>
-        <div class="me-stat"><strong id="meFollowing">156</strong><span>กำลังติดตาม</span></div>
+      <div class="me-profile-info">
+        <h2 id="meName">สมชาย รักน้องหมา</h2>
+        <span class="tier-badge gold"><i class="fas fa-crown"></i> Gold Member</span>
+        <p id="meBio" class="me-bio">คนรักสัตว์ 🐕🐈</p>
       </div>
-      <button class="btn-outline btn-sm" onclick="editProfile()"><i class="fas fa-pen"></i> แก้ไขโปรไฟล์</button>
+      <div class="me-profile-actions">
+        <button class="me-action-btn primary" onclick="editProfile()"><i class="fas fa-pen"></i> แก้ไขโปรไฟล์</button>
+        <button class="me-action-btn" onclick="showToast('แชร์โปรไฟล์')"><i class="fas fa-share-alt"></i> แชร์</button>
+        <button class="me-action-btn icon-only" onclick="showMeSection('settings')"><i class="fas fa-cog"></i></button>
+      </div>
     </div>
 
     <!-- Pet Profiles Carousel -->
@@ -526,12 +510,17 @@
 <div id="cartSheet" class="cart-sheet">
   <div class="cart-sheet-header">
     <h3><i class="fas fa-shopping-cart"></i> ตะกร้าสินค้า</h3>
-    <button onclick="closeCart()"><i class="fas fa-times"></i></button>
+    <button class="cart-close-btn" onclick="closeCart()"><i class="fas fa-times"></i></button>
   </div>
   <div id="cartItems" class="cart-items"></div>
-  <div class="cart-footer">
-    <div class="cart-total"><span>รวมทั้งหมด</span><strong id="cartTotal">฿0</strong></div>
-    <button class="btn-primary btn-block" onclick="goCheckout()">สั่งซื้อ (<span id="cartCountText">0</span> ชิ้น)</button>
+  <div id="cartFooter" class="cart-footer">
+    <div class="cart-summary">
+      <div class="cart-total-row"><span>รวมทั้งหมด</span><strong id="cartTotal">฿0</strong></div>
+      <div class="cart-shipping-note"><i class="fas fa-truck"></i> จัดส่งฟรีเมื่อสั่งซื้อครบ ฿500</div>
+    </div>
+    <button class="cart-checkout-btn" onclick="goCheckout()">
+      <i class="fas fa-lock"></i> สั่งซื้อ (<span id="cartCountText">0</span> ชิ้น)
+    </button>
   </div>
 </div>
 

@@ -60,7 +60,7 @@ function initPromoBanner() {
       sub: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E04\u0E38\u0E13\u0E20\u0E32\u0E1E \u0E23\u0E32\u0E04\u0E32\u0E1E\u0E34\u0E40\u0E28\u0E29',
       cta: '\u0E14\u0E39\u0E42\u0E1B\u0E23\u0E42\u0E21\u0E0A\u0E31\u0E48\u0E19',
       gradient: 'linear-gradient(135deg, #FFC501, #E5A800)',
-      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a8?w=300&h=200&fit=crop',
+      image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop',
       merchantId: null,
       adSlot: 'hero-1',
       badge: 'AD'
@@ -92,7 +92,7 @@ function initPromoBanner() {
   container.innerHTML = banners.map((b, i) => `
     <div class="promo-slide${i === 0 ? ' active' : ''}" style="background:${b.gradient}" onclick="openPromoDetail(${i})">
       <div class="promo-image-wrap">
-        <img src="${b.image}" alt="${b.text}" loading="lazy">
+        <img src="${b.image}" alt="${b.text}" loading="lazy" onerror="this.style.display='none'">
       </div>
       <div class="promo-content">
         ${b.badge ? `<span class="promo-ad-badge">${b.badge}</span>` : ''}
@@ -122,7 +122,7 @@ function openPromoDetail(bannerIndex) {
     {
       title: 'Grand Opening Sale!',
       subtitle: '\u0E25\u0E14\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14 50% \u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E04\u0E38\u0E13\u0E20\u0E32\u0E1E',
-      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a8?w=600&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop',
       desc: '\u0E09\u0E25\u0E2D\u0E07\u0E42\u0E1B\u0E23\u0E42\u0E21\u0E0A\u0E31\u0E48\u0E19\u0E40\u0E1B\u0E34\u0E14\u0E15\u0E31\u0E27\u0E43\u0E2B\u0E21\u0E48! \u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E17\u0E38\u0E01\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E25\u0E14\u0E23\u0E32\u0E04\u0E32\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14 50% \u0E15\u0E31\u0E49\u0E07\u0E41\u0E15\u0E48\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E16\u0E36\u0E07\u0E2A\u0E34\u0E49\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19 \u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C \u0E41\u0E25\u0E30\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E41\u0E1F\u0E0A\u0E31\u0E48\u0E19\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07 \u0E2A\u0E48\u0E07\u0E1F\u0E23\u0E35\u0E17\u0E31\u0E48\u0E27\u0E1B\u0E23\u0E30\u0E40\u0E17\u0E28',
       period: '11 - 31 \u0E21\u0E35.\u0E04. 2569',
       merchant: 'Taily Official Store',
@@ -152,7 +152,7 @@ function openPromoDetail(bannerIndex) {
   showModal(`
     <div class="promo-detail-modal">
       <div class="promo-detail-hero">
-        <img src="${p.image}" alt="${p.title}">
+        <img src="${p.image}" alt="${p.title}" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,var(--primary),var(--accent))'">
         <div class="promo-detail-overlay"></div>
         <button class="promo-detail-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
       </div>
@@ -169,7 +169,7 @@ function openPromoDetail(bannerIndex) {
           <strong>${p.code}</strong>
           <button onclick="copyCouponCode('${p.code}')"><i class="fas fa-copy"></i></button>
         </div>
-        <button class="btn-primary btn-block" onclick="closeModal();showMarketTab('coupons')">\u0E14\u0E39\u0E04\u0E39\u0E1B\u0E2D\u0E07\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</button>
+        <button class="promo-detail-cta-btn" onclick="closeModal();showMarketTab('coupons')"><i class="fas fa-ticket-alt"></i> ดูคูปองทั้งหมด</button>
       </div>
     </div>
   `);
@@ -374,7 +374,16 @@ async function addToCart(productId) {
   const qty = qtyEl ? parseInt(qtyEl.textContent) || 1 : 1;
 
   TailyStore.addToCart(product, qty);
-  showToast(`\u0E40\u0E1E\u0E34\u0E48\u0E21 "${product.name}" \u0E25\u0E07\u0E15\u0E30\u0E01\u0E23\u0E49\u0E32\u0E41\u0E25\u0E49\u0E27`);
+  // Show enhanced toast with cart button
+  const toastEl = document.getElementById('toast');
+  if (toastEl) {
+    toastEl.innerHTML = `
+      <span>✅ เพิ่มลงตะกร้าแล้ว</span>
+      <button onclick="openCart();this.closest('.toast').classList.remove('show')" style="margin-left:8px;padding:4px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:#fff;font-size:12px;font-weight:600;cursor:pointer">ดูตะกร้า</button>
+    `;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 3500);
+  }
 }
 
 // ===== COUPONS =====
