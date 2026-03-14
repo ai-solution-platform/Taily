@@ -720,19 +720,20 @@ function renderCheckout() {
 
   const cart = TailyStore.get('cart');
   const subtotal = TailyStore.getCartTotal();
-  const shipping = 50;
+  const shipping = cart.length > 0 ? 50 : 0;
   const total = subtotal + shipping;
+  const totalItems = cart.reduce((s, i) => s + i.qty, 0);
 
   // Step indicators
   const stepsHtml = `
     <div class="checkout-steps">
       <div class="co-step ${checkoutStep >= 1 ? 'active' : ''}">
-        <div class="co-step-num">1</div>
+        <div class="co-step-num">${checkoutStep > 1 ? '<i class="fas fa-check" style="font-size:13px"></i>' : '1'}</div>
         <span>\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32</span>
       </div>
       <div class="co-step-line ${checkoutStep >= 2 ? 'active' : ''}"></div>
       <div class="co-step ${checkoutStep >= 2 ? 'active' : ''}">
-        <div class="co-step-num">2</div>
+        <div class="co-step-num">${checkoutStep > 2 ? '<i class="fas fa-check" style="font-size:13px"></i>' : '2'}</div>
         <span>\u0E17\u0E35\u0E48\u0E2D\u0E22\u0E39\u0E48</span>
       </div>
       <div class="co-step-line ${checkoutStep >= 3 ? 'active' : ''}"></div>
@@ -747,6 +748,17 @@ function renderCheckout() {
 
   if (checkoutStep === 1) {
     // Step 1: Review cart items
+    if (cart.length === 0) {
+      contentHtml = `
+        <div class="co-section">
+          <div class="co-empty">
+            <i class="fas fa-shopping-cart"></i>
+            <p>ยังไม่มีสินค้าในตะกร้า</p>
+            <button class="btn-primary" onclick="goBack('market')">เลือกซื้อสินค้า</button>
+          </div>
+        </div>
+      `;
+    } else {
     contentHtml = `
       <div class="co-section">
         <h3><i class="fas fa-shopping-cart"></i> \u0E15\u0E23\u0E27\u0E08\u0E2A\u0E2D\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32</h3>
@@ -754,7 +766,7 @@ function renderCheckout() {
           ${cart.map(item => `
             <div class="co-item">
               <img src="${item.image}" alt="${item.name}" loading="lazy"
-                   onerror="this.style.display='none'">
+                   onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect fill=%22%23F0F0F0%22 width=%2264%22 height=%2264%22 rx=%228%22/><text x=%2232%22 y=%2236%22 text-anchor=%22middle%22 font-size=%2224%22>🛍️</text></svg>'">
               <div class="co-item-info">
                 <div class="co-item-name">${item.name}</div>
                 <div class="co-item-price">\u0E3F${item.price.toLocaleString()}</div>
@@ -764,6 +776,7 @@ function renderCheckout() {
                 <span>${item.qty}</span>
                 <button onclick="updateCheckoutQty(${item.productId}, 1)"><i class="fas fa-plus"></i></button>
               </div>
+              <button class="co-item-delete" onclick="updateCheckoutQty(${item.productId}, -${item.qty})" title="\u0E25\u0E1A"><i class="fas fa-trash-alt"></i></button>
             </div>
           `).join('')}
         </div>
@@ -772,9 +785,12 @@ function renderCheckout() {
           <div class="co-summary-row"><span>\u0E04\u0E48\u0E32\u0E08\u0E31\u0E14\u0E2A\u0E48\u0E07</span><span>\u0E3F${shipping}</span></div>
           <div class="co-summary-row total"><span>\u0E23\u0E27\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</span><span>\u0E3F${total.toLocaleString()}</span></div>
         </div>
-        <button class="btn-primary btn-block" onclick="checkoutStep=2;renderCheckout()">\u0E16\u0E31\u0E14\u0E44\u0E1B <i class="fas fa-arrow-right"></i></button>
+      </div>
+      <div class="co-fixed-bottom">
+        <button class="btn-primary" onclick="checkoutStep=2;renderCheckout()">\u0E16\u0E31\u0E14\u0E44\u0E1B <i class="fas fa-arrow-right"></i></button>
       </div>
     `;
+    }
   } else if (checkoutStep === 2) {
     // Step 2: Delivery address
     contentHtml = `
@@ -813,7 +829,7 @@ function renderCheckout() {
         <h3><i class="fas fa-credit-card"></i> \u0E0A\u0E48\u0E2D\u0E07\u0E17\u0E32\u0E07\u0E0A\u0E33\u0E23\u0E30\u0E40\u0E07\u0E34\u0E19</h3>
         <div class="co-payments">
           <div class="co-payment ${selectedPayment === 'promptpay' ? 'selected' : ''}" onclick="selectPayment('promptpay')">
-            <div class="co-payment-radio"><i class="fas ${selectedPayment === 'promptpay' ? 'fa-check-circle' : 'fa-circle'}" style="color:${selectedPayment === 'promptpay' ? 'var(--primary, #FFC501)' : '#ccc'}"></i></div>
+            <div class="co-payment-radio"><i class="fas ${selectedPayment === 'promptpay' ? 'fa-check-circle' : 'fa-circle'}"></i></div>
             <div class="co-payment-icon" style="background:#1A237E;color:#fff"><i class="fas fa-qrcode"></i></div>
             <div class="co-payment-info">
               <div class="co-payment-name">PromptPay / QR Code</div>
@@ -821,7 +837,7 @@ function renderCheckout() {
             </div>
           </div>
           <div class="co-payment ${selectedPayment === 'credit' ? 'selected' : ''}" onclick="selectPayment('credit')">
-            <div class="co-payment-radio"><i class="fas ${selectedPayment === 'credit' ? 'fa-check-circle' : 'fa-circle'}" style="color:${selectedPayment === 'credit' ? 'var(--primary, #FFC501)' : '#ccc'}"></i></div>
+            <div class="co-payment-radio"><i class="fas ${selectedPayment === 'credit' ? 'fa-check-circle' : 'fa-circle'}"></i></div>
             <div class="co-payment-icon" style="background:#1565C0;color:#fff"><i class="fas fa-credit-card"></i></div>
             <div class="co-payment-info">
               <div class="co-payment-name">\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15 / \u0E40\u0E14\u0E1A\u0E34\u0E15</div>
@@ -829,7 +845,7 @@ function renderCheckout() {
             </div>
           </div>
           <div class="co-payment ${selectedPayment === 'cod' ? 'selected' : ''}" onclick="selectPayment('cod')">
-            <div class="co-payment-radio"><i class="fas ${selectedPayment === 'cod' ? 'fa-check-circle' : 'fa-circle'}" style="color:${selectedPayment === 'cod' ? 'var(--primary, #FFC501)' : '#ccc'}"></i></div>
+            <div class="co-payment-radio"><i class="fas ${selectedPayment === 'cod' ? 'fa-check-circle' : 'fa-circle'}"></i></div>
             <div class="co-payment-icon" style="background:#2E7D32;color:#fff"><i class="fas fa-money-bill-wave"></i></div>
             <div class="co-payment-info">
               <div class="co-payment-name">\u0E40\u0E01\u0E47\u0E1A\u0E40\u0E07\u0E34\u0E19\u0E1B\u0E25\u0E32\u0E22\u0E17\u0E32\u0E07 (COD)</div>
@@ -837,13 +853,18 @@ function renderCheckout() {
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="co-summary" style="margin-top:20px">
-          <div class="co-summary-row"><span>\u0E23\u0E32\u0E04\u0E32\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32 (${cart.reduce((s, i) => s + i.qty, 0)} \u0E0A\u0E34\u0E49\u0E19)</span><span>\u0E3F${subtotal.toLocaleString()}</span></div>
+      <div class="co-section">
+        <h3><i class="fas fa-receipt"></i> \u0E2A\u0E23\u0E38\u0E1B\u0E04\u0E33\u0E2A\u0E31\u0E48\u0E07\u0E0B\u0E37\u0E49\u0E2D</h3>
+        <div class="co-summary">
+          <div class="co-summary-row"><span>\u0E23\u0E32\u0E04\u0E32\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32 (${totalItems} \u0E0A\u0E34\u0E49\u0E19)</span><span>\u0E3F${subtotal.toLocaleString()}</span></div>
           <div class="co-summary-row"><span>\u0E04\u0E48\u0E32\u0E08\u0E31\u0E14\u0E2A\u0E48\u0E07</span><span>\u0E3F${shipping}</span></div>
           <div class="co-summary-row total"><span>\u0E23\u0E27\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14</span><span>\u0E3F${total.toLocaleString()}</span></div>
         </div>
+      </div>
 
+      <div style="padding:0 16px;">
         <div class="co-nav-btns">
           <button class="btn-outline" onclick="checkoutStep=2;renderCheckout()"><i class="fas fa-arrow-left"></i> \u0E22\u0E49\u0E2D\u0E19\u0E01\u0E25\u0E31\u0E1A</button>
           <button class="btn-primary" onclick="placeOrder()" id="placeOrderBtn">
@@ -857,7 +878,7 @@ function renderCheckout() {
   container.innerHTML = `
     <div class="checkout-page">
       <div class="checkout-header">
-        <button class="back-btn" onclick="goBack('market')" style="position:static;background:var(--bg, #FFFBF0)"><i class="fas fa-chevron-left"></i></button>
+        <button class="back-btn" onclick="goBack('market')" style="position:static"><i class="fas fa-chevron-left"></i></button>
         <h2>\u0E2A\u0E31\u0E48\u0E07\u0E0B\u0E37\u0E49\u0E2D\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32</h2>
       </div>
       ${stepsHtml}
