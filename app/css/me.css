@@ -2639,3 +2639,1076 @@
   max-height: 200px;
   padding: 0 16px 16px;
 }
+
+/* ------------------------------------------------------------
+   Edit Profile — TikTok-style full page
+   ------------------------------------------------------------ */
+.edit-profile-page {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.edit-profile-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.edit-profile-top-bar .back-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.edit-profile-top-bar .edit-profile-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.edit-profile-top-bar .save-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.edit-profile-avatar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0 20px;
+  background: var(--bg-card);
+  cursor: pointer;
+}
+
+.edit-avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.edit-avatar-wrap img {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 3px solid var(--primary);
+}
+
+.edit-avatar-camera {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--primary-on);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid var(--bg-card);
+}
+
+.edit-avatar-hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+.edit-field-group {
+  background: var(--bg-card);
+  margin-top: 8px;
+}
+
+.edit-field-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.edit-field-row label {
+  width: 80px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.edit-field-row input,
+.edit-field-row textarea,
+.edit-field-row select {
+  flex: 1;
+  border: none;
+  font-size: 15px;
+  text-align: right;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+}
+
+.edit-field-row textarea {
+  resize: none;
+  min-height: 40px;
+}
+
+.edit-field-row select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.edit-username-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.edit-at-prefix {
+  font-size: 15px;
+  color: var(--text-light);
+}
+
+.edit-username-wrap input {
+  flex: 0 1 auto;
+  width: auto;
+  text-align: right;
+}
+
+.edit-field-bio {
+  align-items: flex-start;
+}
+
+.edit-bio-counter {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-light);
+  padding: 4px 16px 10px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============================================================
+   PET PROFILE PAGE
+   ============================================================ */
+
+.pp-hero {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.pp-hero > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+}
+
+.pp-back-btn,
+.pp-edit-btn {
+  position: absolute;
+  top: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 2;
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.15s;
+}
+
+.pp-back-btn:active,
+.pp-edit-btn:active { transform: scale(0.9); }
+
+.pp-back-btn { left: 12px; }
+.pp-edit-btn { right: 12px; }
+
+.pp-hero-info {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.pp-hero-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  margin-bottom: 8px;
+}
+
+.pp-hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pp-hero-name {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  margin: 0;
+}
+
+.pp-hero-breed {
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0 0;
+}
+
+/* Info Grid */
+.pp-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 16px;
+  margin-top: -20px;
+  position: relative;
+  z-index: 3;
+}
+
+.pp-info-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.pp-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,197,1,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+  color: var(--primary-dark);
+  font-size: 14px;
+}
+
+.pp-info-label {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+
+.pp-info-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Microchip Card */
+.pp-section {
+  padding: 0 16px 16px;
+}
+
+.pp-chip-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.pp-chip-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(33,150,243,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2196F3;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.pp-chip-info { flex: 1; }
+
+.pp-chip-label {
+  font-size: 11px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pp-chip-value {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+.pp-chip-copy {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: background 0.15s;
+}
+
+.pp-chip-copy:active { background: var(--border); }
+
+/* Health Alert */
+.pp-health-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #FFF3E0;
+  border: 1px solid #FFE0B2;
+  border-radius: 12px;
+  padding: 14px;
+  color: #E65100;
+}
+
+.pp-health-alert i { font-size: 18px; margin-top: 2px; }
+.pp-health-alert strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.pp-health-alert p { font-size: 13px; margin: 0; opacity: 0.85; }
+
+/* Section Title */
+.pp-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pp-section-title i {
+  color: var(--primary-dark);
+  font-size: 14px;
+}
+
+/* Vaccination List */
+.pp-vacc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pp-vacc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+}
+
+.pp-vacc-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(76,175,80,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4CAF50;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.pp-vacc-item.vacc-upcoming .pp-vacc-icon {
+  background: rgba(255,152,0,0.1);
+  color: #FF9800;
+}
+
+.pp-vacc-info { flex: 1; }
+
+.pp-vacc-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.pp-vacc-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.pp-vacc-next {
+  font-size: 12px;
+  color: #FF9800;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pp-vacc-item.vacc-done .pp-vacc-next {
+  color: #4CAF50;
+}
+
+.pp-empty {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 14px;
+  padding: 24px;
+}
+
+/* Photo Gallery */
+.pp-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pp-gallery-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.pp-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.pp-gallery-item:active img { transform: scale(1.05); }
+
+/* Actions Section */
+.pp-actions-section {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 100px;
+}
+
+.pp-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: var(--primary-on);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255,197,1,0.3);
+  transition: transform 0.15s;
+}
+
+.pp-action-btn:active { transform: scale(0.97); }
+
+.pp-action-btn.pp-action-secondary {
+  background: var(--bg-card);
+  color: var(--primary-dark);
+  border: 2px solid var(--primary);
+  box-shadow: none;
+}
+
+/* ============================================================
+   SHARED SERVICE PAGE STYLES (Training & Pet Sitting)
+   ============================================================ */
+
+/* Banner */
+.svc-banner {
+  margin: 16px;
+  border-radius: 16px;
+  padding: 24px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.svc-banner-content h2 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.svc-banner-content p {
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 240px;
+}
+
+.svc-banner-icon {
+  font-size: 48px;
+  color: rgba(255,255,255,0.15);
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Section */
+.svc-section {
+  padding: 0 16px 20px;
+}
+
+.svc-section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+/* Service Type Grid */
+.svc-type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.svc-type-card {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 14px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: transform 0.15s;
+}
+
+.svc-type-card:active { transform: scale(0.96); }
+
+.svc-type-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,197,1,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  color: var(--primary-dark);
+  font-size: 16px;
+}
+
+.svc-type-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.svc-type-desc {
+  font-size: 10px;
+  color: var(--text-light);
+  line-height: 1.3;
+}
+
+/* Service Cards */
+.svc-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 80px;
+}
+
+.svc-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  transition: transform 0.15s;
+  cursor: pointer;
+}
+
+.svc-card:active { transform: scale(0.98); }
+
+.svc-card-img {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+}
+
+.svc-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.svc-card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.svc-card-body {
+  padding: 14px;
+}
+
+.svc-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 2px;
+}
+
+.svc-card-sub {
+  font-size: 12px;
+  color: var(--text-light);
+  margin: 0 0 8px;
+}
+
+.svc-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+}
+
+.svc-card-rating i { color: #FFC501; font-size: 12px; }
+.svc-card-rating span { font-weight: 400; color: var(--text-light); }
+
+.svc-card-location {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.svc-card-location i { color: #E53935; font-size: 11px; }
+
+.svc-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.svc-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255,197,1,0.1);
+  color: var(--primary-dark);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.svc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.svc-card-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.svc-card-price small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-light);
+}
+
+.svc-card-book-btn {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: var(--primary-on);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(255,197,1,0.3);
+  transition: transform 0.15s;
+}
+
+.svc-card-book-btn:active { transform: scale(0.95); }
+
+/* ============================================================
+   PET PROFILE — New Rich Profile Styles
+   ============================================================ */
+
+.pet-profile-hero {
+  height: 250px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pet-profile-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-profile-hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  padding: 40px 16px 16px;
+}
+
+.pet-profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 16px;
+  margin-top: -20px;
+  position: relative;
+  z-index: 1;
+}
+
+.pet-info-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.pet-info-card .label {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.pet-info-card .value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.pet-profile-actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+  overflow-x: auto;
+}
+
+.pet-profile-action-btn {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text);
+}
+
+.pet-health-timeline {
+  padding: 16px;
+}
+
+.pet-timeline-item {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 16px;
+  position: relative;
+}
+
+.pet-timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.pet-timeline-dot.done {
+  background: #4CAF50;
+}
+
+.pet-timeline-dot.upcoming {
+  background: #FF9800;
+}
+
+.pet-timeline-line {
+  position: absolute;
+  left: 5px;
+  top: 16px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.pet-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 16px;
+}
+
+.pet-photo-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   TRAINING / PET SITTING — Toggle & Cards
+   ============================================================ */
+
+.training-toggle-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.training-toggle-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.training-toggle-btn.active {
+  background: var(--primary);
+  color: var(--primary-on);
+  border-color: var(--primary);
+}
+
+.training-list {
+  padding: 12px 16px;
+}
+
+.training-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-card);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.training-card:active {
+  transform: scale(0.98);
+}
+
+.training-card-img {
+  width: 100px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.training-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.training-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.training-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.training-chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,197,1,0.15);
+  color: var(--primary-dark);
+}
+
+.training-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.training-card-price {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.training-detail-hero {
+  height: 200px;
+  width: 100%;
+  position: relative;
+}
+
+.training-detail-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.training-detail-body {
+  padding: 16px;
+}
+
+.training-detail-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.training-services-list {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.training-services-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.training-book-btn {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 16px auto;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: var(--primary-on);
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(255,197,1,0.3);
+  transition: transform 0.15s;
+}
+
+.training-book-btn:active {
+  transform: scale(0.97);
+}
+
+.booking-modal {
+  padding: 20px;
+}
+
+.booking-field {
+  margin-bottom: 16px;
+}
+
+.booking-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.booking-field select,
+.booking-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--bg-card);
+  color: var(--text);
+  box-sizing: border-box;
+}

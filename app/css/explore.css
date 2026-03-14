@@ -617,7 +617,7 @@
   background: var(--bg-card);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: var(--shadow-xl);
-  z-index: 900;
+  z-index: 450;
   transition: transform var(--duration-base) var(--ease-out);
   max-height: 70vh;
   overflow: hidden;
@@ -626,10 +626,12 @@
   will-change: transform;
 }
 
-/* Peek: only handle visible */
+/* Peek: only handle bar visible — minimal obstruction over the map */
 .bottom-sheet.peek {
-  transform: translateY(calc(100% - 64px));
+  transform: translateY(calc(100% - 36px));
 }
+.bottom-sheet.peek .handle-hint { display: none; }
+.bottom-sheet.peek .sheet-header { display: none; }
 
 /* Half: 50% of sheet */
 .bottom-sheet.half {

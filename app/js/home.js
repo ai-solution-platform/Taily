@@ -58,79 +58,182 @@ function createStory() {
   showToast('กำลังพัฒนา');
 }
 
+// ===== Instagram-style Story Viewer =====
+let _storyViewerState = null; // { allPeople, personIdx, storyIdx, timer }
+
 async function showStory(id) {
-  const stories = await MockAPI.getStories();
-  const story = stories.find(s => s.id === id);
-  if (!story) return;
+  const allStories = await MockAPI.getStories();
+
+  // Build people array — each person has an array of stories (currently 1 each)
+  const peopleMap = new Map();
+  allStories.forEach(s => {
+    if (s.isMine) return;
+    if (!peopleMap.has(s.userName)) {
+      peopleMap.set(s.userName, {
+        userName: s.userName,
+        userAvatar: s.userAvatar,
+        stories: []
+      });
+    }
+    peopleMap.get(s.userName).stories.push(s);
+  });
+  const allPeople = Array.from(peopleMap.values());
+
+  // Find which person was tapped
+  let personIdx = allPeople.findIndex(p => p.stories.some(s => s.id === id));
+  if (personIdx < 0) personIdx = 0;
+
+  _storyViewerState = { allPeople, personIdx, storyIdx: 0, timer: null };
+
+  // Build overlay DOM (once)
+  const overlay = document.createElement('div');
+  overlay.className = 'story-viewer';
+  overlay.id = 'storyOverlay';
+
+  overlay.innerHTML = `
+    <div class="story-viewer-container">
+      <div class="story-progress"></div>
+      <div class="story-header">
+        <img class="story-header-avatar" src="" alt="">
+        <div class="story-header-info">
+          <div class="story-header-name"></div>
+          <div class="story-header-time"></div>
+        </div>
+        <button class="story-close-btn" onclick="closeStoryOverlay()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <img class="story-viewer-image" src="" alt="">
+      <div class="story-nav-left"></div>
+      <div class="story-nav-right"></div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // Navigation tap zones
+  overlay.querySelector('.story-nav-left').addEventListener('click', () => storyGo(-1));
+  overlay.querySelector('.story-nav-right').addEventListener('click', () => storyGo(1));
+
+  // Keyboard support
+  _storyKeyHandler = (e) => {
+    if (e.key === 'ArrowLeft') storyGo(-1);
+    else if (e.key === 'ArrowRight') storyGo(1);
+    else if (e.key === 'Escape') closeStoryOverlay();
+  };
+  document.addEventListener('keydown', _storyKeyHandler);
+
+  // Render first story
+  _renderCurrentStory();
+}
+
+let _storyKeyHandler = null;
+
+function _renderCurrentStory() {
+  const st = _storyViewerState;
+  if (!st) return;
+
+  const overlay = document.getElementById('storyOverlay');
+  if (!overlay) return;
+
+  // Clear previous timer
+  if (st.timer) clearTimeout(st.timer);
+
+  const person = st.allPeople[st.personIdx];
+  const story = person.stories[st.storyIdx];
 
   // Mark as viewed
   const viewedStories = new Set(TailyStore.get('viewedStories'));
-  viewedStories.add(id);
+  viewedStories.add(story.id);
   TailyStore.set('viewedStories', viewedStories);
 
-  // Update the ring color in the story bar
+  // Update ring in the bar
   const storyItems = document.querySelectorAll('#storiesBar .story-item:not(.my-story)');
   storyItems.forEach(item => {
     const nameEl = item.querySelector('.story-name');
-    if (nameEl && nameEl.textContent === story.userName) {
+    if (nameEl && nameEl.textContent === person.userName) {
       const wrap = item.querySelector('.story-avatar-wrap');
       wrap.classList.remove('story-ring-unseen');
       wrap.classList.add('story-ring-seen');
     }
   });
 
-  // Build full-screen overlay
-  const overlay = document.createElement('div');
-  overlay.className = 'story-overlay';
-  overlay.id = 'storyOverlay';
-  overlay.style.cssText = `
-    position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;
-    background:#000;display:flex;flex-direction:column;
-  `;
+  // Update image
+  overlay.querySelector('.story-viewer-image').src = story.image;
 
-  overlay.innerHTML = `
-    <div style="position:absolute;top:0;left:0;right:0;z-index:2;padding:8px 12px;">
-      <div style="height:3px;background:rgba(255,255,255,0.3);border-radius:2px;overflow:hidden;margin-bottom:12px">
-        <div class="story-progress-fill" style="height:100%;background:#fff;border-radius:2px;width:0%;transition:width 5s linear"></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <img src="${story.userAvatar}" style="width:36px;height:36px;border-radius:50%;border:2px solid #fff" alt="">
-        <div style="flex:1">
-          <div style="color:#fff;font-size:14px;font-weight:600">${story.userName}</div>
-          <div style="color:rgba(255,255,255,0.7);font-size:11px">${timeAgo(story.timestamp)}</div>
-        </div>
-        <button onclick="closeStoryOverlay()" style="background:none;border:none;color:#fff;font-size:22px;padding:8px;cursor:pointer">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    </div>
-    <img src="${story.image}" style="width:100%;height:100%;object-fit:cover" alt="">
-  `;
+  // Update header
+  overlay.querySelector('.story-header-avatar').src = person.userAvatar;
+  overlay.querySelector('.story-header-name').textContent = person.userName;
+  overlay.querySelector('.story-header-time').textContent = timeAgo(story.timestamp);
 
-  document.body.appendChild(overlay);
+  // Build progress segments
+  const progressBar = overlay.querySelector('.story-progress');
+  const totalStories = person.stories.length;
+  progressBar.innerHTML = person.stories.map((_, i) => {
+    let fillClass = '';
+    if (i < st.storyIdx) fillClass = 'fill done';
+    else if (i === st.storyIdx) fillClass = 'fill active';
+    return `<div class="story-progress-seg"><div class="${fillClass}"></div></div>`;
+  }).join('');
 
-  // Start progress bar
+  // Animate the active segment
   requestAnimationFrame(() => {
-    const fill = overlay.querySelector('.story-progress-fill');
-    if (fill) fill.style.width = '100%';
-  });
-
-  // Auto-close after 5 seconds
-  overlay._timer = setTimeout(() => closeStoryOverlay(), 5000);
-
-  // Close on tap outside close button
-  overlay.addEventListener('click', (e) => {
-    if (!e.target.closest('button')) {
-      closeStoryOverlay();
+    const activeFill = progressBar.querySelector('.fill.active');
+    if (activeFill) {
+      // Force reflow then animate
+      activeFill.offsetWidth;
+      activeFill.classList.add('running');
     }
   });
+
+  // Auto-advance after 5s
+  st.timer = setTimeout(() => storyGo(1), 5000);
+}
+
+function storyGo(direction) {
+  const st = _storyViewerState;
+  if (!st) return;
+
+  const person = st.allPeople[st.personIdx];
+  let newStoryIdx = st.storyIdx + direction;
+
+  if (newStoryIdx < 0) {
+    // Go to previous person
+    if (st.personIdx <= 0) {
+      // Already first person, close
+      closeStoryOverlay();
+      return;
+    }
+    st.personIdx--;
+    st.storyIdx = st.allPeople[st.personIdx].stories.length - 1;
+  } else if (newStoryIdx >= person.stories.length) {
+    // Go to next person
+    if (st.personIdx >= st.allPeople.length - 1) {
+      // Last person, close
+      closeStoryOverlay();
+      return;
+    }
+    st.personIdx++;
+    st.storyIdx = 0;
+  } else {
+    st.storyIdx = newStoryIdx;
+  }
+
+  _renderCurrentStory();
 }
 
 function closeStoryOverlay() {
   const overlay = document.getElementById('storyOverlay');
   if (overlay) {
-    if (overlay._timer) clearTimeout(overlay._timer);
     overlay.remove();
+  }
+  if (_storyViewerState && _storyViewerState.timer) {
+    clearTimeout(_storyViewerState.timer);
+  }
+  _storyViewerState = null;
+  if (_storyKeyHandler) {
+    document.removeEventListener('keydown', _storyKeyHandler);
+    _storyKeyHandler = null;
   }
 }
 

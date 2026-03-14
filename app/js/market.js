@@ -328,6 +328,52 @@ async function openProduct(id) {
         ` : ''}
 
         <div class="pd-section">
+          <h3>รีวิวจากผู้ซื้อ</h3>
+          <div class="pd-review-summary">
+            <span class="pd-review-big-score">${product.rating || 4.0}</span>
+            <div class="pd-review-summary-right">
+              <span class="pd-stars" style="font-size:16px">${ratingStars}</span>
+              <span class="pd-review-total">${product.reviewCount || 0} รีวิว</span>
+            </div>
+          </div>
+          <div class="pd-reviews">
+            <div class="pd-review-item">
+              <div class="pd-review-avatar"><i class="fas fa-user"></i></div>
+              <div class="pd-review-content">
+                <div class="pd-review-info">
+                  <span class="pd-review-name">คุณแพรว</span>
+                  <span class="pd-review-date">2 วันที่แล้ว</span>
+                </div>
+                <div class="pd-stars" style="font-size:12px">★★★★★</div>
+                <p class="pd-review-text">น้องหมาชอบมากค่ะ คุณภาพดี ส่งเร็วมาก แพ็กอย่างดี แนะนำเลย!</p>
+              </div>
+            </div>
+            <div class="pd-review-item">
+              <div class="pd-review-avatar"><i class="fas fa-user"></i></div>
+              <div class="pd-review-content">
+                <div class="pd-review-info">
+                  <span class="pd-review-name">คุณบอส</span>
+                  <span class="pd-review-date">1 สัปดาห์ที่แล้ว</span>
+                </div>
+                <div class="pd-stars" style="font-size:12px">★★★★☆</div>
+                <p class="pd-review-text">สินค้าดี ตรงปก คุ้มค่ากับราคา น้องแมวใช้ได้เลย</p>
+              </div>
+            </div>
+            <div class="pd-review-item">
+              <div class="pd-review-avatar"><i class="fas fa-user"></i></div>
+              <div class="pd-review-content">
+                <div class="pd-review-info">
+                  <span class="pd-review-name">คุณมิ้นท์</span>
+                  <span class="pd-review-date">2 สัปดาห์ที่แล้ว</span>
+                </div>
+                <div class="pd-stars" style="font-size:12px">★★★★★</div>
+                <p class="pd-review-text">ซื้อซ้ำหลายรอบแล้วค่ะ ไม่เคยผิดหวัง บริการหลังขายดีมาก</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pd-section">
           <div class="pd-qty-selector">
             <span class="pd-qty-label">\u0E08\u0E33\u0E19\u0E27\u0E19</span>
             <div class="pd-qty-controls">

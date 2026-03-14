@@ -103,12 +103,30 @@ function showComingSoon(feature) {
 function showMoreActions() {
   showModal(`
     <div class="more-actions-modal">
-      <h3 style="margin-bottom:16px;padding:0 4px"><i class="fas fa-ellipsis-h"></i> เพิ่มเติม</h3>
+      <div class="more-actions-header">
+        <h3><i class="fas fa-th"></i> บริการทั้งหมด</h3>
+        <button onclick="closeModal()" class="more-close-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="more-section-label">สำรวจ</div>
       <div class="qa-grid" style="padding:0">
-        <button class="qa-item" onclick="closeModal();showComingSoon('Taily Med')"><div class="qa-icon" style="background:linear-gradient(135deg,#2196F3,#0D47A1)"><i class="fas fa-stethoscope"></i></div><span>สัตวแพทย์</span></button>
-        <button class="qa-item" onclick="closeModal();showComingSoon('Insurance')"><div class="qa-icon" style="background:linear-gradient(135deg,#9C27B0,#4A148C)"><i class="fas fa-shield-dog"></i></div><span>ประกัน</span></button>
-        <button class="qa-item" onclick="closeModal();showComingSoon('Training')"><div class="qa-icon" style="background:linear-gradient(135deg,#FF5722,#BF360C)"><i class="fas fa-graduation-cap"></i></div><span>ฝึกสัตว์</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('explore')"><div class="qa-icon" style="background:linear-gradient(135deg,#81C784,#4CAF50)"><i class="fas fa-map-marked-alt"></i></div><span>แผนที่</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('explore');setTimeout(()=>showExploreTab('events'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#FFB74D,#FF9800)"><i class="fas fa-calendar-check"></i></div><span>กิจกรรม</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('market');setTimeout(()=>showMarketTab('coupons'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#F48FB1,#E91E63)"><i class="fas fa-ticket-alt"></i></div><span>คูปอง</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('market')"><div class="qa-icon" style="background:linear-gradient(135deg,#FFD54F,#FFC107)"><i class="fas fa-shopping-bag"></i></div><span>ตลาด</span></button>
+      </div>
+      <div class="more-section-label">บริการสัตว์เลี้ยง</div>
+      <div class="qa-grid" style="padding:0">
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('vet'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#2196F3,#0D47A1)"><i class="fas fa-stethoscope"></i></div><span>สัตวแพทย์</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('insurance'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#9C27B0,#4A148C)"><i class="fas fa-shield-alt"></i></div><span>ประกัน</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('training'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#FF5722,#BF360C)"><i class="fas fa-graduation-cap"></i></div><span>ฝึกสัตว์</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('petsitting'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#00BCD4,#006064)"><i class="fas fa-home"></i></div><span>รับดูแล</span></button>
+      </div>
+      <div class="more-section-label">ชุมชน</div>
+      <div class="qa-grid" style="padding:0">
         <button class="qa-item" onclick="closeModal();navigate('social');setTimeout(()=>showSocialTab('adoption'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#E91E63,#880E4F)"><i class="fas fa-heart"></i></div><span>รับเลี้ยง</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('petid'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#26A69A,#00695C)"><i class="fas fa-id-card"></i></div><span>Pet ID</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('favorites'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#EF5350,#C62828)"><i class="fas fa-heart"></i></div><span>รายการโปรด</span></button>
+        <button class="qa-item" onclick="closeModal();navigate('me');setTimeout(()=>showMeSection('settings'),100)"><div class="qa-icon" style="background:linear-gradient(135deg,#78909C,#37474F)"><i class="fas fa-cog"></i></div><span>ตั้งค่า</span></button>
       </div>
     </div>
   `);

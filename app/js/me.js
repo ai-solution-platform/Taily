@@ -50,44 +50,96 @@ async function initMe() {
 // ===================================================================
 
 function editProfile() {
-  const user = TailyStore.get('user');
+  showMeSection('editprofile');
+}
+
+function renderEditProfileSection(container) {
+  const user = TailyStore.get('user') || {};
   const u = user?.user || {};
 
-  showModal(`
-    <div class="edit-profile-modal">
-      <div class="edit-profile-header">
-        <h3><i class="fas fa-pen"></i> แก้ไขโปรไฟล์</h3>
-        <button onclick="closeModal()"><i class="fas fa-times"></i></button>
+  container.innerHTML = `
+    <div class="edit-profile-page">
+      <div class="edit-profile-top-bar">
+        <button class="back-text" onclick="goBack('me')"><i class="fas fa-arrow-left"></i></button>
+        <span class="edit-profile-title">แก้ไขโปรไฟล์</span>
+        <button class="save-text" onclick="saveProfile()">บันทึก</button>
       </div>
-      <div class="edit-profile-body">
-        <div class="edit-profile-avatar-section" onclick="showToast('เปลี่ยนรูปโปรไฟล์')">
-          <img src="${u.avatar || ''}" alt="" class="edit-profile-avatar">
-          <span class="edit-avatar-label"><i class="fas fa-camera"></i> เปลี่ยนรูป</span>
+
+      <div class="edit-profile-avatar-center" onclick="showToast('เปลี่ยนรูปโปรไฟล์')">
+        <div class="edit-avatar-wrap">
+          <img src="${u.avatar || ''}" alt="avatar">
+          <div class="edit-avatar-camera"><i class="fas fa-camera"></i></div>
         </div>
-        <div class="edit-field">
+        <span class="edit-avatar-hint">เปลี่ยนรูป</span>
+      </div>
+
+      <div class="edit-field-group">
+        <div class="edit-field-row">
           <label>ชื่อ</label>
           <input type="text" id="editName" value="${u.name || ''}" placeholder="ชื่อของคุณ">
         </div>
-        <div class="edit-field">
-          <label>Bio</label>
-          <textarea id="editBio" rows="3" placeholder="เกี่ยวกับตัวคุณ...">${u.bio || ''}</textarea>
+        <div class="edit-field-row">
+          <label>ชื่อผู้ใช้</label>
+          <div class="edit-username-wrap">
+            <span class="edit-at-prefix">@</span>
+            <input type="text" id="editUsername" value="${u.username || ''}" placeholder="username">
+          </div>
         </div>
-        <button class="btn-primary btn-block" onclick="saveProfile()">
-          <i class="fas fa-check"></i> บันทึก
-        </button>
+        <div class="edit-field-row edit-field-bio">
+          <label>Bio</label>
+          <textarea id="editBio" rows="2" maxlength="150" placeholder="เกี่ยวกับตัวคุณ..." oninput="updateBioCounter()">${u.bio || ''}</textarea>
+        </div>
+        <div class="edit-bio-counter"><span id="editBioCount">${(u.bio || '').length}</span>/150</div>
+        <div class="edit-field-row">
+          <label>เบอร์โทร</label>
+          <input type="tel" id="editPhone" value="${u.phone || ''}" placeholder="0xx-xxx-xxxx">
+        </div>
+        <div class="edit-field-row">
+          <label>อีเมล</label>
+          <input type="email" id="editEmail" value="${u.email || ''}" placeholder="you@example.com">
+        </div>
+        <div class="edit-field-row">
+          <label>เพศ</label>
+          <select id="editGender">
+            <option value="" ${!u.gender ? 'selected' : ''}>ไม่ระบุ</option>
+            <option value="male" ${u.gender === 'male' ? 'selected' : ''}>ชาย</option>
+            <option value="female" ${u.gender === 'female' ? 'selected' : ''}>หญิง</option>
+            <option value="other" ${u.gender === 'other' ? 'selected' : ''}>อื่นๆ</option>
+          </select>
+        </div>
+        <div class="edit-field-row">
+          <label>วันเกิด</label>
+          <input type="date" id="editBirthday" value="${u.birthday || ''}">
+        </div>
       </div>
     </div>
-  `);
+  `;
+}
+
+function updateBioCounter() {
+  const bio = document.getElementById('editBio');
+  const counter = document.getElementById('editBioCount');
+  if (bio && counter) counter.textContent = bio.value.length;
 }
 
 function saveProfile() {
   const nameVal = document.getElementById('editName')?.value?.trim();
   const bioVal = document.getElementById('editBio')?.value?.trim();
+  const usernameVal = document.getElementById('editUsername')?.value?.trim();
+  const phoneVal = document.getElementById('editPhone')?.value?.trim();
+  const emailVal = document.getElementById('editEmail')?.value?.trim();
+  const genderVal = document.getElementById('editGender')?.value;
+  const birthdayVal = document.getElementById('editBirthday')?.value;
   const user = TailyStore.get('user') || {};
 
   if (nameVal && user.user) {
     user.user.name = nameVal;
     user.user.bio = bioVal || '';
+    user.user.username = usernameVal || '';
+    user.user.phone = phoneVal || '';
+    user.user.email = emailVal || '';
+    user.user.gender = genderVal || '';
+    user.user.birthday = birthdayVal || '';
     TailyStore.set('user', user);
 
     const nameEl = document.getElementById('meName');
@@ -96,7 +148,7 @@ function saveProfile() {
     if (bioEl) bioEl.textContent = bioVal || '';
   }
 
-  closeModal();
+  goBack('me');
   showToast('บันทึกโปรไฟล์แล้ว');
 }
 
@@ -108,7 +160,7 @@ function renderMyPets(pets) {
   const container = document.getElementById('myPetsCarousel');
   if (!container) return;
 
-  container.innerHTML = pets.map(pet => {
+  container.innerHTML = pets.map((pet, idx) => {
     const speciesIcon = pet.species === 'dog' ? 'fa-dog' : 'fa-cat';
     const petImage = pet.avatar || pet.image || '';
     const weightStr = typeof pet.weight === 'number' ? pet.weight + ' kg' : (pet.weight || '');
@@ -119,7 +171,7 @@ function renderMyPets(pets) {
     });
 
     return `
-      <div class="my-pet-card" onclick="showMeSection('petid')">
+      <div class="my-pet-card" onclick="showPetProfile(${idx})">
         <div class="my-pet-img">
           <img src="${petImage}" alt="${pet.name}" loading="lazy">
           <span class="my-pet-species-badge"><i class="fas ${speciesIcon}"></i></span>
@@ -237,6 +289,18 @@ function showMeSection(section) {
       break;
     case 'insurance':
       renderInsuranceSection(container);
+      break;
+    case 'editprofile':
+      renderEditProfileSection(container);
+      break;
+    case 'training':
+      renderTrainingSection(container);
+      break;
+    case 'petsitting':
+      renderPetSittingSection(container);
+      break;
+    case 'petprofile':
+      renderPetProfilePage(container);
       break;
     default:
       container.innerHTML = `
@@ -1063,4 +1127,364 @@ function renderInsuranceSection(container) {
       </div>
     </div>
   `;
+}
+
+// ===================================================================
+//  PET PROFILE (Rich Profile Page)
+// ===================================================================
+
+let _petProfileIndex = 0;
+
+function showPetProfile(petIndex) {
+  _petProfileIndex = petIndex;
+  showMeSection('petprofile');
+}
+
+function renderPetProfilePage(container) {
+  const profile = TailyStore.get('user');
+  const pet = profile?.pets?.[_petProfileIndex];
+  if (!pet) {
+    container.innerHTML = `
+      <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>โปรไฟล์สัตว์เลี้ยง</span></button>
+      <div class="empty-state"><i class="fas fa-paw"></i><p>ไม่พบข้อมูลสัตว์เลี้ยง</p></div>
+    `;
+    return;
+  }
+
+  const petImage = pet.avatar || pet.image || '';
+  const genderText = pet.gender === 'male' ? 'ชาย' : pet.gender === 'female' ? 'หญิง' : (pet.gender || 'ไม่ระบุ');
+  const weightStr = typeof pet.weight === 'number' ? pet.weight + ' kg' : (pet.weight || 'ไม่ระบุ');
+
+  // Health timeline
+  const vaccinations = pet.vaccinations || [];
+  const today = new Date('2026-03-14');
+  const timelineHtml = vaccinations.map((v, i) => {
+    const nextDateStr = v.nextDue || v.nextDate || '';
+    const nextDate = nextDateStr ? new Date(nextDateStr) : null;
+    const isUpcoming = nextDate && nextDate > today;
+    const dotClass = isUpcoming ? 'upcoming' : 'done';
+    const showLine = i < vaccinations.length - 1;
+
+    return `
+      <div class="pet-timeline-item">
+        <div style="position:relative;display:flex;flex-direction:column;align-items:center">
+          <div class="pet-timeline-dot ${dotClass}"></div>
+          ${showLine ? '<div class="pet-timeline-line"></div>' : ''}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:14px">${v.name}</div>
+          <div style="font-size:12px;color:var(--text-secondary)">${formatThaiDate(v.date)}</div>
+          ${v.vet ? `<div style="font-size:12px;color:var(--text-secondary)"><i class="fas fa-hospital"></i> ${v.vet}</div>` : ''}
+          ${nextDateStr ? `<div style="font-size:12px;color:${isUpcoming ? '#FF9800' : '#4CAF50'}"><i class="fas fa-calendar-alt"></i> นัดถัดไป: ${formatThaiDate(nextDateStr)}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Mock photo gallery
+  const petPhotos = pet.species === 'dog' ? [
+    'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1558929996-da64ba858215?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1560807707-8cc77767d783?w=200&h=200&fit=crop'
+  ] : [
+    'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=200&h=200&fit=crop',
+    'https://images.unsplash.com/photo-1561948955-570b270e7c36?w=200&h=200&fit=crop'
+  ];
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>โปรไฟล์สัตว์เลี้ยง</span></button>
+
+    <!-- Hero -->
+    <div class="pet-profile-hero">
+      <img src="${petImage}" alt="${pet.name}" loading="lazy">
+      <div class="pet-profile-hero-overlay">
+        <h2 style="color:#fff;font-size:22px;margin:0">${pet.name}</h2>
+        <p style="color:rgba(255,255,255,0.85);font-size:14px;margin:4px 0 0">${pet.breed}</p>
+      </div>
+    </div>
+
+    <!-- Info Grid -->
+    <div class="pet-profile-info-grid">
+      <div class="pet-info-card">
+        <div class="label">อายุ</div>
+        <div class="value">${pet.age || 'ไม่ระบุ'}</div>
+      </div>
+      <div class="pet-info-card">
+        <div class="label">น้ำหนัก</div>
+        <div class="value">${weightStr}</div>
+      </div>
+      <div class="pet-info-card">
+        <div class="label">เพศ</div>
+        <div class="value">${genderText}</div>
+      </div>
+      <div class="pet-info-card">
+        <div class="label">ไมโครชิป</div>
+        <div class="value" style="font-size:12px">${pet.microchipId || 'ไม่ระบุ'}</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="pet-profile-actions">
+      <button class="pet-profile-action-btn" onclick="showMeSection('petid')"><i class="fas fa-id-card"></i> บัตร Pet ID</button>
+      <button class="pet-profile-action-btn" onclick="showMeSection('health')"><i class="fas fa-notes-medical"></i> บันทึกสุขภาพ</button>
+      <button class="pet-profile-action-btn" onclick="showToast('ฟีเจอร์แก้ไขเร็วๆ นี้')"><i class="fas fa-edit"></i> แก้ไข</button>
+    </div>
+
+    <!-- Health Timeline -->
+    ${vaccinations.length ? `
+    <div class="pet-health-timeline">
+      <h3 style="font-size:16px;font-weight:700;margin:0 0 12px"><i class="fas fa-syringe"></i> ประวัติวัคซีน</h3>
+      ${timelineHtml}
+    </div>` : ''}
+
+    <!-- Photo Gallery -->
+    <div style="padding:0 16px 8px"><h3 style="font-size:16px;font-weight:700;margin:0"><i class="fas fa-camera"></i> อัลบั้มภาพ</h3></div>
+    <div class="pet-photo-grid">
+      ${petPhotos.map(src => `<img src="${src}" alt="pet photo" loading="lazy">`).join('')}
+    </div>
+
+    <!-- Notes -->
+    <div style="padding:16px">
+      <h3 style="font-size:16px;font-weight:700;margin:0 0 10px"><i class="fas fa-sticky-note"></i> บันทึก</h3>
+      <div style="background:var(--bg-card);border-radius:12px;padding:14px;border:1px solid var(--border)">
+        <div style="margin-bottom:8px"><span style="font-weight:600;font-size:13px;color:var(--text-secondary)">อาหาร:</span> <span style="font-size:14px">${pet.diet || 'อาหารเม็ดพรีเมียม + อาหารเปียกสลับ'}</span></div>
+        <div style="margin-bottom:8px"><span style="font-weight:600;font-size:13px;color:var(--text-secondary)">ภูมิแพ้:</span> <span style="font-size:14px">${pet.allergies || 'ไม่มี'}</span></div>
+        <div><span style="font-weight:600;font-size:13px;color:var(--text-secondary)">หมายเหตุ:</span> <span style="font-size:14px">${pet.notes || 'ชอบเล่น ร่าเริง สุขภาพดี'}</span></div>
+      </div>
+    </div>
+  `;
+}
+
+// ===================================================================
+//  PET TRAINING & PET SITTING SERVICE
+// ===================================================================
+
+function renderTrainingSection(container) {
+  const trainingProviders = [
+    {name:'K9 Academy BKK', image:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=200&fit=crop', specialty:'ฝึกพื้นฐาน, แก้ปัญหาพฤติกรรม', rating:4.8, price:'2,500-8,000', location:'สุขุมวิท, กรุงเทพฯ', distance:'2.1 km', desc:'ศูนย์ฝึกสุนัขมืออาชีพ ด้วยทีมครูฝึกที่มีประสบการณ์กว่า 10 ปี เน้นวิธีการฝึกเชิงบวก', services:['ฝึกพื้นฐาน (นั่ง, หมอบ, มา)', 'แก้ปัญหาพฤติกรรม', 'ฝึกเดินสายจูง', 'ฝึกสังคมกับสุนัขตัวอื่น', 'คอร์ส Private 1:1']},
+    {name:'Happy Paws Training', image:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop', specialty:'Agility, ฝึกมารยาท', rating:4.6, price:'1,800-5,000', location:'ลาดพร้าว, กรุงเทพฯ', distance:'4.5 km', desc:'โรงเรียนฝึกสุนัขที่เน้นความสนุกสนาน มีสนาม Agility และกิจกรรมกลุ่ม', services:['Agility Training', 'ฝึกมารยาท', 'Puppy Socialization', 'Group Classes', 'คอร์สสุดสัปดาห์']},
+    {name:'Thai Dog Whisperer', image:'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&h=200&fit=crop', specialty:'พฤติกรรมก้าวร้าว, ฝึกเชื่อฟัง', rating:4.9, price:'3,000-12,000', location:'รัชดาภิเษก, กรุงเทพฯ', distance:'3.2 km', desc:'ผู้เชี่ยวชาญด้านพฤติกรรมสัตว์ แก้ไขปัญหาพฤติกรรมที่ซับซ้อน รับปรึกษาเคสยาก', services:['แก้ปัญหาก้าวร้าว', 'ฝึกเชื่อฟังขั้นสูง', 'ปรับพฤติกรรมกลัว/วิตกกังวล', 'ให้คำปรึกษาที่บ้าน', 'ติดตามผลรายเดือน']},
+    {name:'Pawsome School', image:'https://images.unsplash.com/photo-1558929996-da64ba858215?w=300&h=200&fit=crop', specialty:'Puppy Class, ฝึกสังคม', rating:4.5, price:'1,500-4,000', location:'อารีย์, กรุงเทพฯ', distance:'5.8 km', desc:'โรงเรียนสำหรับลูกสุนัข เน้นการฝึกสังคมและพื้นฐานที่ดีตั้งแต่เล็ก', services:['Puppy Kindergarten', 'ฝึกสังคม', 'ฝึกพื้นฐานสำหรับลูกสุนัข', 'เล่นกลุ่ม', 'คำแนะนำสำหรับเจ้าของมือใหม่']},
+    {name:'Bangkok K9 Club', image:'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=300&h=200&fit=crop', specialty:'ฝึกขั้นสูง, สุนัขบริการ', rating:4.7, price:'5,000-15,000', location:'ทองหล่อ, กรุงเทพฯ', distance:'1.8 km', desc:'สโมสรฝึกสุนัขระดับพรีเมียม เชี่ยวชาญการฝึกสุนัขบริการและสุนัขทำงาน', services:['ฝึกสุนัขบริการ', 'ฝึกขั้นสูง (Off-leash)', 'Protection Training', 'คอร์สประจำเดือน', 'การแข่งขัน Obedience']}
+  ];
+
+  const sittingProviders = [
+    {name:'Pet Paradise Bangkok', image:'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=200&fit=crop', svcText:'เลี้ยงรายวัน, ค้างคืน, พาเดิน', rating:4.7, price:'500-1,500/วัน', location:'เอกมัย, กรุงเทพฯ', distance:'2.3 km', desc:'สถานรับเลี้ยงสัตว์เลี้ยงพร้อมพื้นที่กว้างขวาง มีสนามหญ้าและสระว่ายน้ำ', serviceList:['เลี้ยงรายวัน (Day Care)', 'ค้างคืน (Overnight)', 'พาเดินเล่น', 'อาบน้ำ-ตัดขน', 'รับ-ส่งถึงบ้าน']},
+    {name:'Fur Baby Hotel', image:'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=300&h=200&fit=crop', svcText:'โรงแรมสัตว์เลี้ยง, สปา, ว่ายน้ำ', rating:4.9, price:'800-2,500/วัน', location:'พระราม 9, กรุงเทพฯ', distance:'3.1 km', desc:'โรงแรมสัตว์เลี้ยงระดับ 5 ดาว ห้องพักส่วนตัวปรับอากาศ พร้อมสปาและสระว่ายน้ำ', serviceList:['ห้องพัก Deluxe ปรับอากาศ', 'สปา & Grooming', 'สระว่ายน้ำ', 'กล้องวงจรปิด 24 ชม.', 'อาหารพรีเมียม']},
+    {name:'Happy Tails Care', image:'https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=300&h=200&fit=crop', svcText:'เลี้ยงที่บ้าน, รับ-ส่ง', rating:4.5, price:'400-1,000/วัน', location:'บางนา, กรุงเทพฯ', distance:'6.2 km', desc:'บริการเลี้ยงสัตว์เลี้ยงที่บ้านผู้ดูแล อบอุ่นเหมือนอยู่บ้านตัวเอง', serviceList:['เลี้ยงที่บ้าน (Home Boarding)', 'รับ-ส่งถึงบ้าน', 'รายงานภาพ/วิดีโอทุกวัน', 'ดูแลให้ยา', 'เลี้ยงหลายตัวได้']},
+    {name:'Pawtel Bangkok', image:'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=300&h=200&fit=crop', svcText:'ห้องพักส่วนตัว, กล้องวงจรปิด', rating:4.8, price:'700-2,000/วัน', location:'สาทร, กรุงเทพฯ', distance:'4.0 km', desc:'โรงแรมสัตว์เลี้ยงทันสมัย มีกล้องวงจรปิดให้ดูผ่านแอปตลอด 24 ชม.', serviceList:['ห้องพักส่วนตัว', 'กล้องวงจรปิด Live', 'พื้นที่วิ่งเล่น', 'อาบน้ำก่อนรับกลับ', 'สัตวแพทย์ประจำ']},
+    {name:'PetStay BKK', image:'https://images.unsplash.com/photo-1560807707-8cc77767d783?w=300&h=200&fit=crop', svcText:'Day Care, Overnight, Grooming', rating:4.6, price:'600-1,800/วัน', location:'อ่อนนุช, กรุงเทพฯ', distance:'5.5 km', desc:'บริการ Day Care และค้างคืน พร้อม Grooming ครบวงจร ราคาเป็นกันเอง', serviceList:['Day Care', 'Overnight Stay', 'Grooming & Bath', 'Training เบื้องต้น', 'Pick-up & Drop-off']}
+  ];
+
+  function renderProviderCards(providers, type) {
+    return providers.map((p, i) => {
+      const chipText = type === 'training' ? p.specialty : p.svcText;
+      const chips = chipText.split(', ').map(c =>
+        `<span class="training-chip">${c}</span>`
+      ).join('');
+      const stars = '★'.repeat(Math.floor(p.rating)) + (p.rating % 1 >= 0.5 ? '½' : '');
+
+      return `
+        <div class="training-card" onclick="openTrainingDetail('${type}', ${i})">
+          <img class="training-card-img" src="${p.image}" alt="${p.name}" loading="lazy">
+          <div class="training-card-info">
+            <div class="training-card-name">${p.name}</div>
+            <div class="training-card-chips">${chips}</div>
+            <div class="training-card-meta">
+              <span style="color:#FFC501">${stars}</span>
+              <span>${p.rating}</span>
+              <span>&middot;</span>
+              <span class="training-card-price">${p.price.startsWith('฿') ? '' : '฿'}${p.price}</span>
+            </div>
+            <div class="training-card-meta">
+              <span><i class="fas fa-map-marker-alt"></i> ${p.distance}</span>
+              <span>&middot;</span>
+              <span>${p.location}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Store providers globally for detail view
+  window._tailyTrainingProviders = trainingProviders;
+  window._tailySittingProviders = sittingProviders;
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>ฝึกสัตว์เลี้ยง</span></button>
+    <div class="training-toggle-tabs">
+      <button class="training-toggle-btn active" onclick="switchTrainingTab('training', this)"><i class="fas fa-dog"></i> ฝึกสัตว์</button>
+      <button class="training-toggle-btn" onclick="switchTrainingTab('sitting', this)"><i class="fas fa-home"></i> รับเลี้ยงชั่วคราว</button>
+    </div>
+    <div class="training-list" id="trainingListContent">
+      ${renderProviderCards(trainingProviders, 'training')}
+    </div>
+  `;
+
+  // Store render functions for tab switching
+  window._renderTrainingCards = () => renderProviderCards(trainingProviders, 'training');
+  window._renderSittingCards = () => renderProviderCards(sittingProviders, 'sitting');
+}
+
+function switchTrainingTab(tab, btn) {
+  document.querySelectorAll('.training-toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const listContainer = document.getElementById('trainingListContent');
+  if (!listContainer) return;
+
+  if (tab === 'training') {
+    listContainer.innerHTML = window._renderTrainingCards();
+  } else {
+    listContainer.innerHTML = window._renderSittingCards();
+  }
+}
+
+function openTrainingDetail(type, index) {
+  const providers = type === 'training' ? window._tailyTrainingProviders : window._tailySittingProviders;
+  const p = providers?.[index];
+  if (!p) return;
+
+  const servicesList = (type === 'training' ? p.services : p.serviceList) || [];
+  const servicesHtml = servicesList.map(s => `<li><i class="fas fa-check" style="color:#4CAF50"></i> ${s}</li>`).join('');
+
+  const chipText = type === 'training' ? p.specialty : p.svcText;
+  const chips = chipText.split(', ').map(c =>
+    `<span class="training-chip">${c}</span>`
+  ).join('');
+
+  const stars = '★'.repeat(Math.floor(p.rating));
+
+  // Mock reviews
+  const reviews = [
+    {name: 'คุณสมชาย', rating: 5, text: 'บริการดีมาก น้องหมากลับมาเชื่อฟังขึ้นเยอะ', date: '2026-02-28'},
+    {name: 'คุณมินตรา', rating: 4, text: 'สถานที่สะอาด พนักงานใจดี แนะนำค่ะ', date: '2026-02-15'},
+    {name: 'คุณวิชัย', rating: 5, text: 'ประทับใจมาก จะกลับมาใช้บริการอีก', date: '2026-01-20'}
+  ];
+
+  const reviewsHtml = reviews.map(r => `
+    <div style="padding:12px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span style="font-weight:600;font-size:14px">${r.name}</span>
+        <span style="color:#FFC501;font-size:12px">${'★'.repeat(r.rating)}</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:0">${r.text}</p>
+      <span style="font-size:11px;color:var(--text-light)">${formatThaiDate(r.date)}</span>
+    </div>
+  `).join('');
+
+  const modal = document.createElement('div');
+  modal.className = 'vet-detail-modal';
+  modal.innerHTML = `
+    <div class="vet-detail-content">
+      <div class="training-detail-hero">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        <button class="vet-detail-close" onclick="this.closest('.vet-detail-modal').remove()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="training-detail-body">
+        <div class="training-detail-name">${p.name}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="color:#FFC501">${stars}</span>
+          <span style="font-weight:600">${p.rating}</span>
+          <span style="color:var(--text-secondary);font-size:13px">&middot; ${p.location}</span>
+        </div>
+        <div style="margin-bottom:12px">${chips}</div>
+        <p style="font-size:14px;color:var(--text-secondary);line-height:1.5;margin-bottom:16px">${p.desc}</p>
+
+        <h3 style="font-size:15px;font-weight:700;margin:0 0 8px"><i class="fas fa-list-check"></i> บริการ</h3>
+        <ul class="training-services-list">${servicesHtml}</ul>
+
+        <div style="display:flex;align-items:center;gap:8px;padding:12px 0;font-size:15px">
+          <i class="fas fa-tag" style="color:var(--primary)"></i>
+          <span style="font-weight:600">ราคา:</span>
+          <span class="training-card-price">${p.price.startsWith('฿') ? '' : '฿'}${p.price}</span>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;margin:16px 0 8px"><i class="fas fa-star"></i> รีวิว</h3>
+        ${reviewsHtml}
+
+        <button class="training-book-btn" onclick="openBookingModal('${p.name.replace(/'/g, "\\'")}')"><i class="fas fa-calendar-check"></i> จองบริการ</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('show'));
+}
+
+function openBookingModal(providerName) {
+  document.querySelectorAll('.vet-detail-modal').forEach(m => m.remove());
+
+  const profile = TailyStore.get('user');
+  const pets = profile?.pets || [];
+  const petOptions = pets.map((p, i) => `<option value="${i}">${p.name} (${p.breed})</option>`).join('');
+
+  const modal = document.createElement('div');
+  modal.className = 'vet-detail-modal';
+  modal.innerHTML = `
+    <div class="vet-detail-content">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid var(--border)">
+        <h3 style="margin:0;font-size:17px;font-weight:700">จองบริการ</h3>
+        <button style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary)" onclick="this.closest('.vet-detail-modal').remove()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="booking-modal">
+        <div style="font-size:14px;color:var(--text-secondary);margin-bottom:16px"><i class="fas fa-store"></i> ${providerName}</div>
+
+        <div class="booking-field">
+          <label>เลือกสัตว์เลี้ยง</label>
+          <select id="bookingPet">
+            ${petOptions || '<option>ไม่มีสัตว์เลี้ยง</option>'}
+          </select>
+        </div>
+
+        <div class="booking-field">
+          <label>วันที่ต้องการ</label>
+          <input type="date" id="bookingDate" value="2026-03-20" min="2026-03-15">
+        </div>
+
+        <div class="booking-field">
+          <label>ประเภทบริการ</label>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:400;cursor:pointer">
+              <input type="radio" name="bookingType" value="basic" checked> บริการพื้นฐาน
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:400;cursor:pointer">
+              <input type="radio" name="bookingType" value="premium"> บริการพรีเมียม
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:400;cursor:pointer">
+              <input type="radio" name="bookingType" value="vip"> VIP Package
+            </label>
+          </div>
+        </div>
+
+        <button class="training-book-btn" onclick="confirmBooking()"><i class="fas fa-check-circle"></i> ยืนยันการจอง</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('show'));
+}
+
+function confirmBooking() {
+  document.querySelectorAll('.vet-detail-modal').forEach(m => m.remove());
+  showToast('จองสำเร็จ! เราจะติดต่อกลับภายใน 24 ชม.');
+}
+
+// ===================================================================
+//  PET SITTING SERVICE (delegates to training with sitting tab)
+// ===================================================================
+
+function renderPetSittingSection(container) {
+  renderTrainingSection(container);
+  setTimeout(() => {
+    const sittingBtn = document.querySelectorAll('.training-toggle-btn')[1];
+    if (sittingBtn) switchTrainingTab('sitting', sittingBtn);
+  }, 50);
 }
