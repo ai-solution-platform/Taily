@@ -1073,6 +1073,8 @@
   min-height: 100vh;
   background: var(--bg, #F5F5F5);
   padding-bottom: 140px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* Header bar */
@@ -1515,11 +1517,35 @@
 .co-nav-btns .btn-outline {
   flex: 1;
   min-width: 0;
+  height: 48px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  border: 2px solid var(--primary, #FFC501);
+  color: var(--primary-dark, #E5A800);
+  background: transparent;
+}
+
+.co-nav-btns .btn-outline:active {
+  background: rgba(255, 197, 1, 0.08);
 }
 
 .co-nav-btns .btn-primary {
   flex: 1.5;
   min-width: 0;
+  height: 48px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  background: linear-gradient(135deg, var(--primary-light, #FFD740), var(--primary, #FFC501));
+  color: var(--primary-on, #3D2B1F);
+  box-shadow: 0 4px 14px rgba(255, 197, 1, 0.4), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+.co-nav-btns .btn-primary:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(255, 197, 1, 0.25);
 }
 
 /* Fixed bottom CTA for step 1 */
@@ -1528,6 +1554,8 @@
   bottom: 60px;
   left: 0;
   right: 0;
+  max-width: 480px;
+  margin: 0 auto;
   padding: 12px 16px;
   background: var(--bg-card, #fff);
   border-top: 1px solid var(--border, #EEE);
@@ -1541,6 +1569,9 @@
   font-size: 16px;
   font-weight: 700;
   border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-light, #FFD740), var(--primary, #FFC501));
+  color: var(--primary-on, #3D2B1F);
+  box-shadow: 0 4px 14px rgba(255, 197, 1, 0.4), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* Empty checkout state */

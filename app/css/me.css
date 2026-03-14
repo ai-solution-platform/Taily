@@ -3537,6 +3537,8 @@
   padding: 12px 16px;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
+  max-width: 480px;
+  margin: 12px auto;
 }
 
 .training-toggle-btn {
@@ -3560,6 +3562,8 @@
 
 .training-list {
   padding: 12px 16px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .training-card {
@@ -3623,6 +3627,13 @@
 .training-card-price {
   font-weight: 600;
   color: var(--primary-dark);
+}
+
+@media (min-width: 481px) {
+  .training-card-img {
+    width: 120px;
+    height: 96px;
+  }
 }
 
 .training-detail-hero {

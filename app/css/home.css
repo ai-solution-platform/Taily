@@ -968,6 +968,24 @@
   width: 60%;
 }
 
+.story-nav-left i,
+.story-nav-right i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.8);
+  font-size: 28px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.story-nav-left i { left: 12px; }
+.story-nav-right i { right: 12px; }
+.story-viewer-container:hover .story-nav-left i,
+.story-viewer-container:hover .story-nav-right i {
+  opacity: 1;
+}
+
 /* Mobile: full-screen, no border-radius */
 @media (max-width: 430px) {
   .story-viewer-container {

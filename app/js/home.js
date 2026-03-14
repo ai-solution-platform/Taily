@@ -104,8 +104,8 @@ async function showStory(id) {
         </button>
       </div>
       <img class="story-viewer-image" src="" alt="">
-      <div class="story-nav-left"></div>
-      <div class="story-nav-right"></div>
+      <div class="story-nav-left"><i class="fas fa-chevron-left"></i></div>
+      <div class="story-nav-right"><i class="fas fa-chevron-right"></i></div>
     </div>
   `;
 
