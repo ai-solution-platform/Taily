@@ -1551,16 +1551,17 @@
 /* Fixed bottom CTA for step 1 */
 .co-fixed-bottom {
   position: fixed;
-  bottom: 60px;
-  left: 0;
-  right: 0;
+  bottom: calc(var(--nav-height, 60px) + var(--safe-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   max-width: 480px;
-  margin: 0 auto;
   padding: 12px 16px;
   background: var(--bg-card, #fff);
   border-top: 1px solid var(--border, #EEE);
   z-index: 15;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
 }
 
 .co-fixed-bottom .btn-primary {
