@@ -50,6 +50,19 @@ function renderSocialFeed(posts, append) {
   const container = document.getElementById('socialFeed');
   if (!container) return;
 
+  if (!posts || !posts.length) {
+    if (!append) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-camera"></i>
+          <p>\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E42\u0E1E\u0E2A\u0E15\u0E4C</p>
+          <button class="btn-primary btn-sm" onclick="openCreatePost()">\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E42\u0E1E\u0E2A\u0E15\u0E4C\u0E41\u0E23\u0E01</button>
+        </div>
+      `;
+    }
+    return;
+  }
+
   const likedPosts = TailyStore.get('likedPosts');
   const bookmarkedPosts = TailyStore.get('bookmarkedPosts');
   const tierColors = { Gold: '#FFC501', Platinum: '#9C27B0', Silver: '#9E9E9E', Bronze: '#CD7F32' };
@@ -511,7 +524,18 @@ function renderConversations(conversations) {
   const container = document.getElementById('conversationsList');
   if (!container) return;
 
-  container.innerHTML = conversations.map(conv => {
+  if (!conversations || !conversations.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-comments"></i>
+        <p>\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21</p>
+        <button class="btn-primary btn-sm" onclick="showSocialTab('feed')">\u0E44\u0E1B\u0E14\u0E39\u0E1F\u0E35\u0E14</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = '<div class="chat-list">' + conversations.map(conv => {
     const unreadClass = conv.unread > 0 ? 'conversation-unread' : '';
     const lastTime = conv.lastMessageTime || conv.lastMessage?.time || conv.timestamp || '';
 
@@ -531,7 +555,7 @@ function renderConversations(conversations) {
         </div>
       </div>
     `;
-  }).join('');
+  }).join('') + '</div>';
 }
 
 async function openChat(chatId) {

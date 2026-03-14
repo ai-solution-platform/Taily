@@ -1496,3 +1496,51 @@
   white-space: normal;
   min-height: calc(var(--font-sm) * 1.4 * 2);
 }
+
+/* ------------------------------------------------------------
+   Merchant Detail Photo Gallery
+   ------------------------------------------------------------ */
+.merchant-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.merchant-gallery-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.merchant-gallery-item:active {
+  opacity: 0.7;
+}
+
+.merchant-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.merchant-gallery-item:active img {
+  transform: scale(1.05);
+}
+
+.merchant-lightbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 60vh;
+  cursor: pointer;
+}
+
+.merchant-lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}

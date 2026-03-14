@@ -203,9 +203,8 @@ function renderProducts(result) {
   if (!items.length) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
-        <i class="fas fa-box-open"></i>
-        <h4>\u0E44\u0E21\u0E48\u0E1E\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32</h4>
-        <p>\u0E25\u0E2D\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E2B\u0E21\u0E27\u0E14\u0E2B\u0E21\u0E39\u0E48\u0E2D\u0E37\u0E48\u0E19</p>
+        <i class="fas fa-search"></i>
+        <p>\u0E44\u0E21\u0E48\u0E1E\u0E1A\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E17\u0E35\u0E48\u0E04\u0E49\u0E19\u0E2B\u0E32</p>
       </div>
     `;
     return;
@@ -420,6 +419,8 @@ async function addToCart(productId) {
   const qty = qtyEl ? parseInt(qtyEl.textContent) || 1 : 1;
 
   TailyStore.addToCart(product, qty);
+  // Update bottom nav cart badge
+  if (typeof updateCartBadge === 'function') updateCartBadge();
   // Show enhanced toast with cart button
   const toastEl = document.getElementById('toast');
   if (toastEl) {
@@ -542,9 +543,9 @@ function renderOrders() {
   if (!filtered || !filtered.length) {
     list.innerHTML = `
       <div class="empty-state">
-        <i class="fas fa-box"></i>
-        <h4>\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E04\u0E33\u0E2A\u0E31\u0E48\u0E07\u0E0B\u0E37\u0E49\u0E2D</h4>
-        <p>\u0E40\u0E23\u0E34\u0E48\u0E21\u0E0A\u0E49\u0E2D\u0E1B\u0E40\u0E25\u0E22!</p>
+        <i class="fas fa-shopping-bag"></i>
+        <p>\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2A\u0E31\u0E48\u0E07\u0E0B\u0E37\u0E49\u0E2D</p>
+        <button class="btn-primary btn-sm" onclick="showMarketTab('shop')">\u0E44\u0E1B\u0E0A\u0E49\u0E2D\u0E1B\u0E1B\u0E34\u0E49\u0E07</button>
       </div>
     `;
     return;

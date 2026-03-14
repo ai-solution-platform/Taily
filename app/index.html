@@ -44,15 +44,15 @@
       <span class="header-brand">Taily</span>
     </div>
     <div class="header-center">
-      <div class="header-search" onclick="openGlobalSearch()">
+      <div class="header-search" onclick="openGlobalSearch()" role="button" aria-label="ค้นหา">
         <i class="fas fa-search"></i>
         <span>ค้นหา...</span>
       </div>
     </div>
     <div class="header-right">
-      <button class="header-btn" onclick="openMessages()" id="btnMessages"><i class="fas fa-comment-dots"></i><span class="badge" id="msgBadge" style="display:none">0</span></button>
-      <button class="header-btn" onclick="openNotifications()" id="btnNotif"><i class="fas fa-bell"></i><span class="badge" id="notifBadge">5</span></button>
-      <button class="header-btn header-avatar" onclick="navigate('me')"><img id="headerAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt=""></button>
+      <button class="header-btn" onclick="openMessages()" id="btnMessages" aria-label="ข้อความ"><i class="fas fa-comment-dots"></i><span class="badge" id="msgBadge" style="display:none">0</span></button>
+      <button class="header-btn" onclick="openNotifications()" id="btnNotif" aria-label="การแจ้งเตือน"><i class="fas fa-bell"></i><span class="badge" id="notifBadge">5</span></button>
+      <button class="header-btn header-avatar" onclick="navigate('me')" aria-label="โปรไฟล์ของฉัน"><img id="headerAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt="โปรไฟล์"></button>
     </div>
   </header>
 
@@ -167,9 +167,9 @@
         <div class="search-input-wrap">
           <i class="fas fa-search"></i>
           <input type="text" id="mapSearch" placeholder="ค้นหาสถานที่ Pet-Friendly..." oninput="filterMerchants()">
-          <button class="search-clear" onclick="clearSearch()"><i class="fas fa-times"></i></button>
+          <button class="search-clear" onclick="clearSearch()" aria-label="ล้างการค้นหา"><i class="fas fa-times"></i></button>
         </div>
-        <button class="filter-toggle-btn" onclick="toggleFilters()"><i class="fas fa-sliders-h"></i></button>
+        <button class="filter-toggle-btn" onclick="toggleFilters()" aria-label="ตัวกรอง"><i class="fas fa-sliders-h"></i></button>
       </div>
 
       <!-- Trending Search Chips -->
@@ -242,10 +242,10 @@
           <h3>สถานที่ Pet-Friendly</h3>
           <div class="sheet-header-right">
             <div class="view-toggle">
-              <button class="active" onclick="setListView('list',this)"><i class="fas fa-list"></i></button>
-              <button onclick="setListView('grid',this)"><i class="fas fa-th"></i></button>
+              <button class="active" onclick="setListView('list',this)" aria-label="แสดงแบบรายการ"><i class="fas fa-list"></i></button>
+              <button onclick="setListView('grid',this)" aria-label="แสดงแบบตาราง"><i class="fas fa-th"></i></button>
             </div>
-            <button class="sheet-close-btn" onclick="setSheetState('peek')"><i class="fas fa-chevron-down"></i></button>
+            <button class="sheet-close-btn" onclick="setSheetState('peek')" aria-label="ย่อรายการ"><i class="fas fa-chevron-down"></i></button>
           </div>
         </div>
         <div id="merchantList" class="merchant-list"></div>
@@ -435,7 +435,7 @@
       <div class="me-profile-actions">
         <button class="me-action-btn primary" onclick="editProfile()"><i class="fas fa-pen"></i> แก้ไขโปรไฟล์</button>
         <button class="me-action-btn" onclick="showToast('แชร์โปรไฟล์')"><i class="fas fa-share-alt"></i> แชร์</button>
-        <button class="me-action-btn icon-only" onclick="showMeSection('settings')"><i class="fas fa-cog"></i></button>
+        <button class="me-action-btn icon-only" onclick="showMeSection('settings')" aria-label="ตั้งค่า"><i class="fas fa-cog"></i></button>
       </div>
     </div>
 
@@ -481,24 +481,24 @@
   <!-- BOTTOM NAVIGATION (5 Tabs) -->
   <!-- ============================================================ -->
   <nav class="bottom-nav" id="bottomNav">
-    <button class="nav-item active" onclick="navigate('home')" data-tab="home">
+    <button class="nav-item active" onclick="navigate('home')" data-tab="home" aria-label="หน้าหลัก">
       <i class="fas fa-home"></i>
       <span>Home</span>
     </button>
-    <button class="nav-item" onclick="navigate('explore')" data-tab="explore">
+    <button class="nav-item" onclick="navigate('explore')" data-tab="explore" aria-label="สำรวจ">
       <i class="fas fa-compass"></i>
       <span>Explore</span>
     </button>
-    <button class="nav-item center-tab" onclick="navigate('market')" data-tab="market">
+    <button class="nav-item center-tab" onclick="navigate('market')" data-tab="market" aria-label="ตลาด">
       <div class="nav-center-icon"><i class="fas fa-shopping-bag"></i></div>
       <span>Market</span>
       <span class="nav-cart-badge" id="navCartBadge" style="display:none">0</span>
     </button>
-    <button class="nav-item" onclick="navigate('social')" data-tab="social">
+    <button class="nav-item" onclick="navigate('social')" data-tab="social" aria-label="โซเชียล">
       <i class="fas fa-comments"></i>
       <span>Social</span>
     </button>
-    <button class="nav-item" onclick="navigate('me')" data-tab="me">
+    <button class="nav-item" onclick="navigate('me')" data-tab="me" aria-label="โปรไฟล์">
       <i class="fas fa-user"></i>
       <span>Me</span>
     </button>
@@ -510,7 +510,7 @@
 <div id="cartSheet" class="cart-sheet">
   <div class="cart-sheet-header">
     <h3><i class="fas fa-shopping-cart"></i> ตะกร้าสินค้า</h3>
-    <button class="cart-close-btn" onclick="closeCart()"><i class="fas fa-times"></i></button>
+    <button class="cart-close-btn" onclick="closeCart()" aria-label="ปิดตะกร้า"><i class="fas fa-times"></i></button>
   </div>
   <div id="cartItems" class="cart-items"></div>
   <div id="cartFooter" class="cart-footer">
@@ -532,26 +532,24 @@
 <div id="toast" class="toast"></div>
 
 <!-- ========== GLOBAL SEARCH OVERLAY ========== -->
-<div id="globalSearchOverlay" class="global-search-overlay" style="display:none">
-  <div class="gs-header">
-    <button onclick="closeGlobalSearch()"><i class="fas fa-arrow-left"></i></button>
-    <input type="text" id="globalSearchInput" placeholder="ค้นหาร้านค้า, สินค้า, กิจกรรม..." oninput="handleGlobalSearch(this.value)" autofocus>
-    <button onclick="document.getElementById('globalSearchInput').value='';handleGlobalSearch('')"><i class="fas fa-times"></i></button>
+<div id="globalSearchOverlay" class="search-overlay" style="display:none">
+  <div class="search-input-wrap">
+    <div class="search-input-row">
+      <i class="fas fa-search search-input-icon"></i>
+      <input type="text" id="globalSearchInput" class="search-input" placeholder="ค้นหาร้านค้า, สินค้า, กิจกรรม..." oninput="handleSearchAutoSuggest(this.value)" onkeydown="if(event.key==='Enter')submitGlobalSearch(this.value)" autocomplete="off">
+      <button class="search-close-btn" onclick="closeGlobalSearch()" aria-label="ปิดการค้นหา"><i class="fas fa-times"></i></button>
+    </div>
   </div>
-  <div id="globalSearchResults" class="gs-results">
-    <div class="gs-recent">
-      <h4>ค้นหาล่าสุด</h4>
-      <div id="recentSearches" class="recent-chips"></div>
+  <div class="search-overlay-body">
+    <div id="searchRecentSection" class="search-section">
+      <div class="search-section-label">ค้นหาล่าสุด</div>
+      <div id="searchRecentList"></div>
     </div>
-    <div class="gs-trending">
-      <h4>🔥 กำลังนิยม</h4>
-      <div class="trending-list">
-        <button onclick="quickGlobalSearch('คาเฟ่หมา กรุงเทพ')">คาเฟ่หมา กรุงเทพ</button>
-        <button onclick="quickGlobalSearch('อาหารสุนัข grain-free')">อาหารสุนัข grain-free</button>
-        <button onclick="quickGlobalSearch('โรงแรม Pet-Friendly เชียงใหม่')">โรงแรม Pet-Friendly เชียงใหม่</button>
-        <button onclick="quickGlobalSearch('กิจกรรม สัตว์เลี้ยง')">กิจกรรม สัตว์เลี้ยง</button>
-      </div>
+    <div id="searchSuggestSection" class="search-section">
+      <div class="search-section-label">แนะนำ</div>
+      <div id="searchSuggestList"></div>
     </div>
+    <div id="globalSearchResults" class="gs-results"></div>
   </div>
 </div>
 

@@ -123,6 +123,18 @@ async function showStory(id) {
   };
   document.addEventListener('keydown', _storyKeyHandler);
 
+  // Touch swipe support
+  const storyContainer = overlay.querySelector('.story-viewer-container');
+  let _storyTouchStartX = 0;
+  storyContainer.addEventListener('touchstart', (e) => {
+    _storyTouchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  storyContainer.addEventListener('touchend', (e) => {
+    const deltaX = e.changedTouches[0].clientX - _storyTouchStartX;
+    if (deltaX < -50) storyGo(1);       // swipe left → next
+    else if (deltaX > 50) storyGo(-1);  // swipe right → previous
+  }, { passive: true });
+
   // Render first story
   _renderCurrentStory();
 }

@@ -9,8 +9,28 @@ setAppHeight();
 window.addEventListener('resize', setAppHeight);
 window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 100));
 
+// ===== DARK MODE =====
+function toggleDarkMode(enabled) {
+  if (enabled) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('taily-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('taily-theme', 'light');
+  }
+  showToast(enabled ? 'เปิดโหมดมืด' : 'ปิดโหมดมืด');
+}
+
+// Apply saved theme immediately (before DOMContentLoaded to avoid flash)
+(function() {
+  const savedTheme = localStorage.getItem('taily-theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+
 // ===== TAB INITIALIZATION TRACKING =====
-const tabInitialized = { home: false, explore: false, market: false, social: false, me: false };
+const _tabLoaded = { home: true, explore: false, market: false, social: false, me: false };
 
 // ===== NAVIGATION =====
 function navigate(tab) {
@@ -29,8 +49,8 @@ function navigate(tab) {
   updateHeaderForTab(tab);
 
   // Lazy-init tab
-  if (!tabInitialized[tab]) {
-    tabInitialized[tab] = true;
+  if (!_tabLoaded[tab]) {
+    _tabLoaded[tab] = true;
     switch(tab) {
       case 'home': initHome(); break;
       case 'explore': initExplore(); break;
@@ -132,15 +152,123 @@ function showMoreActions() {
   `);
 }
 
-// ===== GLOBAL SEARCH =====
+// ===== GLOBAL SEARCH WITH AUTO-SUGGEST =====
+const SEARCH_SUGGESTIONS = [
+  'คาเฟ่สุนัข',
+  'อาหารแมว Premium',
+  'โรงแรม Pet Friendly',
+  'คลินิกสัตว์ใกล้ฉัน',
+  'ของเล่นสุนัข'
+];
+
+function getRecentSearches() {
+  try {
+    return JSON.parse(localStorage.getItem('taily_recent_searches') || '[]');
+  } catch(e) { return []; }
+}
+
+function saveRecentSearch(query) {
+  if (!query || !query.trim()) return;
+  let recent = getRecentSearches();
+  recent = recent.filter(s => s !== query.trim());
+  recent.unshift(query.trim());
+  recent = recent.slice(0, 5);
+  localStorage.setItem('taily_recent_searches', JSON.stringify(recent));
+}
+
+function removeRecentSearch(query) {
+  let recent = getRecentSearches();
+  recent = recent.filter(s => s !== query);
+  localStorage.setItem('taily_recent_searches', JSON.stringify(recent));
+  renderSearchSections(document.getElementById('globalSearchInput').value);
+}
+
+function renderSearchSections(query) {
+  const recentSection = document.getElementById('searchRecentSection');
+  const suggestSection = document.getElementById('searchSuggestSection');
+  const recentList = document.getElementById('searchRecentList');
+  const suggestList = document.getElementById('searchSuggestList');
+  const resultsEl = document.getElementById('globalSearchResults');
+
+  const q = (query || '').trim().toLowerCase();
+
+  // Recent searches — show only when input is empty
+  const recents = getRecentSearches();
+  if (recents.length > 0 && q.length === 0) {
+    recentSection.style.display = '';
+    recentList.innerHTML = recents.map(s => {
+      const escaped = s.replace(/'/g, "\\'");
+      return `
+      <div class="search-recent-item">
+        <button class="search-recent-text" onclick="selectSearchSuggestion('${escaped}')">
+          <i class="fas fa-history"></i><span>${s}</span>
+        </button>
+        <button class="search-recent-remove" onclick="event.stopPropagation();removeRecentSearch('${escaped}')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>`;
+    }).join('');
+  } else {
+    recentSection.style.display = 'none';
+  }
+
+  // Suggestions — show all when empty, filter when typing
+  let filtered = SEARCH_SUGGESTIONS;
+  if (q.length > 0) {
+    filtered = SEARCH_SUGGESTIONS.filter(s => s.toLowerCase().includes(q));
+  }
+
+  if (filtered.length > 0) {
+    suggestSection.style.display = '';
+    suggestList.innerHTML = filtered.map(s => {
+      const escaped = s.replace(/'/g, "\\'");
+      return `
+      <button class="search-suggestion-item" onclick="selectSearchSuggestion('${escaped}')">
+        <i class="fas fa-search"></i><span>${s}</span>
+      </button>`;
+    }).join('');
+  } else {
+    suggestSection.style.display = 'none';
+  }
+
+  // Clear live results when query is short
+  if (q.length < 2) {
+    resultsEl.innerHTML = '';
+  }
+}
+
+function selectSearchSuggestion(query) {
+  document.getElementById('globalSearchInput').value = query;
+  submitGlobalSearch(query);
+}
+
+function submitGlobalSearch(query) {
+  if (!query || !query.trim()) return;
+  saveRecentSearch(query.trim());
+  showToast('ค้นหา: ' + query.trim());
+  document.getElementById('searchRecentSection').style.display = 'none';
+  document.getElementById('searchSuggestSection').style.display = 'none';
+  handleGlobalSearch(query.trim());
+}
+
 function openGlobalSearch() {
-  document.getElementById('globalSearchOverlay').style.display = 'flex';
+  const overlay = document.getElementById('globalSearchOverlay');
+  overlay.style.display = 'flex';
+  renderSearchSections('');
   setTimeout(() => document.getElementById('globalSearchInput').focus(), 100);
 }
 
 function closeGlobalSearch() {
   document.getElementById('globalSearchOverlay').style.display = 'none';
   document.getElementById('globalSearchInput').value = '';
+  document.getElementById('globalSearchResults').innerHTML = '';
+}
+
+function handleSearchAutoSuggest(query) {
+  renderSearchSections(query);
+  if (query.trim().length >= 2) {
+    handleGlobalSearch(query.trim());
+  }
 }
 
 async function handleGlobalSearch(query) {
@@ -175,7 +303,7 @@ async function handleGlobalSearch(query) {
 
 function quickGlobalSearch(query) {
   document.getElementById('globalSearchInput').value = query;
-  handleGlobalSearch(query);
+  submitGlobalSearch(query);
 }
 
 // ===== MESSAGES SHORTCUT =====
@@ -276,6 +404,7 @@ function formatNumber(n) {
 function updateCartBadge() {
   const count = TailyStore.get('cartCount');
   const badge = document.getElementById('navCartBadge');
+  if (!badge) return;
   if (count > 0) {
     badge.textContent = count;
     badge.style.display = '';
@@ -304,6 +433,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Handle hash routing
   const hash = window.location.hash.replace('#', '') || 'home';
+
+  // Pre-load home tab content on startup
+  if (typeof initHome === 'function') initHome();
 
   // Splash screen
   setTimeout(() => {

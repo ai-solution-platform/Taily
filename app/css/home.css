@@ -978,3 +978,62 @@
     aspect-ratio: auto;
   }
 }
+
+/* ============================================================
+   MICRO-INTERACTIONS & ANIMATIONS (R10)
+   ============================================================ */
+
+/* 1. Story avatar bounce on hover */
+.story-item:hover .story-avatar-wrap {
+  animation: storyBounce 0.4s ease;
+}
+
+@keyframes storyBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.12); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* 2. Place card slide-in animation */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nearby-card,
+.featured-card,
+.upcoming-card,
+.deal-card {
+  animation: slideInUp 0.35s ease both;
+}
+
+.nearby-card:nth-child(2),
+.featured-card:nth-child(2),
+.upcoming-card:nth-child(2),
+.deal-card:nth-child(2) { animation-delay: 0.05s; }
+
+.nearby-card:nth-child(3),
+.featured-card:nth-child(3),
+.upcoming-card:nth-child(3),
+.deal-card:nth-child(3) { animation-delay: 0.10s; }
+
+.nearby-card:nth-child(4),
+.featured-card:nth-child(4),
+.upcoming-card:nth-child(4),
+.deal-card:nth-child(4) { animation-delay: 0.15s; }
+
+/* 3. Smooth transition for story progress bar segments */
+.story-progress-seg .fill {
+  transition: width 0.3s ease;
+}
+
+.story-progress-seg .fill.active.running {
+  transition: width 5s linear;
+}

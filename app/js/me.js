@@ -623,7 +623,15 @@ function renderWalletSection(container) {
           <h3><i class="fas fa-clock-rotate-left"></i> ประวัติ</h3>
           ${historyHtml}
         </div>
-      ` : ''}
+      ` : `
+        <div class="wallet-history-section">
+          <h3><i class="fas fa-clock-rotate-left"></i> ประวัติ</h3>
+          <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E1B\u0E23\u0E30\u0E27\u0E31\u0E15\u0E34\u0E01\u0E32\u0E23\u0E43\u0E0A\u0E49\u0E04\u0E30\u0E41\u0E19\u0E19</p>
+          </div>
+        </div>
+      `}
     </div>
   `;
 }
@@ -662,7 +670,7 @@ function renderSettingsSection(container) {
         <div class="settings-item">
           <span>โหมดมืด</span>
           <label class="toggle-switch">
-            <input type="checkbox" onchange="showToast('โหมดมืด (เร็วๆ นี้)')">
+            <input type="checkbox" id="darkModeToggle" ${document.documentElement.getAttribute('data-theme') === 'dark' ? 'checked' : ''} onchange="toggleDarkMode(this.checked)">
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -1483,8 +1491,10 @@ function confirmBooking() {
 
 function renderPetSittingSection(container) {
   renderTrainingSection(container);
-  setTimeout(() => {
-    const sittingBtn = document.querySelectorAll('.training-toggle-btn')[1];
-    if (sittingBtn) switchTrainingTab('sitting', sittingBtn);
-  }, 50);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const sittingBtn = document.querySelectorAll('.training-toggle-btn')[1];
+      if (sittingBtn) switchTrainingTab('sitting', sittingBtn);
+    });
+  });
 }

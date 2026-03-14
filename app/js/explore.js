@@ -426,6 +426,13 @@ function openMerchant(id) {
       </div>` : ''}
 
       <div class="merchant-section" style="padding:0 16px 16px">
+        <h3 style="font-size:16px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-images" style="color:var(--accent)"></i> \u0E23\u0E39\u0E1B\u0E20\u0E32\u0E1E</h3>
+        <div class="merchant-gallery">
+          ${getMerchantGalleryPhotos(m.category).map((url, i) => '<div class="merchant-gallery-item" onclick="openGalleryLightbox(\'' + url + '\')"><img src="' + url + '" alt="' + m.name + ' photo ' + (i+1) + '" loading="lazy"></div>').join('')}
+        </div>
+      </div>
+
+      <div class="merchant-section" style="padding:0 16px 16px">
         <h3 style="font-size:16px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-concierge-bell" style="color:var(--accent)"></i> \u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32 & \u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23</h3>
         <div class="service-tags" style="display:flex;flex-wrap:wrap;gap:8px">
           ${services.map(s => `<span class="service-tag" style="background:var(--bg);border:1px solid var(--border);padding:6px 14px;border-radius:20px;font-size:13px;color:var(--text-secondary)">${s}</span>`).join('')}
@@ -481,6 +488,49 @@ function openMerchant(id) {
   // Navigate to merchant detail page
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-merchant').classList.add('active');
+}
+
+// ===== MERCHANT GALLERY PHOTOS =====
+function getMerchantGalleryPhotos(category) {
+  const photoSets = {
+    '\u0E23\u0E49\u0E32\u0E19\u0E2D\u0E32\u0E2B\u0E32\u0E23': [
+      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop'
+    ],
+    '\u0E04\u0E32\u0E40\u0E1F\u0E48': [
+      'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=400&h=400&fit=crop'
+    ],
+    '\u0E42\u0E23\u0E07\u0E41\u0E23\u0E21': [
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=400&h=400&fit=crop'
+    ],
+    '\u0E2A\u0E16\u0E32\u0E19\u0E17\u0E35\u0E48\u0E17\u0E48\u0E2D\u0E07\u0E40\u0E17\u0E35\u0E48\u0E22\u0E27': [
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1528543606781-2f6e6857f318?w=400&h=400&fit=crop',
+      'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=400&fit=crop'
+    ]
+  };
+  return photoSets[category] || photoSets['\u0E04\u0E32\u0E40\u0E1F\u0E48'];
+}
+
+function openGalleryLightbox(imageUrl) {
+  showModal('<div class="merchant-lightbox" onclick="closeModal()"><img src="' + imageUrl + '" alt="Gallery photo"></div>');
 }
 
 // ===== COLLECT COUPON =====

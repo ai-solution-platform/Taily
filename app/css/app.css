@@ -104,6 +104,89 @@
 }
 
 /* ------------------------------------------------------------
+   1b. Dark Mode Overrides
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  /* Brand Colors (keep primary yellow for brand consistency) */
+  --primary: #FFC501;
+  --primary-light: #FFD740;
+  --primary-dark: #E5A800;
+  --primary-on: #1A1A1A;
+  --secondary: #E0D5C8;
+  --accent: #FF8C42;
+
+  /* Backgrounds */
+  --bg: #121212;
+  --bg-card: #1E1E1E;
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+  --bg-glass: rgba(18, 18, 18, 0.88);
+
+  /* Text */
+  --text: #E0E0E0;
+  --text-secondary: #A0A0A0;
+  --text-light: #707070;
+  --text-inverse: #1A1A1A;
+
+  /* Borders */
+  --border: #2D2D2D;
+  --border-dark: #3D3D3D;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background: #121212;
+}
+
+[data-theme="dark"] .app-header {
+  background: rgba(18, 18, 18, 0.88);
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .bottom-nav {
+  background: #1E1E1E;
+  border-top-color: var(--border);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .modal-content {
+  background: #1E1E1E;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: #2A2A2A;
+  color: #E0E0E0;
+  border-color: #3D3D3D;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #707070;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .card-flat {
+  background: #1E1E1E;
+  border-color: #2D2D2D;
+}
+
+[data-theme="dark"] .splash-screen {
+  background: #121212;
+}
+
+[data-theme="dark"] img {
+  opacity: 0.92;
+}
+
+/* ------------------------------------------------------------
    2. Reset / Normalize
    ------------------------------------------------------------ */
 *,
@@ -2914,4 +2997,265 @@ img[loading="lazy"] {
   background: var(--primary-on);
   border-radius: var(--radius-full);
   animation: splashLoad 1.8s var(--ease-in-out) forwards;
+}
+
+/* ============================================================
+   MICRO-INTERACTIONS & ANIMATIONS (R10)
+   ============================================================ */
+
+/* 1. Button press ripple / scale effect */
+.qa-item,
+.btn-primary {
+  transition: transform 0.15s ease;
+}
+.qa-item:active,
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+/* 2. Page transition — fade in/out */
+.tab-page,
+.page {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.tab-page.active,
+.page.active {
+  opacity: 1;
+}
+
+/* 3. Card hover/touch effects */
+.merchant-card,
+.product-card,
+.my-pet-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.merchant-card:hover,
+.product-card:hover,
+.my-pet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. Bottom nav — smooth color transition */
+.nav-item {
+  transition: color 0.2s ease;
+}
+.nav-item-icon {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* 5. Modal overlay — fade in */
+.modal-overlay {
+  transition: opacity 0.25s ease;
+}
+
+/* ------------------------------------------------------------
+   Skeleton Row Layout
+   ------------------------------------------------------------ */
+.skeleton-row { display: flex; gap: 12px; margin-bottom: 12px; }
+
+/* ------------------------------------------------------------
+   Search Auto-Suggest Overlay
+   ------------------------------------------------------------ */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9000;
+  flex-direction: column;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.search-input-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+  padding: calc(var(--safe-top, 0px) + 12px) 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.search-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.search-input {
+  flex: 1;
+  width: 100%;
+  height: 44px;
+  border-radius: 22px;
+  border: 2px solid var(--primary);
+  padding: 0 44px 0 38px;
+  font-size: var(--font-sm);
+  font-family: var(--font-family);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(255, 197, 1, 0.2);
+}
+
+.search-input::placeholder {
+  color: var(--text-light);
+}
+
+.search-close-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.search-close-btn:active {
+  background: var(--border);
+}
+
+.search-overlay-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.search-section {
+  margin-bottom: 20px;
+}
+
+.search-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.search-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-family: var(--font-family);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.search-suggestion-item:hover,
+.search-suggestion-item:active {
+  background: var(--bg);
+}
+
+.search-suggestion-item i {
+  color: var(--text-light);
+  font-size: 13px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.search-suggestion-item span {
+  flex: 1;
+  font-weight: var(--font-weight-medium);
+}
+
+.search-recent-item {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-md);
+  transition: background 0.15s ease;
+}
+
+.search-recent-item:hover,
+.search-recent-item:active {
+  background: var(--bg);
+}
+
+.search-recent-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: none;
+  background: none;
+  font-size: var(--font-sm);
+  font-family: var(--font-family);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.search-recent-text i {
+  color: var(--text-light);
+  font-size: 13px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.search-recent-text span {
+  flex: 1;
+  font-weight: var(--font-weight-medium);
+}
+
+.search-recent-remove {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--text-light);
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: 4px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.search-recent-remove:hover,
+.search-recent-remove:active {
+  color: var(--danger);
+  background: rgba(244, 67, 54, 0.08);
 }
