@@ -354,14 +354,14 @@ async function renderFavoritesSection(container) {
   const cardsHtml = favMerchants.map(m => {
     const emoji = categoryEmojis[m.category] || '🐾';
     return `
-      <div class="fav-merchant-card">
-        <div class="fav-merchant-emoji">${emoji}</div>
-        <div class="fav-merchant-info">
-          <div class="fav-merchant-name">${m.name}</div>
-          <div class="fav-merchant-cat">${m.category} &middot; ${m.province || ''}</div>
-          <div class="fav-merchant-rating"><span class="fav-stars">★</span> ${m.rating}</div>
+      <div class="favorite-card">
+        <div class="favorite-card-emoji">${emoji}</div>
+        <div class="favorite-card-info">
+          <div class="favorite-card-name">${m.name}</div>
+          <div class="favorite-card-cat">${m.category} &middot; ${m.province || ''}</div>
+          <div class="favorite-card-rating"><span class="favorite-stars">★</span> ${m.rating}</div>
         </div>
-        <button class="fav-remove-btn" onclick="removeFavorite(${m.id}, this)">
+        <button class="favorite-remove-btn" onclick="removeFavorite(${m.id}, this)">
           <i class="fas fa-heart" style="color:#E91E63"></i>
         </button>
       </div>
@@ -376,7 +376,7 @@ async function renderFavoritesSection(container) {
 
 function removeFavorite(merchantId, el) {
   TailyStore.toggleFavorite(merchantId);
-  const card = el.closest('.fav-merchant-card');
+  const card = el.closest('.favorite-card');
   if (card) {
     card.style.opacity = '0';
     card.style.transform = 'translateX(100%)';

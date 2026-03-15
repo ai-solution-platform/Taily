@@ -1730,3 +1730,49 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ====================================================
+   MERCHANT DETAIL PAGE
+   ==================================================== */
+.merchant-detail-page { padding-bottom: 80px; }
+.merchant-hero { position: relative; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 0 0 24px 24px; overflow: hidden; }
+.hero-icon { font-size: 72px; opacity: 0.9; }
+.merchant-info { padding: 20px 16px; }
+.mi-category { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+.mi-name { font-size: 22px; font-weight: 700; color: var(--text); margin: 8px 0 4px; }
+.mi-province { font-size: 13px; color: var(--text-secondary); }
+.mi-rating { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.mi-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-top: 8px; }
+.merchant-section { padding: 0 16px 16px; }
+.merchant-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+.promo-card { background: linear-gradient(135deg, #FFF8E1, #FFFDE7); border: 1px solid rgba(255,197,1,0.3); border-radius: 16px; padding: 16px; position: relative; overflow: hidden; }
+.promo-badge { position: absolute; top: -4px; right: 12px; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 0 0 8px 8px; }
+.promo-text { font-size: 14px; color: var(--text); margin: 8px 0; }
+.promo-btn { background: var(--primary); color: var(--primary-on); border: none; padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.service-tag { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+.info-rows { display: flex; flex-direction: column; gap: 0; }
+.info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.info-label { font-size: 13px; color: var(--text-secondary); }
+.info-value { font-size: 13px; color: var(--text); font-weight: 500; text-align: right; }
+.pet-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(76,175,80,0.1); color: #4CAF50; padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+.action-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; font-size: 11px; color: var(--text-secondary); }
+.action-btn i { font-size: 18px; color: var(--primary); }
+.rating-text { font-size: 16px; font-weight: 700; color: var(--text); }
+.reviews { font-size: 13px; color: var(--text-secondary); }
+.stars { color: #FFC501; font-size: 16px; letter-spacing: 1px; }
+
+/* ====================================================
+   EVENT DETAIL PAGE
+   ==================================================== */
+.event-detail-page { padding-bottom: 80px; }
+.event-hero { position: relative; height: 240px; overflow: hidden; }
+.event-hero img { width: 100%; height: 100%; object-fit: cover; }
+.hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: linear-gradient(transparent, rgba(0,0,0,0.7)); }
+.event-hero-info { position: absolute; bottom: 20px; left: 20px; right: 20px; color: white; }
+.event-hero-cat { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); margin-bottom: 8px; }
+.event-hero-title { font-size: 22px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.event-detail-body { padding: 20px 16px 32px; }
+.ed-card { background: var(--bg-card); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.register-btn { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; background: var(--primary); color: var(--primary-on); box-shadow: 0 4px 14px rgba(255,197,1,0.4); }
+.register-btn.full { background: var(--border); color: var(--text-secondary); box-shadow: none; cursor: not-allowed; }

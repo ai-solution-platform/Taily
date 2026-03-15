@@ -1270,3 +1270,445 @@
 }
 .adoption-contact-org { display: flex; align-items: center; gap: 4px; }
 .adoption-views { display: flex; align-items: center; gap: 4px; }
+
+/* ============================================================
+   10. Group Card Emoji (JS class)
+   ============================================================ */
+.group-card-emoji {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background: linear-gradient(135deg, var(--primary-light, #FFD740), var(--primary, #FFC501));
+}
+
+/* ============================================================
+   11. Adoption Species & Vaccination Badges
+   ============================================================ */
+.adoption-species-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+}
+
+.adoption-vacc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  color: #2E7D32;
+  background: #E8F5E9;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+   12. Group Detail Page
+   ============================================================ */
+.group-detail-page {
+  padding-bottom: 80px;
+}
+
+.group-detail-cover {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-light, #FFD740), var(--primary, #FFC501));
+}
+
+.group-detail-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.group-detail-cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: var(--space-lg);
+}
+
+.group-detail-emoji {
+  font-size: 48px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.group-detail-info {
+  padding: 20px 16px;
+}
+
+.group-detail-info h2 {
+  font-size: var(--font-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+}
+
+.group-detail-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-md);
+}
+
+.group-detail-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: var(--space-lg);
+}
+
+.group-stat {
+  text-align: center;
+  flex: 1;
+}
+
+.group-stat strong {
+  display: block;
+  font-size: var(--font-lg, 18px);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
+}
+
+.group-stat span {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.group-detail-section {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.group-detail-section h3 {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.group-recent-post {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.group-recent-post:last-child {
+  border-bottom: none;
+}
+
+.group-recent-post:active {
+  background: var(--bg);
+}
+
+.group-rp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.group-rp-header i {
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+.group-rp-author {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.group-rp-title {
+  font-size: 14px;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.group-rp-likes {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.group-rp-likes i {
+  color: #E53935;
+  font-size: 11px;
+}
+
+.group-rule {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  align-items: flex-start;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.group-rule-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primary, #FFC501);
+  color: var(--primary-on, #3D2B1F);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.group-admin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: var(--font-sm);
+  color: var(--text);
+}
+
+.group-admin img {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+
+/* ============================================================
+   13. Chat Page
+   ============================================================ */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--font-md);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-back-btn:active {
+  background: var(--bg);
+}
+
+.chat-header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+  max-width: 75%;
+}
+
+.chat-mine {
+  align-self: flex-end;
+}
+
+.chat-theirs {
+  align-self: flex-start;
+}
+
+.chat-bubble-time {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.chat-mine .chat-bubble-time {
+  text-align: right;
+}
+
+.chat-attach-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--duration-fast);
+}
+
+.chat-attach-btn:active {
+  background: var(--border);
+}
+
+.chat-send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary, #FFC501);
+  color: var(--primary-on, #3D2B1F);
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+
+.chat-send-btn:active {
+  transform: scale(0.9);
+}
+
+.chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  color: var(--text);
+  min-width: 0;
+}
+
+.chat-input::placeholder {
+  color: var(--text-light);
+}
+
+.chat-list {
+  padding: 0;
+}
+
+/* ============================================================
+   14. Create Post
+   ============================================================ */
+.create-post-caption {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg-card, #fff);
+  box-sizing: border-box;
+}
+
+.create-post-caption::placeholder {
+  color: var(--text-light);
+}
+
+.create-post-caption:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.create-post-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.create-post-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+  transition: background var(--duration-fast);
+}
+
+.create-post-option:active {
+  background: var(--border);
+}
+
+.create-post-option i {
+  color: var(--text-secondary);
+}
+
+.create-post-hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.create-hashtag-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  width: 100%;
+}
+
+/* ============================================================
+   15. Utility Classes
+   ============================================================ */
+.btn-success {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+
+.btn-success:active {
+  background: #388E3C;
+}
+
+.post-detail-img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: block;
+}

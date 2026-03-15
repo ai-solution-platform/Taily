@@ -394,15 +394,15 @@ function renderGroups(groups) {
 
     return `
       <div class="group-card" onclick="openGroup(${group.id})">
-        <div class="group-card-cover">
+        <div class="group-cover">
           ${coverImage ? `<img src="${coverImage}" alt="" loading="lazy">` : `<div class="group-card-emoji">${emoji}</div>`}
           <div class="group-card-overlay">
             <span class="group-card-emoji-badge">${emoji}</span>
           </div>
         </div>
-        <div class="group-card-body">
-          <h4 class="group-card-name">${group.nameTh || group.name}</h4>
-          <div class="group-card-stats">
+        <div class="group-info">
+          <h4 class="group-name">${group.nameTh || group.name}</h4>
+          <div class="group-members">
             <span><i class="fas fa-users"></i> ${formatNumber(group.memberCount)} สมาชิก</span>
           </div>
           <button class="btn-sm ${isJoined ? 'btn-success' : 'btn-primary'}" onclick="event.stopPropagation();toggleJoinGroup(${group.id},this)">
@@ -572,7 +572,7 @@ async function openChat(chatId) {
     const isMine = msg.senderId === 'me' || msg.sender === 'me';
     return `
       <div class="chat-bubble-wrap ${isMine ? 'chat-mine' : 'chat-theirs'}">
-        <div class="chat-bubble ${isMine ? 'bubble-mine' : 'bubble-theirs'}">
+        <div class="chat-bubble ${isMine ? 'mine' : 'theirs'}">
           ${msg.text}
         </div>
         <div class="chat-bubble-time">${timeAgo(msg.time)}</div>
@@ -627,7 +627,7 @@ async function sendChatMessage(chatId) {
     const bubbleWrap = document.createElement('div');
     bubbleWrap.className = 'chat-bubble-wrap chat-mine';
     bubbleWrap.innerHTML = `
-      <div class="chat-bubble bubble-mine">${text}</div>
+      <div class="chat-bubble mine">${text}</div>
       <div class="chat-bubble-time">เมื่อสักครู่</div>
     `;
     messagesEl.appendChild(bubbleWrap);
@@ -653,7 +653,7 @@ async function sendChatMessage(chatId) {
       const replyWrap = document.createElement('div');
       replyWrap.className = 'chat-bubble-wrap chat-theirs';
       replyWrap.innerHTML = `
-        <div class="chat-bubble bubble-theirs">${reply}</div>
+        <div class="chat-bubble theirs">${reply}</div>
         <div class="chat-bubble-time">เมื่อสักครู่</div>
       `;
       messagesEl.appendChild(replyWrap);
@@ -682,18 +682,18 @@ function renderAdoptionPets(pets) {
 
     return `
       <div class="adoption-card" onclick="openAdoptionDetail(${pet.id})">
-        <div class="adoption-card-img">
+        <div class="adoption-img">
           <img src="${pet.image}" alt="${pet.name}" loading="lazy"
                onerror="this.parentElement.style.background='linear-gradient(135deg,#FFC501,#FF8C42)'">
           <span class="adoption-species-badge"><i class="fas ${speciesIcon}"></i></span>
         </div>
-        <div class="adoption-card-body">
-          <div class="adoption-card-name">
+        <div class="adoption-info">
+          <div class="adoption-name">
             ${pet.name}
             <i class="fas ${genderIcon}" style="color:${genderColor};font-size:12px"></i>
           </div>
-          <div class="adoption-card-breed">${pet.breed}</div>
-          <div class="adoption-card-info">
+          <div class="adoption-breed">${pet.breed}</div>
+          <div class="adoption-meta">
             <span>${pet.age}</span>
             ${pet.vaccinated ? '<span class="adoption-vacc-badge"><i class="fas fa-syringe"></i> วัคซีนครบ</span>' : ''}
           </div>

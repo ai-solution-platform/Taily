@@ -385,12 +385,12 @@ function openMerchant(id) {
 
       <div class="merchant-info" style="padding:20px 16px">
         <span class="mi-category" style="display:inline-block;background:${m.category==='\u0E23\u0E49\u0E32\u0E19\u0E2D\u0E32\u0E2B\u0E32\u0E23'?'rgba(229,57,53,0.1)':m.category==='\u0E04\u0E32\u0E40\u0E1F\u0E48'?'rgba(109,76,65,0.1)':m.category==='\u0E42\u0E23\u0E07\u0E41\u0E23\u0E21'?'rgba(21,101,192,0.1)':'rgba(46,125,50,0.1)'};color:${m.category==='\u0E23\u0E49\u0E32\u0E19\u0E2D\u0E32\u0E2B\u0E32\u0E23'?'#E53935':m.category==='\u0E04\u0E32\u0E40\u0E1F\u0E48'?'#6D4C41':m.category==='\u0E42\u0E23\u0E07\u0E41\u0E23\u0E21'?'#1565C0':'#2E7D32'};padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:8px">${m.category}</span>
-        <h1 class="mi-name" style="font-size:22px;font-weight:700;margin:8px 0 4px;color:var(--text-primary)">${m.name}</h1>
+        <h1 class="mi-name" style="font-size:22px;font-weight:700;margin:8px 0 4px;color:var(--text)">${m.name}</h1>
         <p class="mi-province" style="font-size:13px;color:var(--text-secondary);margin-bottom:10px"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> ${m.province} | ${m.region}</p>
 
         <div class="mi-rating" style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
           <span class="stars" style="color:#FFC501;font-size:16px;letter-spacing:1px">${stars}</span>
-          <span class="rating-text" style="font-weight:700;font-size:15px;color:var(--text-primary)">${m.rating}</span>
+          <span class="rating-text" style="font-weight:700;font-size:15px;color:var(--text)">${m.rating}</span>
           <span class="reviews" style="font-size:13px;color:var(--text-secondary)">(${m.reviews} \u0E23\u0E35\u0E27\u0E34\u0E27)</span>
           <span style="font-size:13px;color:var(--text-secondary);margin-left:4px">${m.priceLevel}</span>
         </div>
@@ -418,7 +418,7 @@ function openMerchant(id) {
         <h3 style="font-size:16px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-gift" style="color:var(--accent)"></i> \u0E42\u0E1B\u0E23\u0E42\u0E21\u0E0A\u0E31\u0E48\u0E19\u0E1E\u0E34\u0E40\u0E28\u0E29</h3>
         <div class="promo-card" style="background:linear-gradient(135deg,#FFF9E6,#FFF3CC);border:1.5px solid #FFC501;border-radius:16px;padding:16px;position:relative;overflow:hidden">
           <div class="promo-badge" style="position:absolute;top:0;right:0;background:var(--primary);color:var(--primary-on);padding:4px 12px;border-radius:0 0 0 12px;font-size:11px;font-weight:700">\u0E2A\u0E34\u0E17\u0E18\u0E34\u0E1E\u0E34\u0E40\u0E28\u0E29</div>
-          <div class="promo-text" style="font-size:14px;font-weight:500;line-height:1.6;color:var(--text-primary);padding-right:60px">${m.promotion}</div>
+          <div class="promo-text" style="font-size:14px;font-weight:500;line-height:1.6;color:var(--text);padding-right:60px">${m.promotion}</div>
           <button class="promo-btn" onclick="collectCoupon(${m.id})" style="margin-top:12px;background:var(--primary);color:var(--primary-on);border:none;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px">
             <i class="fas fa-ticket-alt"></i> \u0E40\u0E01\u0E47\u0E1A\u0E04\u0E39\u0E1B\u0E2D\u0E07
           </button>
@@ -444,27 +444,27 @@ function openMerchant(id) {
         <div class="info-rows" style="display:flex;flex-direction:column;gap:12px">
           <div class="info-row" style="display:flex;align-items:flex-start;gap:12px">
             <i class="fas fa-clock" style="color:var(--primary);margin-top:2px;width:18px;text-align:center"></i>
-            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E40\u0E27\u0E25\u0E32\u0E40\u0E1B\u0E34\u0E14-\u0E1B\u0E34\u0E14</div><div class="info-value" style="font-size:14px;color:var(--text-primary);font-weight:500">${m.hours}</div></div>
+            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E40\u0E27\u0E25\u0E32\u0E40\u0E1B\u0E34\u0E14-\u0E1B\u0E34\u0E14</div><div class="info-value" style="font-size:14px;color:var(--text);font-weight:500">${m.hours}</div></div>
           </div>
           <div class="info-row" style="display:flex;align-items:flex-start;gap:12px">
             <i class="fas fa-phone" style="color:var(--primary);margin-top:2px;width:18px;text-align:center"></i>
-            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E42\u0E17\u0E23\u0E28\u0E31\u0E1E\u0E17\u0E4C</div><div class="info-value" style="font-size:14px;color:var(--text-primary);font-weight:500">${m.phone}</div></div>
+            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E42\u0E17\u0E23\u0E28\u0E31\u0E1E\u0E17\u0E4C</div><div class="info-value" style="font-size:14px;color:var(--text);font-weight:500">${m.phone}</div></div>
           </div>
           <div class="info-row" style="display:flex;align-items:flex-start;gap:12px">
             <i class="fas fa-map-marker-alt" style="color:var(--primary);margin-top:2px;width:18px;text-align:center"></i>
             <div>
               <div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E17\u0E35\u0E48\u0E2D\u0E22\u0E39\u0E48</div>
-              <div class="info-value" style="font-size:14px;color:var(--text-primary);font-weight:500">${m.province}, ${m.region}</div>
+              <div class="info-value" style="font-size:14px;color:var(--text);font-weight:500">${m.province}, ${m.region}</div>
               <button onclick="openNavigation('${m.mapLink}')" style="margin-top:4px;color:var(--accent);background:none;border:none;font-size:13px;cursor:pointer;padding:0;font-weight:500"><i class="fas fa-directions"></i> \u0E40\u0E1B\u0E34\u0E14\u0E41\u0E1C\u0E19\u0E17\u0E35\u0E48</button>
             </div>
           </div>
           <div class="info-row" style="display:flex;align-items:flex-start;gap:12px">
             <i class="fas fa-dollar-sign" style="color:var(--primary);margin-top:2px;width:18px;text-align:center"></i>
-            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E23\u0E30\u0E14\u0E31\u0E1A\u0E23\u0E32\u0E04\u0E32</div><div class="info-value" style="font-size:14px;color:var(--text-primary);font-weight:500">${m.priceLevel}</div></div>
+            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">\u0E23\u0E30\u0E14\u0E31\u0E1A\u0E23\u0E32\u0E04\u0E32</div><div class="info-value" style="font-size:14px;color:var(--text);font-weight:500">${m.priceLevel}</div></div>
           </div>
           <div class="info-row" style="display:flex;align-items:flex-start;gap:12px">
             <i class="fas fa-hashtag" style="color:var(--primary);margin-top:2px;width:18px;text-align:center"></i>
-            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">Social Media</div><div class="info-value" style="font-size:14px;color:var(--text-primary);font-weight:500">${m.social || '-'}</div></div>
+            <div><div class="info-label" style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px">Social Media</div><div class="info-value" style="font-size:14px;color:var(--text);font-weight:500">${m.social || '-'}</div></div>
           </div>
         </div>
       </div>
@@ -847,19 +847,19 @@ function openEvent(id) {
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
               <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,197,1,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-calendar" style="color:var(--primary-dark);font-size:15px"></i></div>
-              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">วันที่</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${dateStr}</div></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">วันที่</div><div style="font-size:13px;font-weight:600;color:var(--text)">${dateStr}</div></div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
               <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,140,66,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-clock" style="color:var(--accent);font-size:15px"></i></div>
-              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">เวลา</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.time}</div></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">เวลา</div><div style="font-size:13px;font-weight:600;color:var(--text)">${e.time}</div></div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
               <div style="width:36px;height:36px;border-radius:10px;background:rgba(76,175,80,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-map-marker-alt" style="color:#2E7D32;font-size:15px"></i></div>
-              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">สถานที่</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.location}</div></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">สถานที่</div><div style="font-size:13px;font-weight:600;color:var(--text)">${e.location}</div></div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--bg);border-radius:14px">
               <div style="width:36px;height:36px;border-radius:10px;background:rgba(33,150,243,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-ticket-alt" style="color:#1565C0;font-size:15px"></i></div>
-              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">ค่าเข้าร่วม</div><div style="font-size:13px;font-weight:600;color:var(--text-primary)">${e.price}</div></div>
+              <div><div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px">ค่าเข้าร่วม</div><div style="font-size:13px;font-weight:600;color:var(--text)">${e.price}</div></div>
             </div>
           </div>
         </div>

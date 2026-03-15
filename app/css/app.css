@@ -3267,3 +3267,19 @@ img[loading="lazy"] {
   color: var(--danger);
   background: rgba(244, 67, 54, 0.08);
 }
+
+.cart-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-secondary);
+  transition: background 0.15s ease;
+}
+.cart-close-btn:hover { background: var(--border); }

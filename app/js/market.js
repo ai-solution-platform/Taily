@@ -71,7 +71,7 @@ function initPromoBanner() {
       sub: '\u0E04\u0E23\u0E1A\u0E17\u0E38\u0E01\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E41\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E07\u0E41\u0E21\u0E27',
       cta: '\u0E0A\u0E49\u0E2D\u0E1B\u0E40\u0E25\u0E22',
       gradient: 'linear-gradient(135deg, #4CAF50, #2E7D32)',
-      image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop',
+      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a3?w=800&h=400&fit=crop',
       merchantId: null,
       adSlot: 'hero-2',
       badge: null
@@ -230,7 +230,7 @@ function renderProducts(result) {
           <div class="product-name">${p.name}</div>
           <div class="product-price-row">
             <span class="product-price">\u0E3F${p.price.toLocaleString()}</span>
-            ${hasDiscount ? `<span class="product-original-price">\u0E3F${originalPrice.toLocaleString()}</span>` : ''}
+            ${hasDiscount ? `<span class="product-price-old">\u0E3F${originalPrice.toLocaleString()}</span>` : ''}
           </div>
           <div class="product-rating">
             <span class="product-stars">${ratingStars}</span>
@@ -571,7 +571,7 @@ function renderOrders() {
             <i class="fas fa-receipt"></i>
             <span>${order.orderId}</span>
           </div>
-          <span class="order-status-badge" style="background:${sc.color}15;color:${sc.color}">
+          <span class="order-status" style="background:${sc.color}15;color:${sc.color}">
             <i class="fas ${sc.icon}"></i> ${sc.label}
           </span>
         </div>
@@ -816,10 +816,10 @@ function renderCheckout() {
             </div>
           </div>
         </div>
-        <div class="co-nav-btns">
+        <div class="co-fixed-bottom"><div class="co-nav-btns">
           <button class="btn-outline" onclick="checkoutStep=1;renderCheckout()"><i class="fas fa-arrow-left"></i> \u0E22\u0E49\u0E2D\u0E19\u0E01\u0E25\u0E31\u0E1A</button>
           <button class="btn-primary" onclick="checkoutStep=3;renderCheckout()">\u0E16\u0E31\u0E14\u0E44\u0E1B <i class="fas fa-arrow-right"></i></button>
-        </div>
+        </div></div>
       </div>
     `;
   } else if (checkoutStep === 3) {
@@ -864,14 +864,12 @@ function renderCheckout() {
         </div>
       </div>
 
-      <div style="padding:0 16px;">
-        <div class="co-nav-btns">
+      <div class="co-fixed-bottom"><div class="co-nav-btns">
           <button class="btn-outline" onclick="checkoutStep=2;renderCheckout()"><i class="fas fa-arrow-left"></i> \u0E22\u0E49\u0E2D\u0E19\u0E01\u0E25\u0E31\u0E1A</button>
           <button class="btn-primary" onclick="placeOrder()" id="placeOrderBtn">
             <i class="fas fa-check-circle"></i> \u0E22\u0E37\u0E19\u0E22\u0E31\u0E19\u0E2A\u0E31\u0E48\u0E07\u0E0B\u0E37\u0E49\u0E2D
           </button>
-        </div>
-      </div>
+        </div></div>
     `;
   }
 
