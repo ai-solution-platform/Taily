@@ -1511,7 +1511,6 @@
 .co-nav-btns {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
 }
 
 .co-nav-btns .btn-outline {
@@ -1548,16 +1547,16 @@
   box-shadow: 0 2px 6px rgba(255, 197, 1, 0.25);
 }
 
-/* Fixed bottom CTA for step 1 */
+/* Fixed bottom CTA — must match .app-container max-width (430px) */
 .co-fixed-bottom {
   position: fixed;
   bottom: calc(var(--nav-height, 60px) + var(--safe-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 480px;
+  max-width: 430px;
   padding: 12px 16px;
-  background: var(--bg-card, #fff);
+  background: var(--bg, #FFFBF0);
   border-top: 1px solid var(--border, #EEE);
   z-index: var(--z-sticky, 100);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
