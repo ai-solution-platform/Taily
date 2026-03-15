@@ -710,11 +710,13 @@ function renderEventsGallery() {
     const date = new Date(e.date);
     return `
       <div class="event-card-gallery" onclick="openEvent(${e.id})">
-        <div class="gallery-img"><img src="${e.image}" alt="${e.title}" onerror="this.style.display='none'"></div>
-        <div class="gallery-body">
+        <div class="gallery-img">
+          <img src="${e.image}" alt="${e.title}" onerror="this.style.display='none'">
           <span class="event-date-badge"><i class="fas fa-calendar"></i> ${date.getDate()} ${thaiMonth[date.getMonth()]}</span>
+        </div>
+        <div class="gallery-body">
           <div class="gallery-title">${e.titleTh}</div>
-          <div class="gallery-meta">${e.price} \u00B7 ${e.location.split(' ')[0]}</div>
+          <div class="gallery-meta">${e.price} · ${e.location.split(' ')[0]}</div>
         </div>
       </div>
     `;
