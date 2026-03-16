@@ -613,9 +613,9 @@ function renderWalletSection(container) {
       </div>
 
       <div class="wallet-actions">
-        <button class="wallet-action-btn" onclick="showComingSoon('เติมเงิน')"><i class="fas fa-plus-circle"></i><span>เติมคะแนน</span></button>
-        <button class="wallet-action-btn" onclick="showComingSoon('แลกคะแนน')"><i class="fas fa-gift"></i><span>แลกรางวัล</span></button>
-        <button class="wallet-action-btn" onclick="showComingSoon('โอนคะแนน')"><i class="fas fa-paper-plane"></i><span>โอนคะแนน</span></button>
+        <button class="wallet-action-btn" onclick="openTopUpPoints()"><i class="fas fa-plus-circle"></i><span>เติมคะแนน</span></button>
+        <button class="wallet-action-btn" onclick="openRedeemRewards()"><i class="fas fa-gift"></i><span>แลกรางวัล</span></button>
+        <button class="wallet-action-btn" onclick="openTransferPoints()"><i class="fas fa-paper-plane"></i><span>โอนคะแนน</span></button>
       </div>
 
       ${historyHtml ? `
@@ -1611,4 +1611,509 @@ function renderPetSittingSection(container) {
       showServiceCategory('sitting');
     });
   });
+}
+
+// ===================================================================
+//  WALLET FEATURE: เติมคะแนน (Top Up Points)
+// ===================================================================
+
+function openTopUpPoints() {
+  const profile = TailyStore.get('user');
+  const wallet = profile?.wallet || {};
+  const currentPoints = wallet.balance ?? wallet.points ?? 0;
+
+  const modal = document.createElement('div');
+  modal.className = 'wallet-modal-overlay';
+  modal.innerHTML = `
+    <div class="wallet-modal">
+      <div class="wallet-modal-header">
+        <h3><i class="fas fa-plus-circle"></i> เติมคะแนน</h3>
+        <button class="wallet-modal-close" onclick="closeWalletModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="wallet-modal-body">
+        <div class="wallet-current-balance">
+          <span class="wcb-label">คะแนนปัจจุบัน</span>
+          <span class="wcb-value">${currentPoints.toLocaleString()} pts</span>
+        </div>
+
+        <div class="topup-section">
+          <p class="topup-label">เลือกจำนวนเงินที่ต้องการเติม</p>
+          <div class="topup-grid" id="topupGrid">
+            <button class="topup-option" onclick="selectTopUp(this, 50, 100)" data-amount="50">
+              <span class="topup-price">฿50</span>
+              <span class="topup-pts">100 pts</span>
+            </button>
+            <button class="topup-option" onclick="selectTopUp(this, 100, 220)" data-amount="100">
+              <span class="topup-price">฿100</span>
+              <span class="topup-pts">220 pts</span>
+              <span class="topup-bonus">+10%</span>
+            </button>
+            <button class="topup-option selected" onclick="selectTopUp(this, 300, 700)" data-amount="300">
+              <span class="topup-price">฿300</span>
+              <span class="topup-pts">700 pts</span>
+              <span class="topup-bonus">+16%</span>
+            </button>
+            <button class="topup-option" onclick="selectTopUp(this, 500, 1250)" data-amount="500">
+              <span class="topup-price">฿500</span>
+              <span class="topup-pts">1,250 pts</span>
+              <span class="topup-bonus">+25%</span>
+            </button>
+            <button class="topup-option" onclick="selectTopUp(this, 1000, 2800)" data-amount="1000">
+              <span class="topup-price">฿1,000</span>
+              <span class="topup-pts">2,800 pts</span>
+              <span class="topup-bonus">+40%</span>
+            </button>
+            <button class="topup-option" onclick="selectTopUp(this, 2000, 6000)" data-amount="2000">
+              <span class="topup-price">฿2,000</span>
+              <span class="topup-pts">6,000 pts</span>
+              <span class="topup-bonus">+50%</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="topup-section">
+          <p class="topup-label">วิธีชำระเงิน</p>
+          <div class="payment-methods" id="paymentMethods">
+            <button class="payment-method selected" onclick="selectPayment(this, 'promptpay')">
+              <i class="fas fa-qrcode"></i>
+              <span>PromptPay</span>
+            </button>
+            <button class="payment-method" onclick="selectPayment(this, 'card')">
+              <i class="fas fa-credit-card"></i>
+              <span>บัตรเครดิต</span>
+            </button>
+            <button class="payment-method" onclick="selectPayment(this, 'truemoney')">
+              <i class="fas fa-mobile-alt"></i>
+              <span>TrueMoney</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="topup-summary" id="topupSummary">
+          <div class="topup-summary-row"><span>จำนวนเงิน</span><span id="topupAmount">฿300</span></div>
+          <div class="topup-summary-row"><span>คะแนนที่จะได้รับ</span><span id="topupPointsGet" style="color:#4CAF50;font-weight:700">+700 pts</span></div>
+        </div>
+
+        <button class="wallet-confirm-btn" id="topupConfirmBtn" onclick="confirmTopUp()">
+          <i class="fas fa-check-circle"></i> ยืนยันเติมคะแนน
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('show'));
+
+  // Store selected values
+  window._topupData = { amount: 300, points: 700, method: 'promptpay' };
+}
+
+function selectTopUp(btn, price, pts) {
+  document.querySelectorAll('.topup-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  window._topupData.amount = price;
+  window._topupData.points = pts;
+  document.getElementById('topupAmount').textContent = '฿' + price.toLocaleString();
+  document.getElementById('topupPointsGet').textContent = '+' + pts.toLocaleString() + ' pts';
+}
+
+function selectPayment(btn, method) {
+  document.querySelectorAll('.payment-method').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  window._topupData.method = method;
+}
+
+function confirmTopUp() {
+  const data = window._topupData;
+  const profile = TailyStore.get('user');
+  if (profile && profile.wallet) {
+    const oldBalance = profile.wallet.balance ?? profile.wallet.points ?? 0;
+    profile.wallet.balance = oldBalance + data.points;
+    if (!profile.wallet.transactions) profile.wallet.transactions = [];
+    profile.wallet.transactions.unshift({
+      type: 'earn',
+      desc: 'เติมคะแนน (' + data.method.toUpperCase() + ')',
+      amount: data.points,
+      date: new Date().toISOString().split('T')[0],
+      icon: 'fa-plus-circle'
+    });
+    TailyStore.set('user', profile);
+  }
+
+  // Show success animation
+  const overlay = document.querySelector('.wallet-modal-overlay');
+  if (overlay) {
+    const modal = overlay.querySelector('.wallet-modal');
+    modal.innerHTML = `
+      <div class="wallet-success-anim">
+        <div class="wallet-success-icon"><i class="fas fa-check-circle"></i></div>
+        <h3>เติมคะแนนสำเร็จ!</h3>
+        <p>ได้รับ <strong>+${data.points.toLocaleString()} คะแนน</strong></p>
+        <p class="wallet-success-sub">ยอดคะแนนใหม่: ${(profile?.wallet?.balance ?? 0).toLocaleString()} pts</p>
+        <button class="wallet-confirm-btn" onclick="closeWalletModal();navigateToSubPage('wallet')">
+          <i class="fas fa-arrow-left"></i> กลับ Wallet
+        </button>
+      </div>
+    `;
+  }
+}
+
+// ===================================================================
+//  WALLET FEATURE: แลกรางวัล (Redeem Rewards)
+// ===================================================================
+
+const rewardsCatalog = [
+  { id: 1, name: 'Starbucks Gift Card ฿100', points: 500, image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&h=200&fit=crop', category: 'voucher', brand: 'Starbucks' },
+  { id: 2, name: 'คูปองอาหารสัตว์ Royal Canin 1kg', points: 800, image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=200&h=200&fit=crop', category: 'pet', brand: 'Royal Canin' },
+  { id: 3, name: 'ส่วนลดฉีดวัคซีน ฿200', points: 300, image: 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=200&h=200&fit=crop', category: 'health', brand: 'Taily Vet' },
+  { id: 4, name: 'ของเล่นสัตว์เลี้ยง Premium', points: 450, image: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=200&h=200&fit=crop', category: 'pet', brand: 'PetPlay' },
+  { id: 5, name: 'Grab Food ฿150 Voucher', points: 650, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop', category: 'voucher', brand: 'Grab' },
+  { id: 6, name: 'บริการอาบน้ำตัดขน 1 ครั้ง', points: 1000, image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=200&h=200&fit=crop', category: 'pet', brand: 'Pet Groomer' },
+  { id: 7, name: 'LINE Sticker Set', points: 150, image: 'https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=200&h=200&fit=crop', category: 'digital', brand: 'LINE' },
+  { id: 8, name: 'คูปองส่วนลด Taily Market 20%', points: 200, image: 'https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=200&h=200&fit=crop', category: 'voucher', brand: 'Taily' },
+  { id: 9, name: 'Pet Insurance 1 เดือน', points: 2000, image: 'https://images.unsplash.com/photo-1450778869180-e77d951aaa02?w=200&h=200&fit=crop', category: 'health', brand: 'Taily Insurance' },
+  { id: 10, name: 'Amazon Gift Card ฿200', points: 900, image: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=200&h=200&fit=crop', category: 'voucher', brand: 'Amazon' },
+];
+
+function openRedeemRewards() {
+  const profile = TailyStore.get('user');
+  const wallet = profile?.wallet || {};
+  const currentPoints = wallet.balance ?? wallet.points ?? 0;
+
+  const rewardsHtml = rewardsCatalog.map(r => {
+    const canRedeem = currentPoints >= r.points;
+    return `
+      <div class="reward-card ${canRedeem ? '' : 'reward-disabled'}">
+        <div class="reward-img-wrap">
+          <img src="${r.image}" alt="${r.name}" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(r.brand)}&background=FFC501&color=3D2B1F&size=200'">
+          ${!canRedeem ? '<div class="reward-locked"><i class="fas fa-lock"></i></div>' : ''}
+        </div>
+        <div class="reward-info">
+          <div class="reward-name">${r.name}</div>
+          <div class="reward-brand">${r.brand}</div>
+          <div class="reward-cost">
+            <i class="fas fa-coins"></i> ${r.points.toLocaleString()} pts
+          </div>
+          <button class="reward-redeem-btn" ${canRedeem ? `onclick="confirmRedeem(${r.id})"` : 'disabled'}>
+            ${canRedeem ? '<i class="fas fa-gift"></i> แลก' : '<i class="fas fa-lock"></i> คะแนนไม่พอ'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const modal = document.createElement('div');
+  modal.className = 'wallet-modal-overlay';
+  modal.innerHTML = `
+    <div class="wallet-modal wallet-modal-full">
+      <div class="wallet-modal-header">
+        <h3><i class="fas fa-gift"></i> แลกรางวัล</h3>
+        <button class="wallet-modal-close" onclick="closeWalletModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="wallet-modal-body">
+        <div class="wallet-current-balance">
+          <span class="wcb-label">คะแนนที่ใช้ได้</span>
+          <span class="wcb-value">${currentPoints.toLocaleString()} pts</span>
+        </div>
+
+        <div class="reward-filter-bar">
+          <button class="reward-filter active" onclick="filterRewards('all', this)">ทั้งหมด</button>
+          <button class="reward-filter" onclick="filterRewards('voucher', this)">บัตรกำนัล</button>
+          <button class="reward-filter" onclick="filterRewards('pet', this)">สินค้าสัตว์เลี้ยง</button>
+          <button class="reward-filter" onclick="filterRewards('health', this)">สุขภาพ</button>
+          <button class="reward-filter" onclick="filterRewards('digital', this)">ดิจิทัล</button>
+        </div>
+
+        <div class="rewards-grid" id="rewardsGrid">
+          ${rewardsHtml}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('show'));
+}
+
+function filterRewards(cat, btn) {
+  document.querySelectorAll('.reward-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const profile = TailyStore.get('user');
+  const currentPoints = profile?.wallet?.balance ?? profile?.wallet?.points ?? 0;
+  const filtered = cat === 'all' ? rewardsCatalog : rewardsCatalog.filter(r => r.category === cat);
+
+  document.getElementById('rewardsGrid').innerHTML = filtered.map(r => {
+    const canRedeem = currentPoints >= r.points;
+    return `
+      <div class="reward-card ${canRedeem ? '' : 'reward-disabled'}">
+        <div class="reward-img-wrap">
+          <img src="${r.image}" alt="${r.name}" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(r.brand)}&background=FFC501&color=3D2B1F&size=200'">
+          ${!canRedeem ? '<div class="reward-locked"><i class="fas fa-lock"></i></div>' : ''}
+        </div>
+        <div class="reward-info">
+          <div class="reward-name">${r.name}</div>
+          <div class="reward-brand">${r.brand}</div>
+          <div class="reward-cost"><i class="fas fa-coins"></i> ${r.points.toLocaleString()} pts</div>
+          <button class="reward-redeem-btn" ${canRedeem ? `onclick="confirmRedeem(${r.id})"` : 'disabled'}>
+            ${canRedeem ? '<i class="fas fa-gift"></i> แลก' : '<i class="fas fa-lock"></i> คะแนนไม่พอ'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function confirmRedeem(rewardId) {
+  const reward = rewardsCatalog.find(r => r.id === rewardId);
+  if (!reward) return;
+
+  const profile = TailyStore.get('user');
+  const currentPoints = profile?.wallet?.balance ?? profile?.wallet?.points ?? 0;
+  if (currentPoints < reward.points) {
+    showToast('คะแนนไม่เพียงพอ');
+    return;
+  }
+
+  // Show confirmation dialog
+  const overlay = document.querySelector('.wallet-modal-overlay');
+  const existingBody = overlay.querySelector('.wallet-modal-body');
+  existingBody.innerHTML = `
+    <div class="redeem-confirm">
+      <div class="redeem-confirm-img">
+        <img src="${reward.image}" alt="${reward.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(reward.brand)}&background=FFC501&color=3D2B1F&size=200'">
+      </div>
+      <h3>${reward.name}</h3>
+      <p class="redeem-confirm-cost"><i class="fas fa-coins"></i> ใช้ ${reward.points.toLocaleString()} คะแนน</p>
+      <p class="redeem-confirm-remain">คงเหลือ: ${(currentPoints - reward.points).toLocaleString()} pts</p>
+      <div class="redeem-confirm-actions">
+        <button class="wallet-cancel-btn" onclick="openRedeemRewards();closeWalletModal()"><i class="fas fa-arrow-left"></i> กลับ</button>
+        <button class="wallet-confirm-btn" onclick="executeRedeem(${reward.id})"><i class="fas fa-check"></i> ยืนยันแลก</button>
+      </div>
+    </div>
+  `;
+}
+
+function executeRedeem(rewardId) {
+  const reward = rewardsCatalog.find(r => r.id === rewardId);
+  if (!reward) return;
+
+  const profile = TailyStore.get('user');
+  if (profile && profile.wallet) {
+    const oldBalance = profile.wallet.balance ?? profile.wallet.points ?? 0;
+    profile.wallet.balance = oldBalance - reward.points;
+    if (!profile.wallet.transactions) profile.wallet.transactions = [];
+    profile.wallet.transactions.unshift({
+      type: 'spend',
+      desc: 'แลกรางวัล: ' + reward.name,
+      amount: -reward.points,
+      date: new Date().toISOString().split('T')[0],
+      icon: 'fa-gift'
+    });
+    TailyStore.set('user', profile);
+  }
+
+  const overlay = document.querySelector('.wallet-modal-overlay');
+  if (overlay) {
+    const modal = overlay.querySelector('.wallet-modal');
+    const couponCode = 'TAILY' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    modal.innerHTML = `
+      <div class="wallet-success-anim">
+        <div class="wallet-success-icon" style="color:#FF8C42"><i class="fas fa-gift"></i></div>
+        <h3>แลกรางวัลสำเร็จ!</h3>
+        <p><strong>${reward.name}</strong></p>
+        <div class="redeem-coupon-code">
+          <span>รหัสคูปอง</span>
+          <strong>${couponCode}</strong>
+          <button onclick="navigator.clipboard?.writeText('${couponCode}');showToast('คัดลอกแล้ว!')"><i class="fas fa-copy"></i></button>
+        </div>
+        <p class="wallet-success-sub">คะแนนคงเหลือ: ${(profile?.wallet?.balance ?? 0).toLocaleString()} pts</p>
+        <button class="wallet-confirm-btn" onclick="closeWalletModal();navigateToSubPage('wallet')">
+          <i class="fas fa-arrow-left"></i> กลับ Wallet
+        </button>
+      </div>
+    `;
+  }
+}
+
+// ===================================================================
+//  WALLET FEATURE: โอนคะแนน (Transfer Points)
+// ===================================================================
+
+const transferContacts = [
+  { id: 1, name: 'คุณสมชาย', avatar: 'https://ui-avatars.com/api/?name=สมชาย&background=FFC501&color=3D2B1F', phone: '081-xxx-xx34' },
+  { id: 2, name: 'คุณสมหญิง', avatar: 'https://ui-avatars.com/api/?name=สมหญิง&background=FF8C42&color=fff', phone: '089-xxx-xx56' },
+  { id: 3, name: 'คุณมานี', avatar: 'https://ui-avatars.com/api/?name=มานี&background=4CAF50&color=fff', phone: '092-xxx-xx78' },
+  { id: 4, name: 'PawPaw Shop', avatar: 'https://ui-avatars.com/api/?name=PawPaw&background=2196F3&color=fff', phone: '02-xxx-xx90' },
+  { id: 5, name: 'คุณวิชัย', avatar: 'https://ui-avatars.com/api/?name=วิชัย&background=9C27B0&color=fff', phone: '085-xxx-xx12' },
+];
+
+function openTransferPoints() {
+  const profile = TailyStore.get('user');
+  const wallet = profile?.wallet || {};
+  const currentPoints = wallet.balance ?? wallet.points ?? 0;
+
+  const contactsHtml = transferContacts.map(c => `
+    <button class="transfer-contact" onclick="selectTransferContact(${c.id}, this)">
+      <img src="${c.avatar}" alt="${c.name}">
+      <div class="transfer-contact-info">
+        <span class="transfer-contact-name">${c.name}</span>
+        <span class="transfer-contact-phone">${c.phone}</span>
+      </div>
+      <i class="fas fa-check-circle transfer-check"></i>
+    </button>
+  `).join('');
+
+  const modal = document.createElement('div');
+  modal.className = 'wallet-modal-overlay';
+  modal.innerHTML = `
+    <div class="wallet-modal">
+      <div class="wallet-modal-header">
+        <h3><i class="fas fa-paper-plane"></i> โอนคะแนน</h3>
+        <button class="wallet-modal-close" onclick="closeWalletModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="wallet-modal-body">
+        <div class="wallet-current-balance">
+          <span class="wcb-label">คะแนนที่โอนได้</span>
+          <span class="wcb-value">${currentPoints.toLocaleString()} pts</span>
+        </div>
+
+        <div class="transfer-section">
+          <p class="topup-label">เลือกผู้รับ</p>
+          <div class="transfer-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="ค้นหาชื่อหรือเบอร์โทร..." oninput="searchTransferContact(this.value)">
+          </div>
+          <div class="transfer-contacts-list" id="transferContactsList">
+            ${contactsHtml}
+          </div>
+        </div>
+
+        <div class="transfer-section">
+          <p class="topup-label">จำนวนคะแนน</p>
+          <div class="transfer-amount-input">
+            <input type="number" id="transferAmount" placeholder="0" min="1" max="${currentPoints}" oninput="updateTransferPreview()">
+            <span class="transfer-unit">pts</span>
+          </div>
+          <div class="transfer-quick-amounts">
+            <button onclick="setTransferAmount(100)">100</button>
+            <button onclick="setTransferAmount(500)">500</button>
+            <button onclick="setTransferAmount(1000)">1,000</button>
+            <button onclick="setTransferAmount(2000)">2,000</button>
+          </div>
+        </div>
+
+        <div class="transfer-section">
+          <p class="topup-label">หมายเหตุ (ไม่บังคับ)</p>
+          <input type="text" id="transferNote" class="transfer-note-input" placeholder="เช่น ค่าขนมน้องหมา 🐕">
+        </div>
+
+        <button class="wallet-confirm-btn" id="transferConfirmBtn" onclick="confirmTransfer()" disabled>
+          <i class="fas fa-paper-plane"></i> ยืนยันโอนคะแนน
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('show'));
+
+  window._transferData = { contactId: null, amount: 0, note: '' };
+}
+
+function selectTransferContact(id, btn) {
+  document.querySelectorAll('.transfer-contact').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  window._transferData.contactId = id;
+  updateTransferBtn();
+}
+
+function searchTransferContact(query) {
+  const q = query.toLowerCase();
+  const filtered = transferContacts.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q));
+  document.getElementById('transferContactsList').innerHTML = filtered.map(c => `
+    <button class="transfer-contact ${window._transferData.contactId === c.id ? 'selected' : ''}" onclick="selectTransferContact(${c.id}, this)">
+      <img src="${c.avatar}" alt="${c.name}">
+      <div class="transfer-contact-info">
+        <span class="transfer-contact-name">${c.name}</span>
+        <span class="transfer-contact-phone">${c.phone}</span>
+      </div>
+      <i class="fas fa-check-circle transfer-check"></i>
+    </button>
+  `).join('');
+}
+
+function setTransferAmount(amount) {
+  document.getElementById('transferAmount').value = amount;
+  window._transferData.amount = amount;
+  updateTransferBtn();
+}
+
+function updateTransferPreview() {
+  const val = parseInt(document.getElementById('transferAmount').value) || 0;
+  window._transferData.amount = val;
+  updateTransferBtn();
+}
+
+function updateTransferBtn() {
+  const btn = document.getElementById('transferConfirmBtn');
+  const profile = TailyStore.get('user');
+  const currentPoints = profile?.wallet?.balance ?? profile?.wallet?.points ?? 0;
+  const d = window._transferData;
+  const valid = d.contactId && d.amount > 0 && d.amount <= currentPoints;
+  btn.disabled = !valid;
+}
+
+function confirmTransfer() {
+  const d = window._transferData;
+  const contact = transferContacts.find(c => c.id === d.contactId);
+  if (!contact || d.amount <= 0) return;
+
+  d.note = document.getElementById('transferNote')?.value || '';
+
+  const profile = TailyStore.get('user');
+  if (profile && profile.wallet) {
+    const oldBalance = profile.wallet.balance ?? profile.wallet.points ?? 0;
+    if (d.amount > oldBalance) { showToast('คะแนนไม่เพียงพอ'); return; }
+    profile.wallet.balance = oldBalance - d.amount;
+    if (!profile.wallet.transactions) profile.wallet.transactions = [];
+    profile.wallet.transactions.unshift({
+      type: 'spend',
+      desc: 'โอนคะแนนให้ ' + contact.name + (d.note ? ' - ' + d.note : ''),
+      amount: -d.amount,
+      date: new Date().toISOString().split('T')[0],
+      icon: 'fa-paper-plane'
+    });
+    TailyStore.set('user', profile);
+  }
+
+  const overlay = document.querySelector('.wallet-modal-overlay');
+  if (overlay) {
+    const modal = overlay.querySelector('.wallet-modal');
+    modal.innerHTML = `
+      <div class="wallet-success-anim">
+        <div class="wallet-success-icon" style="color:#2196F3"><i class="fas fa-paper-plane"></i></div>
+        <h3>โอนคะแนนสำเร็จ!</h3>
+        <div class="transfer-success-detail">
+          <img src="${contact.avatar}" alt="${contact.name}" class="transfer-success-avatar">
+          <p>โอนให้ <strong>${contact.name}</strong></p>
+          <p class="transfer-success-amount">-${d.amount.toLocaleString()} pts</p>
+          ${d.note ? `<p class="transfer-success-note">"${d.note}"</p>` : ''}
+        </div>
+        <p class="wallet-success-sub">คะแนนคงเหลือ: ${(profile?.wallet?.balance ?? 0).toLocaleString()} pts</p>
+        <button class="wallet-confirm-btn" onclick="closeWalletModal();navigateToSubPage('wallet')">
+          <i class="fas fa-arrow-left"></i> กลับ Wallet
+        </button>
+      </div>
+    `;
+  }
+}
+
+// ===================================================================
+//  WALLET MODAL UTILITIES
+// ===================================================================
+
+function closeWalletModal() {
+  const overlay = document.querySelector('.wallet-modal-overlay');
+  if (overlay) {
+    overlay.classList.remove('show');
+    setTimeout(() => overlay.remove(), 300);
+  }
 }
