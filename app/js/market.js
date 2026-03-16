@@ -71,7 +71,7 @@ function initPromoBanner() {
       sub: '\u0E04\u0E23\u0E1A\u0E17\u0E38\u0E01\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E41\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E07\u0E41\u0E21\u0E27',
       cta: '\u0E0A\u0E49\u0E2D\u0E1B\u0E40\u0E25\u0E22',
       gradient: 'linear-gradient(135deg, #4CAF50, #2E7D32)',
-      image: 'https://images.unsplash.com/photo-1583337130417-13104dec14a3?w=800&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1450778869180-e77d951aaa02?w=400&h=250&fit=crop',
       merchantId: null,
       adSlot: 'hero-2',
       badge: null
@@ -131,7 +131,7 @@ function openPromoDetail(bannerIndex) {
     {
       title: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E22\u0E22\u0E2D\u0E14\u0E19\u0E34\u0E22\u0E21',
       subtitle: '\u0E2D\u0E32\u0E2B\u0E32\u0E23 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19 \u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C\u0E04\u0E23\u0E1A',
-      image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1450778869180-e77d951aaa02?w=600&h=400&fit=crop',
       desc: '\u0E2A\u0E34\u0E19\u0E04\u0E49\u0E32\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E19\u0E49\u0E2D\u0E07\u0E2B\u0E21\u0E32\u0E41\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E07\u0E41\u0E21\u0E27\u0E22\u0E2D\u0E14\u0E19\u0E34\u0E22\u0E21\u0E17\u0E35\u0E48\u0E04\u0E31\u0E14\u0E2A\u0E23\u0E23\u0E21\u0E32\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E04\u0E38\u0E13 \u0E2D\u0E32\u0E2B\u0E32\u0E23\u0E40\u0E01\u0E23\u0E14\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21\u0E04\u0E38\u0E13\u0E20\u0E32\u0E1E\u0E2A\u0E39\u0E07 \u0E02\u0E2D\u0E07\u0E40\u0E25\u0E48\u0E19\u0E41\u0E1A\u0E23\u0E19\u0E14\u0E4C\u0E14\u0E31\u0E07 \u0E41\u0E25\u0E30\u0E2D\u0E38\u0E1B\u0E01\u0E23\u0E13\u0E4C\u0E40\u0E2A\u0E23\u0E34\u0E21\u0E2A\u0E27\u0E22\u0E2A\u0E33\u0E2B\u0E23\u0E31\u0E1A\u0E2A\u0E31\u0E15\u0E27\u0E4C\u0E40\u0E25\u0E35\u0E49\u0E22\u0E07\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
       period: '1 - 30 \u0E40\u0E21.\u0E22. 2569',
       merchant: 'Pet Mart Central',
@@ -210,7 +210,7 @@ function renderProducts(result) {
     return;
   }
 
-  grid.innerHTML = items.map(p => {
+  grid.innerHTML = items.map((p, idx) => {
     const hasDiscount = p.discount && p.discount > 0;
     const originalPrice = hasDiscount ? Math.round(p.price / (1 - p.discount / 100)) : null;
     const ratingStars = '\u2605'.repeat(Math.floor(p.rating || 4)) + '\u2606'.repeat(5 - Math.floor(p.rating || 4));
@@ -218,6 +218,7 @@ function renderProducts(result) {
     if (p.isNew) badges.push('<span class="product-badge new-badge">\u0E43\u0E2B\u0E21\u0E48</span>');
     if (p.isBestseller) badges.push('<span class="product-badge best-badge">\u0E02\u0E32\u0E22\u0E14\u0E35</span>');
     if (hasDiscount) badges.push(`<span class="product-badge discount-badge">-${p.discount}%</span>`);
+    const isAd = idx < 2 && marketProductsPage === 1;
 
     return `
       <div class="product-card" onclick="openProduct(${p.id})">
@@ -225,6 +226,7 @@ function renderProducts(result) {
           <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy"
                onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#FFC501,#FFD740)'">
           ${badges.join('')}
+          ${isAd ? '<span class="product-ad-badge"><i class="fas fa-bullhorn"></i> Ads</span>' : ''}
         </div>
         <div class="product-body">
           <div class="product-name">${p.name}</div>

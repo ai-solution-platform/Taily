@@ -472,6 +472,26 @@
   color: var(--primary-on);
 }
 
+.product-ad-badge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(4px);
+}
+.product-ad-badge i {
+  font-size: 8px;
+}
+
 .product-body {
   padding: var(--space-md);
 }

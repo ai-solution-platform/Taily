@@ -26,6 +26,8 @@ async function initSocial() {
 
     allAdoptionPets = adoptionPets || [];
     renderAdoptionPets(allAdoptionPets);
+
+    initLostFound();
   } catch (e) {
     console.error('initSocial error:', e);
   }
@@ -829,6 +831,189 @@ function showAdoptionContact(petName, orgName, phone) {
         <i class="fas fa-copy"></i> คัดลอกเบอร์โทร
       </button>
       <button class="btn-outline btn-block" style="margin-top:8px" onclick="closeModal()">ปิด</button>
+    </div>
+  `);
+}
+
+// ===================================================================
+//  LOST & FOUND
+// ===================================================================
+
+const lostFoundData = [
+  {
+    id: 1, type: 'lost', species: 'dog', name: 'มอมแมม', breed: 'ปอมเมอเรเนียน',
+    color: 'ขาว-ครีม', gender: 'ชาย', age: '3 ปี',
+    image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=300&fit=crop',
+    location: 'ซอยสุขุมวิท 39, วัฒนา, กรุงเทพฯ',
+    date: '2026-03-14', time: '18:30',
+    desc: 'หายขณะพาเดินเล่นที่สวนเบญจสิริ ใส่ปลอกคอสีแดงมี GPS tag แต่แบตหมด หากพบเจอรบกวนติดต่อด่วน',
+    contact: 'คุณสมชาย', phone: '081-234-5678', reward: '5,000 บาท',
+    status: 'searching'
+  },
+  {
+    id: 2, type: 'lost', species: 'cat', name: 'ข้าวปุ้น', breed: 'สก็อตติช โฟลด์',
+    color: 'เทา-ขาว', gender: 'หญิง', age: '2 ปี',
+    image: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=400&h=300&fit=crop',
+    location: 'หมู่บ้านเศรษฐสิริ, พัฒนาการ',
+    date: '2026-03-12', time: '20:00',
+    desc: 'หนีออกจากบ้านตอนกลางคืน หูพับ ตาสีทอง มีไมโครชิพ ชอบเข้าหาคน ไม่กลัวรถ',
+    contact: 'คุณมินตรา', phone: '089-876-5432', reward: '3,000 บาท',
+    status: 'searching'
+  },
+  {
+    id: 3, type: 'found', species: 'dog', name: 'ไม่ทราบชื่อ', breed: 'พันธุ์ผสม (กลาง)',
+    color: 'น้ำตาล-ดำ', gender: 'ชาย', age: 'ประมาณ 4-5 ปี',
+    image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400&h=300&fit=crop',
+    location: 'สวนลุมพินี, ปทุมวัน, กรุงเทพฯ',
+    date: '2026-03-15', time: '07:00',
+    desc: 'พบเดินหลงอยู่ในสวนลุมพินี ใส่ปลอกคอสีน้ำเงินไม่มีป้ายชื่อ เชื่อง สุขภาพดี ตอนนี้ดูแลชั่วคราวอยู่',
+    contact: 'คุณวิชัย', phone: '092-345-6789', reward: null,
+    status: 'caring'
+  },
+  {
+    id: 4, type: 'found', species: 'cat', name: 'ไม่ทราบชื่อ', breed: 'วิเชียรมาศ (Siamese)',
+    color: 'ครีม-น้ำตาลเข้ม', gender: 'หญิง', age: 'ประมาณ 1-2 ปี',
+    image: 'https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=400&h=300&fit=crop',
+    location: 'ตลาดจตุจักร, จตุจักร, กรุงเทพฯ',
+    date: '2026-03-13', time: '10:30',
+    desc: 'พบน้องแมววิเชียรมาศร้องเหมียวอยู่หน้าตลาด ดูเชื่องมาก น่าจะมีเจ้าของ มีไมโครชิพ กำลังตรวจสอบ',
+    contact: 'คุณนภา', phone: '086-543-2109', reward: null,
+    status: 'caring'
+  },
+  {
+    id: 5, type: 'lost', species: 'dog', name: 'โทฟฟี่', breed: 'โกลเด้น รีทรีฟเวอร์',
+    color: 'ทอง', gender: 'ชาย', age: '5 ปี',
+    image: 'https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=400&h=300&fit=crop',
+    location: 'หมู่บ้านพฤกษา, บางนา-ตราด',
+    date: '2026-03-10', time: '16:00',
+    desc: 'หนีออกจากบ้านตอนประตูเปิด ตัวใหญ่ ขนยาวสีทอง ใส่สายรัดอกสีส้ม เป็นมิตรมาก ชอบเข้าหาคน',
+    contact: 'คุณธนา', phone: '095-678-1234', reward: '10,000 บาท',
+    status: 'searching'
+  },
+  {
+    id: 6, type: 'found', species: 'dog', name: 'ไม่ทราบชื่อ', breed: 'ชิวาว่า',
+    color: 'น้ำตาลอ่อน', gender: 'หญิง', age: 'ประมาณ 2 ปี',
+    image: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&h=300&fit=crop',
+    location: 'ห้างเซ็นทรัลพระราม 9',
+    date: '2026-03-16', time: '14:00',
+    desc: 'พบน้องชิวาว่าเดินหลงอยู่ในลานจอดรถ ใส่เสื้อผ้าสีชมพู มีปลอกคอแต่ไม่มีป้าย ดูแลชั่วคราวที่คลินิกใกล้เคียง',
+    contact: 'คลินิกรักสัตว์ พระราม 9', phone: '02-345-6789', reward: null,
+    status: 'caring'
+  }
+];
+
+function initLostFound() {
+  renderLostFound(lostFoundData);
+}
+
+function renderLostFound(items) {
+  const grid = document.getElementById('lostFoundGrid');
+  if (!grid) return;
+
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>ยังไม่มีรายงาน</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(p => {
+    const isLost = p.type === 'lost';
+    const badgeClass = isLost ? 'lf-badge-lost' : 'lf-badge-found';
+    const badgeText = isLost ? 'หาย' : 'พบเจอ';
+    const badgeIcon = isLost ? 'fa-exclamation-triangle' : 'fa-hand-holding-heart';
+    const daysAgo = Math.floor((new Date('2026-03-16') - new Date(p.date)) / 86400000);
+    const timeText = daysAgo === 0 ? 'วันนี้' : daysAgo === 1 ? 'เมื่อวาน' : `${daysAgo} วันที่แล้ว`;
+
+    return `
+      <div class="lf-card" onclick="openLostFoundDetail(${p.id})">
+        <div class="lf-card-img">
+          <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <span class="lf-badge ${badgeClass}"><i class="fas ${badgeIcon}"></i> ${badgeText}</span>
+          ${p.reward ? `<span class="lf-reward"><i class="fas fa-gift"></i> ${p.reward}</span>` : ''}
+        </div>
+        <div class="lf-card-body">
+          <div class="lf-card-name">${p.name} <span class="lf-card-breed">${p.breed}</span></div>
+          <div class="lf-card-meta"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>
+          <div class="lf-card-meta"><i class="fas fa-clock"></i> ${timeText} (${p.date})</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterLostFound(filter, btn) {
+  if (btn) {
+    btn.closest('.lf-filters').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const filtered = filter === 'all' ? lostFoundData : lostFoundData.filter(p => p.type === filter);
+  renderLostFound(filtered);
+}
+
+function openLostFoundDetail(id) {
+  const p = lostFoundData.find(x => x.id === id);
+  if (!p) return;
+
+  const isLost = p.type === 'lost';
+  const badgeClass = isLost ? 'lf-badge-lost' : 'lf-badge-found';
+  const badgeText = isLost ? 'สัตว์เลี้ยงหาย' : 'พบสัตว์เลี้ยง';
+
+  showModal(`
+    <div class="lf-detail">
+      <div class="lf-detail-img">
+        <img src="${p.image}" alt="${p.name}">
+      </div>
+      <div class="lf-detail-body">
+        <span class="lf-badge ${badgeClass}" style="display:inline-flex;margin-bottom:8px"><i class="fas ${isLost ? 'fa-exclamation-triangle' : 'fa-hand-holding-heart'}"></i> ${badgeText}</span>
+        <h2 style="margin:0 0 4px;font-size:20px">${p.name}</h2>
+        <p style="color:var(--text-secondary);margin:0 0 12px;font-size:14px">${p.breed} &middot; ${p.color} &middot; ${p.gender} &middot; ${p.age}</p>
+
+        <div class="lf-info-row"><i class="fas fa-map-marker-alt" style="color:#E53935"></i><span>${p.location}</span></div>
+        <div class="lf-info-row"><i class="fas fa-calendar" style="color:var(--primary)"></i><span>${p.date} เวลา ${p.time} น.</span></div>
+        ${p.reward ? `<div class="lf-info-row"><i class="fas fa-gift" style="color:#FF9800"></i><span>ค่าตอบแทน: <strong>${p.reward}</strong></span></div>` : ''}
+
+        <p style="font-size:14px;line-height:1.6;margin:12px 0;color:var(--text)">${p.desc}</p>
+
+        <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:12px">
+          <div class="lf-info-row"><i class="fas fa-user" style="color:#1565C0"></i><span>${p.contact}</span></div>
+          <div class="lf-info-row"><i class="fas fa-phone" style="color:#4CAF50"></i><span>${p.phone}</span></div>
+        </div>
+
+        <button class="btn-primary btn-block" style="margin-top:16px" onclick="closeModal();showToast('คัดลอกเบอร์โทรแล้ว')"><i class="fas fa-phone"></i> โทรติดต่อ</button>
+        <button class="btn-outline btn-block" style="margin-top:8px" onclick="closeModal();showToast('แชร์แล้ว')"><i class="fas fa-share-alt"></i> แชร์ช่วยตามหา</button>
+      </div>
+    </div>
+  `);
+}
+
+function openReportLostPet() {
+  showModal(`
+    <div style="padding:20px">
+      <h2 style="margin:0 0 16px;font-size:18px"><i class="fas fa-search-location"></i> แจ้งสัตว์เลี้ยงหาย / พบเจอ</h2>
+      <div class="booking-field">
+        <label>ประเภทการแจ้ง</label>
+        <select><option>สัตว์เลี้ยงหาย</option><option>พบสัตว์เลี้ยง</option></select>
+      </div>
+      <div class="booking-field">
+        <label>ชื่อสัตว์เลี้ยง</label>
+        <input type="text" placeholder="ชื่อน้อง (หรือ 'ไม่ทราบ')">
+      </div>
+      <div class="booking-field">
+        <label>สายพันธุ์ / ลักษณะ</label>
+        <input type="text" placeholder="เช่น ปอมเมอเรเนียน สีขาว">
+      </div>
+      <div class="booking-field">
+        <label>สถานที่พบ / หาย</label>
+        <input type="text" placeholder="เช่น สวนลุมพินี">
+      </div>
+      <div class="booking-field">
+        <label>รายละเอียดเพิ่มเติม</label>
+        <textarea rows="3" placeholder="อธิบายลักษณะเด่น ปลอกคอ ไมโครชิพ ฯลฯ"></textarea>
+      </div>
+      <div class="booking-field">
+        <label>เบอร์โทรติดต่อ</label>
+        <input type="tel" placeholder="08X-XXX-XXXX">
+      </div>
+      <button class="btn-primary btn-block" onclick="closeModal();showToast('แจ้งเรียบร้อย! ระบบจะช่วยกระจายข่าวให้')"><i class="fas fa-paper-plane"></i> ส่งรายงาน</button>
     </div>
   `);
 }

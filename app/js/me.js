@@ -1271,32 +1271,133 @@ function renderPetProfilePage(container) {
 // ===================================================================
 
 function renderTrainingSection(container) {
-  const trainingProviders = [
-    {name:'K9 Academy BKK', image:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=200&fit=crop', specialty:'ฝึกพื้นฐาน, แก้ปัญหาพฤติกรรม', rating:4.8, price:'2,500-8,000', location:'สุขุมวิท, กรุงเทพฯ', distance:'2.1 km', desc:'ศูนย์ฝึกสุนัขมืออาชีพ ด้วยทีมครูฝึกที่มีประสบการณ์กว่า 10 ปี เน้นวิธีการฝึกเชิงบวก', services:['ฝึกพื้นฐาน (นั่ง, หมอบ, มา)', 'แก้ปัญหาพฤติกรรม', 'ฝึกเดินสายจูง', 'ฝึกสังคมกับสุนัขตัวอื่น', 'คอร์ส Private 1:1']},
-    {name:'Happy Paws Training', image:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop', specialty:'Agility, ฝึกมารยาท', rating:4.6, price:'1,800-5,000', location:'ลาดพร้าว, กรุงเทพฯ', distance:'4.5 km', desc:'โรงเรียนฝึกสุนัขที่เน้นความสนุกสนาน มีสนาม Agility และกิจกรรมกลุ่ม', services:['Agility Training', 'ฝึกมารยาท', 'Puppy Socialization', 'Group Classes', 'คอร์สสุดสัปดาห์']},
-    {name:'Thai Dog Whisperer', image:'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&h=200&fit=crop', specialty:'พฤติกรรมก้าวร้าว, ฝึกเชื่อฟัง', rating:4.9, price:'3,000-12,000', location:'รัชดาภิเษก, กรุงเทพฯ', distance:'3.2 km', desc:'ผู้เชี่ยวชาญด้านพฤติกรรมสัตว์ แก้ไขปัญหาพฤติกรรมที่ซับซ้อน รับปรึกษาเคสยาก', services:['แก้ปัญหาก้าวร้าว', 'ฝึกเชื่อฟังขั้นสูง', 'ปรับพฤติกรรมกลัว/วิตกกังวล', 'ให้คำปรึกษาที่บ้าน', 'ติดตามผลรายเดือน']},
-    {name:'Pawsome School', image:'https://images.unsplash.com/photo-1558929996-da64ba858215?w=300&h=200&fit=crop', specialty:'Puppy Class, ฝึกสังคม', rating:4.5, price:'1,500-4,000', location:'อารีย์, กรุงเทพฯ', distance:'5.8 km', desc:'โรงเรียนสำหรับลูกสุนัข เน้นการฝึกสังคมและพื้นฐานที่ดีตั้งแต่เล็ก', services:['Puppy Kindergarten', 'ฝึกสังคม', 'ฝึกพื้นฐานสำหรับลูกสุนัข', 'เล่นกลุ่ม', 'คำแนะนำสำหรับเจ้าของมือใหม่']},
-    {name:'Bangkok K9 Club', image:'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=300&h=200&fit=crop', specialty:'ฝึกขั้นสูง, สุนัขบริการ', rating:4.7, price:'5,000-15,000', location:'ทองหล่อ, กรุงเทพฯ', distance:'1.8 km', desc:'สโมสรฝึกสุนัขระดับพรีเมียม เชี่ยวชาญการฝึกสุนัขบริการและสุนัขทำงาน', services:['ฝึกสุนัขบริการ', 'ฝึกขั้นสูง (Off-leash)', 'Protection Training', 'คอร์สประจำเดือน', 'การแข่งขัน Obedience']}
+  // === SERVICE CATEGORIES ===
+  const serviceCategories = [
+    {
+      id: 'training',
+      icon: 'fa-graduation-cap',
+      color: '#FF5722',
+      name: 'ฝึกสัตว์เลี้ยง',
+      desc: 'ฝึกพื้นฐาน, Agility, แก้พฤติกรรม',
+      providers: [
+        {name:'K9 Academy BKK', image:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=200&fit=crop', specialty:'ฝึกพื้นฐาน, แก้ปัญหาพฤติกรรม', rating:4.8, price:'2,500-8,000', location:'สุขุมวิท, กรุงเทพฯ', distance:'2.1 km', desc:'ศูนย์ฝึกสุนัขมืออาชีพ ด้วยทีมครูฝึกที่มีประสบการณ์กว่า 10 ปี เน้นวิธีการฝึกเชิงบวก', services:['ฝึกพื้นฐาน (นั่ง, หมอบ, มา)', 'แก้ปัญหาพฤติกรรม', 'ฝึกเดินสายจูง', 'ฝึกสังคมกับสุนัขตัวอื่น', 'คอร์ส Private 1:1']},
+        {name:'Happy Paws Training', image:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop', specialty:'Agility, ฝึกมารยาท', rating:4.6, price:'1,800-5,000', location:'ลาดพร้าว, กรุงเทพฯ', distance:'4.5 km', desc:'โรงเรียนฝึกสุนัขที่เน้นความสนุกสนาน มีสนาม Agility และกิจกรรมกลุ่ม', services:['Agility Training', 'ฝึกมารยาท', 'Puppy Socialization', 'Group Classes', 'คอร์สสุดสัปดาห์']},
+        {name:'Thai Dog Whisperer', image:'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&h=200&fit=crop', specialty:'พฤติกรรมก้าวร้าว, ฝึกเชื่อฟัง', rating:4.9, price:'3,000-12,000', location:'รัชดาภิเษก, กรุงเทพฯ', distance:'3.2 km', desc:'ผู้เชี่ยวชาญด้านพฤติกรรมสัตว์ แก้ไขปัญหาพฤติกรรมที่ซับซ้อน รับปรึกษาเคสยาก', services:['แก้ปัญหาก้าวร้าว', 'ฝึกเชื่อฟังขั้นสูง', 'ปรับพฤติกรรมกลัว/วิตกกังวล', 'ให้คำปรึกษาที่บ้าน', 'ติดตามผลรายเดือน']},
+        {name:'Pawsome School', image:'https://images.unsplash.com/photo-1558929996-da64ba858215?w=300&h=200&fit=crop', specialty:'Puppy Class, ฝึกสังคม', rating:4.5, price:'1,500-4,000', location:'อารีย์, กรุงเทพฯ', distance:'5.8 km', desc:'โรงเรียนสำหรับลูกสุนัข เน้นการฝึกสังคมและพื้นฐานที่ดีตั้งแต่เล็ก', services:['Puppy Kindergarten', 'ฝึกสังคม', 'ฝึกพื้นฐานสำหรับลูกสุนัข', 'เล่นกลุ่ม', 'คำแนะนำสำหรับเจ้าของมือใหม่']},
+        {name:'Bangkok K9 Club', image:'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=300&h=200&fit=crop', specialty:'ฝึกขั้นสูง, สุนัขบริการ', rating:4.7, price:'5,000-15,000', location:'ทองหล่อ, กรุงเทพฯ', distance:'1.8 km', desc:'สโมสรฝึกสุนัขระดับพรีเมียม เชี่ยวชาญการฝึกสุนัขบริการและสุนัขทำงาน', services:['ฝึกสุนัขบริการ', 'ฝึกขั้นสูง (Off-leash)', 'Protection Training', 'คอร์สประจำเดือน', 'การแข่งขัน Obedience']}
+      ]
+    },
+    {
+      id: 'sitting',
+      icon: 'fa-home',
+      color: '#00BCD4',
+      name: 'รับเลี้ยงชั่วคราว',
+      desc: 'Day Care, ค้างคืน, Pet Hotel',
+      providers: [
+        {name:'Pet Paradise Bangkok', image:'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=200&fit=crop', specialty:'เลี้ยงรายวัน, ค้างคืน, พาเดิน', rating:4.7, price:'500-1,500/วัน', location:'เอกมัย, กรุงเทพฯ', distance:'2.3 km', desc:'สถานรับเลี้ยงสัตว์เลี้ยงพร้อมพื้นที่กว้างขวาง มีสนามหญ้าและสระว่ายน้ำ', services:['เลี้ยงรายวัน (Day Care)', 'ค้างคืน (Overnight)', 'พาเดินเล่น', 'อาบน้ำ-ตัดขน', 'รับ-ส่งถึงบ้าน']},
+        {name:'Fur Baby Hotel', image:'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=300&h=200&fit=crop', specialty:'โรงแรมสัตว์เลี้ยง, สปา, ว่ายน้ำ', rating:4.9, price:'800-2,500/วัน', location:'พระราม 9, กรุงเทพฯ', distance:'3.1 km', desc:'โรงแรมสัตว์เลี้ยงระดับ 5 ดาว ห้องพักส่วนตัวปรับอากาศ พร้อมสปาและสระว่ายน้ำ', services:['ห้องพัก Deluxe ปรับอากาศ', 'สปา & Grooming', 'สระว่ายน้ำ', 'กล้องวงจรปิด 24 ชม.', 'อาหารพรีเมียม']},
+        {name:'Happy Tails Care', image:'https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=300&h=200&fit=crop', specialty:'เลี้ยงที่บ้าน, รับ-ส่ง', rating:4.5, price:'400-1,000/วัน', location:'บางนา, กรุงเทพฯ', distance:'6.2 km', desc:'บริการเลี้ยงสัตว์เลี้ยงที่บ้านผู้ดูแล อบอุ่นเหมือนอยู่บ้านตัวเอง', services:['เลี้ยงที่บ้าน (Home Boarding)', 'รับ-ส่งถึงบ้าน', 'รายงานภาพ/วิดีโอทุกวัน', 'ดูแลให้ยา', 'เลี้ยงหลายตัวได้']},
+        {name:'Pawtel Bangkok', image:'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=300&h=200&fit=crop', specialty:'ห้องพักส่วนตัว, กล้องวงจรปิด', rating:4.8, price:'700-2,000/วัน', location:'สาทร, กรุงเทพฯ', distance:'4.0 km', desc:'โรงแรมสัตว์เลี้ยงทันสมัย มีกล้องวงจรปิดให้ดูผ่านแอปตลอด 24 ชม.', services:['ห้องพักส่วนตัว', 'กล้องวงจรปิด Live', 'พื้นที่วิ่งเล่น', 'อาบน้ำก่อนรับกลับ', 'สัตวแพทย์ประจำ']}
+      ]
+    },
+    {
+      id: 'grooming',
+      icon: 'fa-scissors',
+      color: '#E91E63',
+      name: 'Grooming อาบน้ำ ตัดขน',
+      desc: 'ร้าน Grooming & บริการถึงบ้าน',
+      providers: [
+        {name:'Fluffy Grooming Studio', image:'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=300&h=200&fit=crop', specialty:'อาบน้ำ, ตัดขน, สปา', rating:4.8, price:'500-2,000', location:'ทองหล่อ, กรุงเทพฯ', distance:'1.5 km', desc:'สตูดิโอ Grooming ระดับพรีเมียม ใช้ผลิตภัณฑ์ออร์แกนิก ช่างมีประสบการณ์กว่า 8 ปี', services:['อาบน้ำ & เป่าขน', 'ตัดขนทรงมาตรฐาน', 'ตัดขนทรงแฟชั่น', 'สปาบำรุงผิว-ขน', 'ตัดเล็บ & ทำความสะอาดหู']},
+        {name:'Pawfect Style', image:'https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=300&h=200&fit=crop', specialty:'Korean Style, Creative Grooming', rating:4.7, price:'800-3,500', location:'สยาม, กรุงเทพฯ', distance:'3.0 km', desc:'Grooming สไตล์เกาหลีและญี่ปุ่น Creative Grooming สำหรับสุนัขพันธุ์เล็ก', services:['Korean Style Cut', 'Japanese Teddy Cut', 'Creative Grooming', 'Hand Stripping', 'Color & Styling']},
+        {name:'Pet Home Spa', image:'https://images.unsplash.com/photo-1581888227599-779811939961?w=300&h=200&fit=crop', specialty:'บริการถึงบ้าน, Mobile Grooming', rating:4.6, price:'700-2,500', location:'บริการทั่วกรุงเทพฯ', distance:'เดินทางถึงบ้าน', desc:'บริการ Mobile Grooming ถึงหน้าบ้าน รถ Grooming พร้อมอุปกรณ์ครบ สะดวก ปลอดภัย', services:['Mobile Grooming Van', 'อาบน้ำ-ตัดขนถึงบ้าน', 'Knock Door Service', 'บริการรายเดือน', 'ฉีดวัคซีนหมัดเห็บ']},
+        {name:'Clean Paws BKK', image:'https://images.unsplash.com/photo-1527526029430-319f10814151?w=300&h=200&fit=crop', specialty:'Self-Service, Express Wash', rating:4.4, price:'200-800', location:'อารีย์, กรุงเทพฯ', distance:'4.2 km', desc:'ร้านอาบน้ำสัตว์เลี้ยงแบบ Self-Service และ Express ราคาประหยัด บรรยากาศเป็นกันเอง', services:['Self-Service Wash', 'Express Wash (30 นาที)', 'Full Grooming', 'Nail Trimming', 'Teeth Brushing']}
+      ]
+    },
+    {
+      id: 'taxi',
+      icon: 'fa-car',
+      color: '#FF9800',
+      name: 'Pet Taxi',
+      desc: 'รับ-ส่งสัตว์เลี้ยงปลอดภัย',
+      providers: [
+        {name:'Taily Pet Taxi', image:'https://images.unsplash.com/photo-1568393691622-c7ba131d63b4?w=300&h=200&fit=crop', specialty:'รับ-ส่งถึงบ้าน, ปรับอากาศ', rating:4.8, price:'150-500/เที่ยว', location:'ทั่วกรุงเทพฯ-ปริมณฑล', distance:'เรียกได้ทุกที่', desc:'บริการ Pet Taxi ปลอดภัย รถปรับอากาศ มีกรงและเบาะนั่งสำหรับสัตว์เลี้ยง พนักงานผ่านการอบรม', services:['รับ-ส่งคลินิกสัตวแพทย์', 'รับ-ส่งร้าน Grooming', 'รับ-ส่ง Pet Hotel', 'บริการรับ-ส่งสนามบิน', 'รถปรับอากาศ มี GPS Tracking']},
+        {name:'PetGo Express', image:'https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?w=300&h=200&fit=crop', specialty:'Express, รับ-ส่งสัตว์เลี้ยง', rating:4.6, price:'100-400/เที่ยว', location:'กรุงเทพฯ', distance:'เรียกได้ทุกที่', desc:'บริการรับ-ส่งสัตว์เลี้ยงแบบ Express ราคาประหยัด จองผ่านแอปได้เลย', services:['Express Delivery (ภายใน 1 ชม.)', 'รับ-ส่งทั่วกรุงเทพฯ', 'ประกันความเสียหาย', 'Live Tracking', 'รับสัตว์เลี้ยงหลายตัว']},
+        {name:'Safe Paws Transport', image:'https://images.unsplash.com/photo-1583337130417-13104dec14a3?w=300&h=200&fit=crop', specialty:'ขนส่งต่างจังหวัด, VIP', rating:4.9, price:'500-3,000/เที่ยว', location:'ทั่วประเทศ', distance:'ทั่วประเทศ', desc:'บริการขนส่งสัตว์เลี้ยงระดับ VIP ทั้งในกรุงเทพฯ และต่างจังหวัด รถตู้ปรับอากาศ มีสัตวแพทย์ร่วมเดินทาง', services:['ขนส่งต่างจังหวัด', 'VIP Pet Limousine', 'สัตวแพทย์ร่วมเดินทาง', 'ห้องโดยสารปรับอากาศ', 'ประกันภัยระหว่างเดินทาง']}
+      ]
+    },
+    {
+      id: 'photo',
+      icon: 'fa-camera',
+      color: '#9C27B0',
+      name: 'Pet Photo',
+      desc: 'ถ่ายรูปครอบครัวสัตว์เลี้ยง',
+      providers: [
+        {name:'Pawtraits Studio', image:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=200&fit=crop', specialty:'Studio Photo, Outdoor Shoot', rating:4.9, price:'2,500-8,000/เซ็ต', location:'เอกมัย, กรุงเทพฯ', distance:'2.0 km', desc:'สตูดิโอถ่ายรูปสัตว์เลี้ยงและครอบครัว ช่างภาพมืออาชีพ มีฉากหลังหลากหลาย แต่งภาพส่งภายใน 7 วัน', services:['Pet Portrait (สตูดิโอ)', 'ถ่ายรูปครอบครัว + สัตว์เลี้ยง', 'Outdoor Photo Shoot', 'Birthday Photo Set', 'Print & Frame บริการพิมพ์ใส่กรอบ']},
+        {name:'Pet Snap BKK', image:'https://images.unsplash.com/photo-1558929996-da64ba858215?w=300&h=200&fit=crop', specialty:'Candid, Lifestyle Photo', rating:4.7, price:'1,800-5,000/เซ็ต', location:'ลาดพร้าว, กรุงเทพฯ', distance:'5.0 km', desc:'ถ่ายรูปสัตว์เลี้ยงสไตล์ Candid & Lifestyle เน้นอารมณ์ธรรมชาติ ถ่ายที่บ้านหรือสวนสาธารณะ', services:['Lifestyle Pet Photography', 'Home Session (ถ่ายที่บ้าน)', 'Park & Outdoor Session', 'Social Media Content', 'Video Clip สั้น']},
+        {name:'Furever Memories', image:'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&h=200&fit=crop', specialty:'Memorial Photo, Art Print', rating:4.8, price:'3,000-12,000/เซ็ต', location:'สุขุมวิท, กรุงเทพฯ', distance:'1.8 km', desc:'บริการถ่ายภาพ Memorial และ Art Print ระดับพรีเมียม สร้างความทรงจำอันมีค่ากับน้องรัก', services:['Memorial Photo Session', 'Canvas Art Print', 'Photo Book Album', 'Digital Art Portrait', 'Rainbow Bridge Memorial']}
+      ]
+    },
+    {
+      id: 'pawprint',
+      icon: 'fa-paw',
+      color: '#795548',
+      name: 'ปั้มเท้าสัตว์เลี้ยง',
+      desc: 'Paw Print, Clay Art, เครื่องประดับ',
+      providers: [
+        {name:'PawPrint Studio BKK', image:'https://images.unsplash.com/photo-1560807707-8cc77767d783?w=300&h=200&fit=crop', specialty:'Clay Paw Print, Frame', rating:4.8, price:'590-2,500', location:'สุขุมวิท, กรุงเทพฯ', distance:'2.5 km', desc:'สตูดิโอทำรอยเท้าสัตว์เลี้ยงด้วยดินน้ำมันพิเศษ ใส่กรอบสวยงาม ของขวัญสุดพิเศษสำหรับ Pet Lovers', services:['Clay Paw Print ใส่กรอบ', '3D Paw Cast', 'Paw Print + ภาพถ่าย', 'Ink Paw Print Art', 'Family Paw Print Set']},
+        {name:'Furry Keepsakes', image:'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=300&h=200&fit=crop', specialty:'เครื่องประดับ, Jewelry', rating:4.7, price:'890-5,000', location:'สยาม, กรุงเทพฯ', distance:'3.5 km', desc:'เครื่องประดับจากรอยเท้าสัตว์เลี้ยง สร้อยคอ แหวน กำไล ทำจากเงินแท้ เก็บความทรงจำไว้ใกล้ใจ', services:['Paw Print Necklace (เงินแท้)', 'Paw Ring & Bracelet', 'Nose Print Jewelry', 'Memorial Pendant', 'Custom Engraving']},
+        {name:'Pet Memories Art', image:'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=300&h=200&fit=crop', specialty:'Art Canvas, DIY Kit', rating:4.6, price:'490-1,800', location:'บริการถึงบ้าน', distance:'เดินทางถึงบ้าน', desc:'ศิลปะจากรอยเท้าน้อง วาดบน Canvas ด้วยสีปลอดภัย มี DIY Kit ทำเองที่บ้าน', services:['Paw Painting Canvas', 'DIY Paw Print Kit', 'Paw Print Ornament', 'Home Visit Service', 'Rainbow Bridge Memorial Art']}
+      ]
+    },
+    {
+      id: 'diy',
+      icon: 'fa-paint-brush',
+      color: '#3F51B5',
+      name: 'DIY',
+      desc: 'งานฝีมือเกี่ยวกับสัตว์เลี้ยง',
+      providers: [
+        {name:'Pet Craft Studio', image:'https://images.unsplash.com/photo-1450778869180-e77d951aaa02?w=300&h=200&fit=crop', specialty:'เวิร์คช็อป DIY, Pet Accessories', rating:4.7, price:'590-1,500/คอร์ส', location:'อารีย์, กรุงเทพฯ', distance:'4.0 km', desc:'เวิร์คช็อปงาน DIY สำหรับคนรักสัตว์ ทำเสื้อผ้า ปลอกคอ ของเล่น ให้น้องด้วยตัวเอง', services:['DIY ปลอกคอสัตว์เลี้ยง', 'ทำของเล่นจากผ้า', 'เย็บเสื้อผ้าสัตว์เลี้ยง', 'ทำ Bandana & Bow Tie', 'คอร์สกลุ่ม (4-8 คน)']},
+        {name:'Pawsome Makers', image:'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=200&fit=crop', specialty:'Resin Art, Custom Items', rating:4.5, price:'790-2,500/คอร์ส', location:'ทองหล่อ, กรุงเทพฯ', distance:'1.8 km', desc:'คอร์ส Resin Art และ Custom Items เกี่ยวกับสัตว์เลี้ยง ทำเครื่องประดับ ป้ายชื่อ พวงกุญแจ', services:['Resin Art Paw Print', 'Custom Pet Tag', 'พวงกุญแจรูปน้อง', 'Pet Portrait Embroidery', 'Online DIY Kit ส่งถึงบ้าน']}
+      ]
+    },
+    {
+      id: 'drawing',
+      icon: 'fa-palette',
+      color: '#009688',
+      name: 'วาดรูปสัตว์เลี้ยง',
+      desc: 'Pet Portrait, Digital Art, วาดมือ',
+      providers: [
+        {name:'Pet Portrait BKK', image:'https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=300&h=200&fit=crop', specialty:'วาดสีน้ำ, สีน้ำมัน', rating:4.9, price:'1,500-8,000', location:'เอกมัย, กรุงเทพฯ', distance:'2.3 km', desc:'ศิลปินวาดภาพสัตว์เลี้ยงมืออาชีพ รับวาดสีน้ำ สีน้ำมัน สีอะคริลิค จากรูปถ่าย ส่งมอบภายใน 14 วัน', services:['Pet Portrait สีน้ำ', 'Pet Portrait สีน้ำมัน', 'Digital Art Portrait', 'Caricature สัตว์เลี้ยง', 'Family + Pet Portrait']},
+        {name:'Digital Paws Art', image:'https://images.unsplash.com/photo-1581888227599-779811939961?w=300&h=200&fit=crop', specialty:'Digital Art, Illustration', rating:4.7, price:'800-3,500', location:'Online', distance:'สั่งออนไลน์', desc:'ศิลปิน Digital Art รับวาดภาพสัตว์เลี้ยงสไตล์ต่างๆ Cartoon, Realistic, Anime ส่งไฟล์ดิจิทัล', services:['Digital Pet Portrait', 'Cartoon Style Drawing', 'Anime Style Illustration', 'Sticker Design', 'Social Media Art Pack']},
+        {name:'Paw Canvas Workshop', image:'https://images.unsplash.com/photo-1560807707-8cc77767d783?w=300&h=200&fit=crop', specialty:'เวิร์คช็อปวาดรูป', rating:4.6, price:'990-2,000/คอร์ส', location:'สยาม, กรุงเทพฯ', distance:'3.0 km', desc:'เวิร์คช็อปวาดรูปสัตว์เลี้ยงด้วยตัวเอง สอนตั้งแต่เบื้องต้น นำน้องมาเป็นแบบได้', services:['Workshop วาดสีน้ำ (3 ชม.)', 'Workshop สีอะคริลิค', 'Couple + Pet Painting Date', 'Kids Pet Drawing Class', 'Private Session']}
+      ]
+    },
+    {
+      id: 'events',
+      icon: 'fa-calendar-star',
+      color: '#F44336',
+      name: 'จัดงาน Events & Party',
+      desc: 'Birthday, Dating, งานอำลา',
+      providers: [
+        {name:'Pawty Planner BKK', image:'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=300&h=200&fit=crop', specialty:'Pet Birthday Party, Pet Dating', rating:4.8, price:'5,000-25,000/งาน', location:'กรุงเทพฯ', distance:'บริการทั่ว กทม.', desc:'บริการจัดงานปาร์ตี้วันเกิดสัตว์เลี้ยง Pet Dating Event ครบวงจร ตกแต่งสถานที่ เค้ก ของที่ระลึก ช่างภาพ', services:['Pet Birthday Party', 'Pet Dating Event', 'Pawty Decoration', 'Pet-Safe Cake & Treats', 'Photography & Video']},
+        {name:'Pet Event Studio', image:'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&h=200&fit=crop', specialty:'งานอำลา, Memorial Event', rating:4.9, price:'3,000-15,000/งาน', location:'กรุงเทพฯ-ปริมณฑล', distance:'บริการทั่ว กทม.', desc:'จัดงานพิเศษสำหรับสัตว์เลี้ยง ทั้งงานฉลองและงานอำลา ด้วยความเข้าใจและใส่ใจทุกรายละเอียด', services:['Rainbow Bridge Memorial', 'งานอำลาน้องรัก', 'Gotcha Day Celebration', 'Pet Adoption Party', 'Custom Event Planning']},
+        {name:'Furry Fiesta', image:'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300&h=200&fit=crop', specialty:'Group Event, Community Party', rating:4.6, price:'2,000-10,000/งาน', location:'กรุงเทพฯ', distance:'บริการทั่ว กทม.', desc:'จัดงาน Community Event สำหรับกลุ่มคนรักสัตว์ งานรวมพล Pet Meetup งาน Breed Party', services:['Breed Meetup Party', 'Community Pet Day', 'Pet Costume Contest', 'Dog Pool Party', 'Pet-Friendly Market Booth']}
+      ]
+    }
   ];
 
-  const sittingProviders = [
-    {name:'Pet Paradise Bangkok', image:'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=200&fit=crop', svcText:'เลี้ยงรายวัน, ค้างคืน, พาเดิน', rating:4.7, price:'500-1,500/วัน', location:'เอกมัย, กรุงเทพฯ', distance:'2.3 km', desc:'สถานรับเลี้ยงสัตว์เลี้ยงพร้อมพื้นที่กว้างขวาง มีสนามหญ้าและสระว่ายน้ำ', serviceList:['เลี้ยงรายวัน (Day Care)', 'ค้างคืน (Overnight)', 'พาเดินเล่น', 'อาบน้ำ-ตัดขน', 'รับ-ส่งถึงบ้าน']},
-    {name:'Fur Baby Hotel', image:'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=300&h=200&fit=crop', svcText:'โรงแรมสัตว์เลี้ยง, สปา, ว่ายน้ำ', rating:4.9, price:'800-2,500/วัน', location:'พระราม 9, กรุงเทพฯ', distance:'3.1 km', desc:'โรงแรมสัตว์เลี้ยงระดับ 5 ดาว ห้องพักส่วนตัวปรับอากาศ พร้อมสปาและสระว่ายน้ำ', serviceList:['ห้องพัก Deluxe ปรับอากาศ', 'สปา & Grooming', 'สระว่ายน้ำ', 'กล้องวงจรปิด 24 ชม.', 'อาหารพรีเมียม']},
-    {name:'Happy Tails Care', image:'https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?w=300&h=200&fit=crop', svcText:'เลี้ยงที่บ้าน, รับ-ส่ง', rating:4.5, price:'400-1,000/วัน', location:'บางนา, กรุงเทพฯ', distance:'6.2 km', desc:'บริการเลี้ยงสัตว์เลี้ยงที่บ้านผู้ดูแล อบอุ่นเหมือนอยู่บ้านตัวเอง', serviceList:['เลี้ยงที่บ้าน (Home Boarding)', 'รับ-ส่งถึงบ้าน', 'รายงานภาพ/วิดีโอทุกวัน', 'ดูแลให้ยา', 'เลี้ยงหลายตัวได้']},
-    {name:'Pawtel Bangkok', image:'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?w=300&h=200&fit=crop', svcText:'ห้องพักส่วนตัว, กล้องวงจรปิด', rating:4.8, price:'700-2,000/วัน', location:'สาทร, กรุงเทพฯ', distance:'4.0 km', desc:'โรงแรมสัตว์เลี้ยงทันสมัย มีกล้องวงจรปิดให้ดูผ่านแอปตลอด 24 ชม.', serviceList:['ห้องพักส่วนตัว', 'กล้องวงจรปิด Live', 'พื้นที่วิ่งเล่น', 'อาบน้ำก่อนรับกลับ', 'สัตวแพทย์ประจำ']},
-    {name:'PetStay BKK', image:'https://images.unsplash.com/photo-1560807707-8cc77767d783?w=300&h=200&fit=crop', svcText:'Day Care, Overnight, Grooming', rating:4.6, price:'600-1,800/วัน', location:'อ่อนนุช, กรุงเทพฯ', distance:'5.5 km', desc:'บริการ Day Care และค้างคืน พร้อม Grooming ครบวงจร ราคาเป็นกันเอง', serviceList:['Day Care', 'Overnight Stay', 'Grooming & Bath', 'Training เบื้องต้น', 'Pick-up & Drop-off']}
-  ];
+  // Store globally for detail views
+  window._petServiceCategories = serviceCategories;
 
-  function renderProviderCards(providers, type) {
+  function renderProviderCards(providers, catId) {
     return providers.map((p, i) => {
-      const chipText = type === 'training' ? p.specialty : p.svcText;
-      const chips = chipText.split(', ').map(c =>
+      const chips = p.specialty.split(', ').map(c =>
         `<span class="training-chip">${c}</span>`
       ).join('');
-      const stars = '★'.repeat(Math.floor(p.rating)) + (p.rating % 1 >= 0.5 ? '½' : '');
+      const stars = '\u2605'.repeat(Math.floor(p.rating)) + (p.rating % 1 >= 0.5 ? '\u00BD' : '');
 
       return `
-        <div class="training-card" onclick="openTrainingDetail('${type}', ${i})">
+        <div class="training-card" onclick="openTrainingDetail('${catId}', ${i})">
           <img class="training-card-img" src="${p.image}" alt="${p.name}" loading="lazy">
           <div class="training-card-info">
             <div class="training-card-name">${p.name}</div>
@@ -1305,7 +1406,7 @@ function renderTrainingSection(container) {
               <span style="color:#FFC501">${stars}</span>
               <span>${p.rating}</span>
               <span>&middot;</span>
-              <span class="training-card-price">${p.price.startsWith('฿') ? '' : '฿'}${p.price}</span>
+              <span class="training-card-price">${p.price.startsWith('\u0E3F') ? '' : '\u0E3F'}${p.price}</span>
             </div>
             <div class="training-card-meta">
               <span><i class="fas fa-map-marker-alt"></i> ${p.distance}</span>
@@ -1318,24 +1419,41 @@ function renderTrainingSection(container) {
     }).join('');
   }
 
-  // Store providers globally for detail view
-  window._tailyTrainingProviders = trainingProviders;
-  window._tailySittingProviders = sittingProviders;
+  // Build category grid
+  const catGrid = serviceCategories.map(cat => `
+    <button class="svc-cat-card" onclick="showServiceCategory('${cat.id}')">
+      <div class="svc-cat-icon" style="background:${cat.color}"><i class="fas ${cat.icon}"></i></div>
+      <div class="svc-cat-name">${cat.name}</div>
+      <div class="svc-cat-desc">${cat.desc}</div>
+    </button>
+  `).join('');
 
   container.innerHTML = `
-    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>ฝึกสัตว์เลี้ยง</span></button>
-    <div class="training-toggle-tabs">
-      <button class="training-toggle-btn active" onclick="switchTrainingTab('training', this)"><i class="fas fa-dog"></i> ฝึกสัตว์</button>
-      <button class="training-toggle-btn" onclick="switchTrainingTab('sitting', this)"><i class="fas fa-home"></i> รับเลี้ยงชั่วคราว</button>
-    </div>
-    <div class="training-list" id="trainingListContent">
-      ${renderProviderCards(trainingProviders, 'training')}
-    </div>
+    <button class="sub-page-header" onclick="goBack('me')"><i class="fas fa-arrow-left"></i> <span>บริการเกี่ยวกับสัตว์เลี้ยง</span></button>
+    <div class="svc-cat-grid">${catGrid}</div>
+    <div class="training-list" id="trainingListContent" style="display:none"></div>
   `;
 
-  // Store render functions for tab switching
-  window._renderTrainingCards = () => renderProviderCards(trainingProviders, 'training');
-  window._renderSittingCards = () => renderProviderCards(sittingProviders, 'sitting');
+  // Store render function globally
+  window._renderServiceCards = renderProviderCards;
+}
+
+function showServiceCategory(catId) {
+  const cats = window._petServiceCategories;
+  const cat = cats?.find(c => c.id === catId);
+  if (!cat) return;
+
+  const container = document.getElementById('meSubContent');
+  if (!container) return;
+
+  const cards = window._renderServiceCards(cat.providers, catId);
+
+  container.innerHTML = `
+    <button class="sub-page-header" onclick="renderTrainingSection(document.getElementById('meSubContent'))"><i class="fas fa-arrow-left"></i> <span>${cat.name}</span></button>
+    <div class="training-list">
+      ${cards}
+    </div>
+  `;
 }
 
 function switchTrainingTab(tab, btn) {
@@ -1352,15 +1470,16 @@ function switchTrainingTab(tab, btn) {
   }
 }
 
-function openTrainingDetail(type, index) {
-  const providers = type === 'training' ? window._tailyTrainingProviders : window._tailySittingProviders;
-  const p = providers?.[index];
+function openTrainingDetail(catId, index) {
+  const cats = window._petServiceCategories;
+  const cat = cats?.find(c => c.id === catId);
+  const p = cat?.providers?.[index];
   if (!p) return;
 
-  const servicesList = (type === 'training' ? p.services : p.serviceList) || [];
+  const servicesList = p.services || p.serviceList || [];
   const servicesHtml = servicesList.map(s => `<li><i class="fas fa-check" style="color:#4CAF50"></i> ${s}</li>`).join('');
 
-  const chipText = type === 'training' ? p.specialty : p.svcText;
+  const chipText = p.specialty || p.svcText || '';
   const chips = chipText.split(', ').map(c =>
     `<span class="training-chip">${c}</span>`
   ).join('');
@@ -1489,8 +1608,7 @@ function renderPetSittingSection(container) {
   renderTrainingSection(container);
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      const sittingBtn = document.querySelectorAll('.training-toggle-btn')[1];
-      if (sittingBtn) switchTrainingTab('sitting', sittingBtn);
+      showServiceCategory('sitting');
     });
   });
 }

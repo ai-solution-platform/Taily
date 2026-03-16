@@ -114,7 +114,7 @@ function showComingSoon(feature) {
       <div style="font-size:48px;margin-bottom:16px">🚧</div>
       <h3 style="margin-bottom:8px">${feature}</h3>
       <p style="color:var(--text-secondary)">ฟีเจอร์นี้กำลังพัฒนา<br>เร็วๆ นี้!</p>
-      <button class="btn-primary" style="margin-top:20px" onclick="closeModal()">ตกลง</button>
+      <button class="btn-primary btn-block" style="margin-top:20px" onclick="closeModal()">ตกลง</button>
     </div>
   `);
 }

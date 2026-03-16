@@ -360,6 +360,7 @@
       <button class="social-tab" onclick="showSocialTab('groups')"><i class="fas fa-users"></i> กลุ่ม</button>
       <button class="social-tab" onclick="showSocialTab('messages')"><i class="fas fa-comment-dots"></i> แชท</button>
       <button class="social-tab" onclick="showSocialTab('adoption')"><i class="fas fa-heart"></i> รับเลี้ยง</button>
+      <button class="social-tab" onclick="showSocialTab('lostfound')"><i class="fas fa-search-location"></i> หาย</button>
     </div>
 
     <!-- Sub: Feed -->
@@ -395,6 +396,18 @@
         <button class="chip" onclick="filterAdoption('cat',this)"><i class="fas fa-cat"></i> แมว</button>
       </div>
       <div id="adoptionGrid" class="adoption-grid"></div>
+    </div>
+
+    <!-- Sub: Lost & Found -->
+    <div id="social-lostfound" class="social-sub">
+      <div class="lf-header"><h2><i class="fas fa-search-location"></i> แจ้งสัตว์หาย / พบเจอ</h2><p>ช่วยกันตามหาน้องที่หายไป หรือแจ้งพบน้องที่พลัดหลง</p></div>
+      <div class="lf-filters">
+        <button class="chip active" onclick="filterLostFound('all',this)">ทั้งหมด</button>
+        <button class="chip" onclick="filterLostFound('lost',this)"><i class="fas fa-exclamation-triangle"></i> หาย</button>
+        <button class="chip" onclick="filterLostFound('found',this)"><i class="fas fa-hand-holding-heart"></i> พบเจอ</button>
+      </div>
+      <div id="lostFoundGrid" class="lf-grid"></div>
+      <button class="fab-create lf-fab" onclick="openReportLostPet()"><i class="fas fa-plus"></i></button>
     </div>
   </section>
 

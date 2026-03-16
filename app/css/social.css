@@ -1712,3 +1712,153 @@
   margin-bottom: 8px;
   display: block;
 }
+
+/* ============================================================
+   LOST & FOUND
+   ============================================================ */
+
+.lf-header {
+  padding: 16px;
+}
+.lf-header h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+.lf-header p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.lf-filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 12px;
+  overflow-x: auto;
+}
+.lf-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 80px;
+}
+.lf-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.lf-card:active {
+  transform: scale(0.98);
+}
+.lf-card-img {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+.lf-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+.lf-badge-lost {
+  background: #E53935;
+  color: #fff;
+}
+.lf-badge-found {
+  background: #4CAF50;
+  color: #fff;
+}
+.lf-reward {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(255,152,0,0.9);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lf-card-body {
+  padding: 12px 14px;
+}
+.lf-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.lf-card-breed {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.lf-card-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.lf-card-meta i {
+  width: 14px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+/* Lost & Found Detail */
+.lf-detail-img {
+  height: 220px;
+  overflow: hidden;
+}
+.lf-detail-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lf-detail-body {
+  padding: 16px;
+}
+.lf-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+.lf-info-row i {
+  width: 16px;
+  text-align: center;
+  margin-top: 2px;
+}
+.lf-fab {
+  z-index: var(--z-sticky, 100);
+}
+
+/* Social tabs - ensure scrollable with more items */
+.social-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.social-tabs::-webkit-scrollbar { display: none; }
